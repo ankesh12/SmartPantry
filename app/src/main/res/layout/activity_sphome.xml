@@ -1,0 +1,14 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/container"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="sg.edu.nus.iss.smartpantry.views.AddItem" tools:ignore="MergeRootFrame" >
+
+    <ImageButton
+        android:layout_width="149dp"
+        android:layout_height="122dp"
+        android:id="@+id/scanBtn"
+        android:layout_gravity="center"
+        android:src="@mipmap/scanner"
+        android:minHeight="300dp"
+        android:minWidth="300dp" />
+</FrameLayout>
