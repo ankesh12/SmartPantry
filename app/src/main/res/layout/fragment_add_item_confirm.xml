@@ -32,10 +32,24 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/prodImage"
-        android:layout_below="@+id/prodDescText"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_centerInParent="true"/>
+        android:adjustViewBounds="false"
+        android:layout_below="@+id/prodDescText"
+        android:layout_centerInParent="true" />
+
+
+    <NumberPicker
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:id="@+id/quantPick"
+        android:solidColor="#fa0d0501"
+        android:orientation="horizontal"
+        android:layout_marginTop="78dp"
+        android:layout_below="@+id/prodImage"
+        android:layout_centerHorizontal="true"
+        android:layout_centerInParent="true">
+    </NumberPicker>
 
 
 </RelativeLayout>

@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 
 import sg.edu.nus.iss.smartpantry.R;
 
@@ -74,6 +75,7 @@ public class AddItemConfirm extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_item_confirm, container, false);
+
         Bundle bundle = this.getArguments();
         prodDescText= (EditText)view.findViewById(R.id.prodDescText);
         prodDescText.setText(bundle.getString("PRODUCT_NAME"));
@@ -81,8 +83,15 @@ public class AddItemConfirm extends Fragment {
         Bitmap bitmap = (Bitmap)bundle.getParcelable("PRODUCT_IMG");
         Drawable d = new BitmapDrawable(getResources(),bitmap);
         prodImage.setImageDrawable(d);
-        return view;
 
+        NumberPicker s = (NumberPicker) view.findViewById(R.id.quantPick);
+        s.setMaxValue(10);
+        s.setMinValue(1);
+        s.setValue(5);
+//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
+//                android.R.layout.simple_spinner_item, arraySpinner);
+//        s.setAdapter(adapter);
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
