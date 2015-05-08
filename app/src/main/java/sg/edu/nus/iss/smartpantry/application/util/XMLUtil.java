@@ -19,7 +19,6 @@ public class XMLUtil {
             DocumentBuilder db = dbf.newDocumentBuilder();
             Document doc = db.parse(stream);
             doc.getDocumentElement().normalize();
-            stream.close();
             return doc.getElementsByTagName(tag).item(0).getTextContent();
         }catch(Exception e){
             System.out.println(e.getMessage());

@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.smartpantry.application.util;
 
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
@@ -30,6 +31,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.data.network.ItemLookup;
 
 /**
@@ -73,12 +75,9 @@ public class ScanBarcodeActivity
     private ScanditSDKBarcodePicker mBarcodePicker;
 	private Button mBarcodeSplash = null;
     private UIHandler mHandler = null;
-    
-    // Enter your Scandit SDK App key here.
-    // Your Scandit SDK App key is available via your Scandit SDK web account.
-    public static final String sScanditSdkAppKey = "sPYyMzvxq61ERwXIE7JltZMY1kibY7xIpnuzTE+cJEs";
+    private String sScanditSdkAppKey;
+    private Context context = this;
 
-    
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +85,7 @@ public class ScanBarcodeActivity
         mHandler = new UIHandler(this);
         // We keep the screen on while the scanner is running.
         getWindow().addFlags(LayoutParams.FLAG_KEEP_SCREEN_ON);
+        sScanditSdkAppKey = new XMLUtil().getElementText("SDKAppKey",this.getResources().openRawResource(R.raw.configuration));
 
         // Initialize and start the bar code recognition.
         initializeAndStartBarcodeScanning();
@@ -202,10 +202,10 @@ public class ScanBarcodeActivity
         finish();
     }
 
-    static private class UIHandler extends Handler {
+     private class UIHandler extends Handler {
         public static final int SHOW_BARCODES = 0;
         public static final int SHOW_SEARCH_BAR_ENTRY = 1;
-        private static String title;
+        private  String title;
         private WeakReference<ScanBarcodeActivity> mActivity;
         UIHandler(ScanBarcodeActivity activity) {
             mActivity = new WeakReference<ScanBarcodeActivity>(activity);
@@ -243,17 +243,14 @@ public class ScanBarcodeActivity
                     message += "\n\n\n";
                 }
                 message += cleanData;
-                ///message += "\n\n(" + code.getSymbologyString()+")";
+
             }
             msg = message;
-            System.out.println("Test " + message);
             new AsyncTask<Void, Void, ArrayList<String>>(){
                 Drawable d;
                 @Override
                 protected ArrayList<String> doInBackground(Void... params) {
-
-                    System.out.println("Test: " + msg);
-                    ArrayList<String> details = new ItemLookup().GetProductDetails(msg);
+                    ArrayList<String> details = new ItemLookup(context).GetProductDetails(msg);
                     System.out.println(details.get(0));
                     try {
                         InputStream is = (InputStream)new URL(details.get(1)).getContent();
@@ -268,8 +265,6 @@ public class ScanBarcodeActivity
                     showSplash(s.get(0));
                 }
             }.execute();
-//            return title;
-
         }
 
         private void showSplash(String msg) {
