@@ -35,7 +35,7 @@
         android:layout_below="@+id/prodDescText"
         android:layout_gravity="center"
         android:gravity="center"
-        android:layout_alignParentEnd="false" />
+        android:layout_centerInParent="true"/>
 
 
 </RelativeLayout>
