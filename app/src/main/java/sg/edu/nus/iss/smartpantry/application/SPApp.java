@@ -8,11 +8,12 @@ import android.view.View;
 import android.widget.Button;
 
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
 
 
 public class SPApp extends ActionBarActivity {
-//    ControlFactory controlFactory;
+    ControlFactory controlFactory;
     MainController mainController;
 
     @Override
@@ -20,9 +21,9 @@ public class SPApp extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
         //Get objects for controller
-//        controlFactory = new ControlFactory();
-//        mainController = controlFactory.getMainController();
-        mainController = new MainController();
+        controlFactory = new ControlFactory();
+        mainController = controlFactory.getMainController();
+//        mainController = new MainController();
 
         Button addItemBtn = (Button) findViewById(R.id.addItem_btn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {

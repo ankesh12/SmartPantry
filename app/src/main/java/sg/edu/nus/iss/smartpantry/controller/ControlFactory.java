@@ -12,9 +12,9 @@ public class ControlFactory {
         itemController = new ItemController();
     }
 
-    /*public MainController getMainController(){
-        return mainController;
-    }*/
+    public MainController getMainController(){
+        return (new MainController());
+    }
     public ItemController getItemController(){
         return itemController;
     }
