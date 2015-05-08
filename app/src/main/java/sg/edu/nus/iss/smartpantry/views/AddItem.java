@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.smartpantry.views;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -9,9 +10,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.ScanBarcodeActivity;
 
 public class AddItem extends ActionBarActivity {
 
@@ -28,7 +29,8 @@ public class AddItem extends ActionBarActivity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"Clicked",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(AddItem.this, ScanBarcodeActivity.class);
+                startActivity(intent);
             }
         });
     }
