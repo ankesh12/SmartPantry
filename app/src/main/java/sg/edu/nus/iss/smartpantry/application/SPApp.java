@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.smartpantry.application;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -20,6 +21,7 @@ public class SPApp extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
+        setActivityBackgroundColor("#084B8A");
         //Get objects for controller
         controlFactory = new ControlFactory();
         mainController = controlFactory.getMainController();
@@ -57,5 +59,9 @@ public class SPApp extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    public void setActivityBackgroundColor(String color) {
+        View view = this.getWindow().getDecorView();
+        view.setBackgroundColor(Color.parseColor(color));
     }
 }

@@ -3,6 +3,8 @@ package sg.edu.nus.iss.smartpantry.application.util;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -215,9 +217,9 @@ public class ScanBarcodeActivity
                     System.out.println("inside");
                     createMessage((List<ScanditSDKCode>)msg.obj);
                     break;
-                case SHOW_SEARCH_BAR_ENTRY:
-                    callAddConfirm((String) msg.obj);
-                    break;
+//                case SHOW_SEARCH_BAR_ENTRY:
+//                    callAddConfirm((String) msg.obj);
+//                    break;
             }
 
         }
@@ -249,7 +251,6 @@ public class ScanBarcodeActivity
                 @Override
                 protected ArrayList<String> doInBackground(Void... params) {
                     ArrayList<String> details = new ItemLookup(context).GetProductDetails(msg);
-                    System.out.println(details.get(0));
                     try {
                         InputStream is = (InputStream)new URL(details.get(1)).getContent();
                         d = Drawable.createFromStream(is,null);
@@ -260,17 +261,20 @@ public class ScanBarcodeActivity
                 }
                 @Override
                 protected void onPostExecute(ArrayList<String> s) {
-                    callAddConfirm(s.get(0));
+                    callAddConfirm(s.get(0),d);
                 }
             }.execute();
         }
 
-        private void callAddConfirm(String msg) {
-           Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
-           Bundle b = new Bundle();
-           b.putString("PRODUCT_NAME", msg); //Your id
-           intent.putExtras(b);
-           startActivity(intent);
+        private void callAddConfirm(String prodTitle,Drawable image) {
+            Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
+            Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
+//            String dirName = Environment.
+            Bundle b = new Bundle();
+            b.putString("PRODUCT_NAME", prodTitle); //Your id
+            b.putParcelable("PRODUCT_IMG", bitmap);
+            intent.putExtras(b);
+            startActivity(intent);
         }
     }
 }

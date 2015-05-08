@@ -21,6 +21,8 @@
 
 package sg.edu.nus.iss.smartpantry.application.data.network;
 
+import android.content.Context;
+
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -33,6 +35,9 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
+
 /*
  * This class shows how to make a simple authenticated ItemLookup call to the
  * Amazon Product Advertising API.
@@ -44,14 +49,20 @@ public class ItemLookup {
     /*
      * Your AWS Access Key ID, as taken from the AWS Your Account page.
      */
-    private static final String AWS_ACCESS_KEY_ID = "AKIAJTUCIPI33P3RBLZA";
+   private String AWS_ACCESS_KEY_ID,AWS_SECRET_KEY,ASSOCIATE_TAG,ENDPOINT;
 
-    /*
-     * Your AWS Secret Key corresponding to the above ID, as taken from the AWS
-     * Your Account page.
-     */
-    private static final String AWS_SECRET_KEY = "sYUkBMk0uMR/bHPvAar3A9GOpZb2imjcBkgmQeJi";
-    private static final String ASSOCIATE_TAG="smartqtpcom-20";
+    public ItemLookup(Context context){
+        try {
+            XMLUtil xmlUtil = new XMLUtil();
+            AWS_ACCESS_KEY_ID =xmlUtil.getElementText("PublicKey",context.getResources().openRawResource(R.raw.configuration));
+            AWS_SECRET_KEY = xmlUtil.getElementText("SecretKey", context.getResources().openRawResource(R.raw.configuration));
+            ASSOCIATE_TAG= xmlUtil.getElementText("AssociateTag", context.getResources().openRawResource(R.raw.configuration));
+            ENDPOINT = xmlUtil.getElementText("EndPoint", context.getResources().openRawResource(R.raw.configuration));System.out.println("End: " + ENDPOINT);
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
+    }
+
 
     /*
      * Use one of the following end-points, according to the region you are
@@ -65,7 +76,7 @@ public class ItemLookup {
      *      JP: ecs.amazonaws.jp
      * 
      */
-    private static final String ENDPOINT = "ecs.amazonaws.com";
+//    private static final String ENDPOINT = "ecs.amazonaws.com";
 
     /*
      * The Item ID to lookup. The value below was selected for the US locale.
@@ -126,15 +137,10 @@ public class ItemLookup {
             Document doc = db.parse(new InputSource(url.openStream()));
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("Title");
-            NodeList nodeList2 = doc.getElementsByTagName("ThumbnailImage");
+            NodeList nodeList2 = doc.getElementsByTagName("MediumImage");
             details.add(nodeList.item(0).getTextContent());
             details.add(nodeList2.item(0).getFirstChild().getTextContent());
             return details;
-
-
-            /*Document doc = db.parse(requestUrl);
-            Node titleNode = doc.getElementsByTagName("Title").item(0);
-            title = titleNode.getTextContent();*/
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

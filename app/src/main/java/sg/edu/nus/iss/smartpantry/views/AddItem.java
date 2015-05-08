@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.smartpantry.views;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -20,6 +21,7 @@ public class AddItem extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sphome);
+        setActivityBackgroundColor("#084B8A");
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.container, new PlaceholderFragment())
@@ -58,6 +60,11 @@ public class AddItem extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    public void setActivityBackgroundColor(String color) {
+        View view = this.getWindow().getDecorView();
+        view.setBackgroundColor(Color.parseColor(color));
+    }
+
     /**
      * A placeholder fragment containing a simple view.
      */
@@ -73,4 +80,5 @@ public class AddItem extends ActionBarActivity {
             return rootView;
         }
     }
+
 }

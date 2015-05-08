@@ -2,12 +2,16 @@ package sg.edu.nus.iss.smartpantry.views.fragments;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import sg.edu.nus.iss.smartpantry.R;
 
@@ -28,7 +32,8 @@ public class AddItemConfirm extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-    private TextView productText;
+    private EditText prodDescText;
+    private ImageView prodImage;
 
     private OnFragmentInteractionListener mListener;
 
@@ -70,8 +75,12 @@ public class AddItemConfirm extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_add_item_confirm, container, false);
         Bundle bundle = this.getArguments();
-        productText= (TextView)view.findViewById(R.id.productText);
-        productText.setText(bundle.getString("PRODUCT_NAME"));
+        prodDescText= (EditText)view.findViewById(R.id.prodDescText);
+        prodDescText.setText(bundle.getString("PRODUCT_NAME"));
+        prodImage = (ImageView)view.findViewById(R.id.prodImage);
+        Bitmap bitmap = (Bitmap)bundle.getParcelable("PRODUCT_IMG");
+        Drawable d = new BitmapDrawable(getResources(),bitmap);
+        prodImage.setImageDrawable(d);
         return view;
 
     }
