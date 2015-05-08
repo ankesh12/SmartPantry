@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.data.network.ItemLookup;
+import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
 import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 
 /**
