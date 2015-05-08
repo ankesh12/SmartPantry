@@ -2,18 +2,15 @@ package sg.edu.nus.iss.smartpantry.application.util;
 
 import android.app.Activity;
 import android.content.Context;
-import android.graphics.Color;
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.view.Gravity;
-import android.view.View;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
-import android.widget.RelativeLayout;
 
 import com.mirasense.scanditsdk.ScanditSDKAutoAdjustingBarcodePicker;
 import com.mirasense.scanditsdk.ScanditSDKBarcodePicker;
@@ -33,6 +30,7 @@ import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.data.network.ItemLookup;
+import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 
 /**
  * Example for a full-screen barcode scanning activity using the Scandit
@@ -218,7 +216,7 @@ public class ScanBarcodeActivity
                     createMessage((List<ScanditSDKCode>)msg.obj);
                     break;
                 case SHOW_SEARCH_BAR_ENTRY:
-                    showSplash((String)msg.obj);
+                    callAddConfirm((String) msg.obj);
                     break;
             }
 
@@ -262,35 +260,17 @@ public class ScanBarcodeActivity
                 }
                 @Override
                 protected void onPostExecute(ArrayList<String> s) {
-                    showSplash(s.get(0));
+                    callAddConfirm(s.get(0));
                 }
             }.execute();
         }
 
-        private void showSplash(String msg) {
-            //System.out.println(msg);
-            ScanBarcodeActivity activity = mActivity.get();
-            activity.mBarcodeSplash = new Button(activity);
-            activity.mBarcodeSplash.setTextColor(Color.WHITE);
-            activity.mBarcodeSplash.setTextSize(30);
-            activity.mBarcodeSplash.setGravity(Gravity.CENTER);
-            activity.mBarcodeSplash.setBackgroundColor(0xFF39C1CC);
-            activity.mBarcodeSplash.setText(msg);
-            RelativeLayout layout = (RelativeLayout)activity.mBarcodePicker;
-            layout.addView(activity.mBarcodeSplash, LayoutParams.MATCH_PARENT,
-                    LayoutParams.MATCH_PARENT);
-            activity.mBarcodePicker.pauseScanning();
-
-            activity.mBarcodeSplash.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ScanBarcodeActivity activity = mActivity.get();
-                    activity.mBarcodePicker.resumeScanning();
-                    ((RelativeLayout) activity.mBarcodePicker).removeView(activity.mBarcodeSplash);
-                    activity.mBarcodeSplash = null;
-                }
-            });
-            activity.mBarcodeSplash.requestFocus();
+        private void callAddConfirm(String msg) {
+           Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
+           Bundle b = new Bundle();
+           b.putString("PRODUCT_NAME", msg); //Your id
+           intent.putExtras(b);
+           startActivity(intent);
         }
     }
 }
