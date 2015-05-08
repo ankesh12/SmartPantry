@@ -5,7 +5,7 @@ package sg.edu.nus.iss.smartpantry.controller;
  */
 public class ControlFactory {
     //private MainController mainController;
-    ItemController itemController;
+    private ItemController itemController;
 
     public ControlFactory(){
         //mainController = new MainController();
