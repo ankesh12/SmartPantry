@@ -11,10 +11,11 @@ public class ControlFactory {
         //mainController = new MainController();
         itemController = new ItemController();
     }
-
+    //Returns the instance of the MainController
     public MainController getMainController(){
         return (new MainController());
     }
+    //Returns the instance of ItemController
     public ItemController getItemController(){
         return itemController;
     }
