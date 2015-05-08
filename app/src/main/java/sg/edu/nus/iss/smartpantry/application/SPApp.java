@@ -13,8 +13,8 @@ import sg.edu.nus.iss.smartpantry.controller.MainController;
 
 
 public class SPApp extends ActionBarActivity {
-    ControlFactory controlFactory;
-    MainController mainController;
+    private ControlFactory controlFactory;
+    private MainController mainController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
