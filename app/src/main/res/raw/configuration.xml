@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <config>
     <AmazonConf>
-        <PublicKey>AKIAJTUCIPI33P3RBLZA</PublicKey>
-        <SecretKey>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</SecretKey>
-        <AssociateTag>smartqtpcom-20</AssociateTag>
-        <EndPoint>ecs.amazonaws.com</EndPoint>
+        <PublicKey></PublicKey>
+        <SecretKey></SecretKey>
+        <AssociateTag></AssociateTag>
+        <EndPoint></EndPoint>
     </AmazonConf>
 
     <ScandItConf>
-        <SDKAppKey>sPYyMzvxq61ERwXIE7JltZMY1kibY7xIpnuzTE+cJEs</SDKAppKey>
+        <SDKAppKey></SDKAppKey>
     </ScandItConf>
 </config>
