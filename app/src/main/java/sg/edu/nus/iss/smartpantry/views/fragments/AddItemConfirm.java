@@ -11,8 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.NumberPicker;
 
 import sg.edu.nus.iss.smartpantry.R;
 
@@ -84,13 +84,20 @@ public class AddItemConfirm extends Fragment {
         Drawable d = new BitmapDrawable(getResources(),bitmap);
         prodImage.setImageDrawable(d);
 
-        NumberPicker s = (NumberPicker) view.findViewById(R.id.quantPick);
-        s.setMaxValue(10);
-        s.setMinValue(1);
-        s.setValue(5);
+//        NumberPicker s = (NumberPicker) view.findViewById(R.id.quantPick);
+//        s.setMaxValue(10);
+//        s.setMinValue(1);
+//        s.setValue(5);
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 //                android.R.layout.simple_spinner_item, arraySpinner);
 //        s.setAdapter(adapter);
+        ImageButton addItemToDB = (ImageButton)view.findViewById(R.id.addButton);
+        addItemToDB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
         return view;
     }
 
