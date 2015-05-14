@@ -38,18 +38,26 @@
         android:layout_below="@+id/prodDescText"
         android:layout_centerInParent="true" />
 
-
-    <NumberPicker
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:id="@+id/quantPick"
-        android:solidColor="#fa0d0501"
-        android:orientation="horizontal"
-        android:layout_marginTop="78dp"
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton"
         android:layout_below="@+id/prodImage"
-        android:layout_centerHorizontal="true"
-        android:layout_centerInParent="true">
-    </NumberPicker>
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@mipmap/plus_icon"
+        android:background="#084B8A" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageButton2"
+        android:src="@mipmap/cross_icon"
+        android:layout_alignBottom="@+id/imageButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/prodImage"
+        android:background="#084B8A" />
 
 
 </RelativeLayout>
