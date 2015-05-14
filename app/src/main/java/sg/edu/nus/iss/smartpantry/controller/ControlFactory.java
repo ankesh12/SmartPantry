@@ -12,7 +12,6 @@ public class ControlFactory {
     private static ControlFactory controlFactory = new ControlFactory();
 
     public static ControlFactory getInstance(){
-
         return controlFactory;
     }
 
