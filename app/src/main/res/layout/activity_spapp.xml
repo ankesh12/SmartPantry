@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/addItem_btn"
-        android:text="@string/add_item"/>
+        android:text="@string/add_item" />
 
 </RelativeLayout>
 
