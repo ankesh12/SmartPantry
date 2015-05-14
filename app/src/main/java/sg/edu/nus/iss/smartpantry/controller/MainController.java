@@ -18,9 +18,10 @@ public class MainController {
 
     public void addItem(Context context){
         this.context = context;
-        intent = ControlFactory.getInstance().getItemController().addItem(context);
+        intent = ControlFactory.getInstance().getItemController().showAddItem(context);
         callIntent(intent);
     }
+
     public void callIntent(Intent intent){
         context.startActivity(intent);
     }

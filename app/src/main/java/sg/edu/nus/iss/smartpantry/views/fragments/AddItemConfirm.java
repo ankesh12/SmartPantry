@@ -14,7 +14,11 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
+import sg.edu.nus.iss.smartpantry.Entity.Category;
+import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
+import sg.edu.nus.iss.smartpantry.Entity.Item;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -91,10 +95,22 @@ public class AddItemConfirm extends Fragment {
 //        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
 //                android.R.layout.simple_spinner_item, arraySpinner);
 //        s.setAdapter(adapter);
+
         ImageButton addItemToDB = (ImageButton)view.findViewById(R.id.addButton);
         addItemToDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
+                Category category = new Category();
+                category.setCategoryId("MIS");
+                category.setName("Mugs");
+                Product product = new Product("MIS","BOT");
+                System.out.println(prodDesc.getText());
+                product.setProductName(prodDesc.getText().toString());
+                product.setQuantity(1);
+                product.setThreshold(2);
+                Item item = new Item("BOT",2);
+                ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), category, product, item);
 
             }
         });

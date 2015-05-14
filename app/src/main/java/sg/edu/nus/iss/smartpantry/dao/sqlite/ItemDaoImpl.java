@@ -41,7 +41,7 @@ public class ItemDaoImpl implements ItemDao {
             ContentValues values = new ContentValues();
             values.put(COL_ID, item.getItemId());
             values.put(COL_PRODUCT_ID, item.getProductId());
-            values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
+            //values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
             values.put(COL_PRICE, item.getPrice());
 
             db.insert(dbHelper.TABLE_ITEM, null, values);
