@@ -109,7 +109,7 @@ public class AddItemConfirm extends Fragment {
                 product.setProductName(prodDesc.getText().toString());
                 product.setQuantity(1);
                 product.setThreshold(2);
-                Item item = new Item("BOT",2);
+                Item item = new Item("BOT",3);
                 ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), category, product, item);
 
             }

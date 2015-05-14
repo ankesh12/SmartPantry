@@ -44,7 +44,8 @@ public class ItemController {
         prodDao.addProduct(product);
         itemDao.addItem(item);
 
-        Toast.makeText(context,product.getProductName(),Toast.LENGTH_SHORT).show();
+
+        Toast.makeText(context,String.valueOf(itemDao.getItemsByProductId("BOT").get(0).getPrice()),Toast.LENGTH_SHORT).show();
 
     }
 //    public void addItem(Context context, Category category, Product product, Item item){

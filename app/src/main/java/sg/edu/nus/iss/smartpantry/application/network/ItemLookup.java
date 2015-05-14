@@ -35,6 +35,7 @@ import java.util.Map;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
+import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 
@@ -85,7 +86,7 @@ public class ItemLookup {
      */
     private static String ITEM_ID = "";
 
-    public ArrayList<String> GetProductDetails(String barcode) {
+    public ArrayList<String> GetProductDetails(String barcode)throws ItemNotFoundException {
         /*
          * Set up the signed requests helper 
          */
@@ -119,15 +120,15 @@ public class ItemLookup {
 
         requestUrl = helper.sign(params);
         System.out.println("Signed Request is \"" + requestUrl + "\"");
+        return fetchProductDetails(requestUrl);
 
-        return fetchTitle(requestUrl);
     }
 
     /*
      * Utility function to fetch the response from the service and extract the
      * title from the XML.
      */
-    private static ArrayList<String> fetchTitle(String requestUrl) {
+    private static ArrayList<String> fetchProductDetails(String requestUrl) throws ItemNotFoundException{
         ArrayList<String> details = new ArrayList<String>();
         String title = null;
         try {
@@ -142,7 +143,7 @@ public class ItemLookup {
             details.add(nodeList2.item(0).getFirstChild().getTextContent());
             return details;
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            throw new ItemNotFoundException("Item not found.");
         }
 
     }

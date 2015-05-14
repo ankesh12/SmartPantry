@@ -30,6 +30,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
 import sg.edu.nus.iss.smartpantry.views.ItemDetails;
@@ -250,11 +251,14 @@ public class ScanBarcodeActivity
                 Drawable d;
                 @Override
                 protected ArrayList<String> doInBackground(Void... params) {
-                    ArrayList<String> details = new ItemLookup(context).GetProductDetails(msg);
+                    ArrayList<String> details = null;
                     try {
+                        details = new ItemLookup(context).GetProductDetails(msg);
                         InputStream is = (InputStream)new URL(details.get(1)).getContent();
                         d = Drawable.createFromStream(is,null);
                     } catch (IOException e) {
+                        e.printStackTrace();
+                    }catch (ItemNotFoundException e) {
                         e.printStackTrace();
                     }
                     return details;

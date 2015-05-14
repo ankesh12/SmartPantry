@@ -133,7 +133,7 @@ public class ItemDaoImpl implements ItemDao {
         if (cursor.moveToFirst()) {
             do {
                 Item item = new Item(cursor.getString(1),Integer.parseInt(cursor.getString(0)));
-                item.setExpiryDate(Date.valueOf(cursor.getString(2)));
+                //item.setExpiryDate(Date.valueOf(cursor.getString(2)));
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 // Adding item to list
                 itemList.add(item);
