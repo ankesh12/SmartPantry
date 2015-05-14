@@ -9,18 +9,16 @@ import android.content.Intent;
 public class MainController {
 
     private ControlFactory controlFactory;
-    private ItemController itemController;
     private Intent intent;
     private Context context;
 
     public MainController(){
-        controlFactory = new ControlFactory();
-        itemController = controlFactory.getItemController();
+
     }
 
     public void addItem(Context context){
         this.context = context;
-        intent = itemController.addItem(context);
+        intent = ControlFactory.getInstance().getItemController().addItem(context);
         callIntent(intent);
     }
     public void callIntent(Intent intent){

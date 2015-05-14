@@ -14,7 +14,6 @@ import sg.edu.nus.iss.smartpantry.controller.MainController;
 
 
 public class SPApp extends ActionBarActivity {
-    private ControlFactory controlFactory;
     private MainController mainController;
 
     @Override
@@ -23,8 +22,7 @@ public class SPApp extends ActionBarActivity {
         setContentView(R.layout.activity_spapp);
         setActivityBackgroundColor("#084B8A");
         //Get objects for controller
-        controlFactory = new ControlFactory();
-        mainController = controlFactory.getMainController();
+        mainController = ControlFactory.getInstance().getMainController();
 //        mainController = new MainController();
 
         Button addItemBtn = (Button) findViewById(R.id.addItem_btn);
