@@ -4,7 +4,6 @@
     tools:context="sg.edu.nus.iss.smartpantry.views.fragments.AddItemConfirm"
     android:weightSum="1">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,27 +37,6 @@
         android:layout_below="@+id/prodDescText"
         android:layout_centerInParent="true" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/addButton"
-        android:src="@mipmap/plus_icon"
-        android:background="#084B8A"
-        android:layout_below="@+id/spinner"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="36dp" />
-
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/removeButton"
-        android:src="@mipmap/cross_icon"
-        android:background="#084B8A"
-        android:layout_alignTop="@+id/addButton"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -67,6 +45,14 @@
         android:layout_marginTop="38dp"
         android:layout_alignLeft="@+id/prodImage"
         android:popupBackground="#000000" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/spinner"
+        android:id="@+id/divider"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="20dp"/>
 
     <TextView
         android:layout_width="wrap_content"
@@ -79,6 +65,28 @@
         android:layout_alignTop="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/addButton"
+        android:src="@mipmap/plus_icon"
+        android:background="#084B8A"
+        android:layout_alignTop="@+id/divider"
+        android:layout_toRightOf="@+id/productText"
+        android:layout_toEndOf="@+id/productText"
+        android:layout_marginTop="20dp"/>
+
+    <ImageButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/removeButton"
+        android:src="@mipmap/cross_icon"
+        android:background="#084B8A"
+        android:layout_below="@+id/divider"
+        android:layout_toRightOf="@+id/prodImage"
+        android:layout_toEndOf="@+id/prodImage"
+        android:layout_marginTop="20dp"/>
 
 
 </RelativeLayout>
