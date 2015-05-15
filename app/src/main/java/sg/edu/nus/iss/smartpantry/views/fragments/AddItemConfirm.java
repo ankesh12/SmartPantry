@@ -15,10 +15,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import sg.edu.nus.iss.smartpantry.Entity.Category;
+import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
-import sg.edu.nus.iss.smartpantry.Entity.Item;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,9 +109,21 @@ public class AddItemConfirm extends Fragment {
                 product.setProductName(prodDesc.getText().toString());
                 product.setQuantity(1);
                 product.setThreshold(2);
+<<<<<<< HEAD
                 Item item = new Item("GLU",2);
+=======
+                Item item = new Item("BOT",3);
+                item.setPrice(10.00);
+>>>>>>> origin/master
                 ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), category, product, item);
 
+            }
+        });
+        ImageButton removeBtn = (ImageButton)view.findViewById(R.id.removeButton);
+        removeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
             }
         });
         return view;
