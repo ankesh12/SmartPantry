@@ -39,6 +39,13 @@ public class ItemDaoImpl implements ItemDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
+            String selectQuery = "SELECT  MAX("+COL_ID+") FROM " + dbHelper.TABLE_ITEM + " WHERE "+ COL_PRODUCT_NAME + " = '"+ item.getProductName() +"'";
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            if (cursor.getCount() == 0)
+                values.put(COL_ID, 1);
+            else
+                values.put(COL_ID, cursor.getInt(0)+1);
             values.put(COL_PRODUCT_NAME, item.getProductName());
             if (item.getExpiryDate() != null)
                 values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
