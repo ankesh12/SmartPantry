@@ -10,15 +10,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Category;
-import sg.edu.nus.iss.smartpantry.Entity.Item;
-import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
+import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -39,6 +45,7 @@ public class AddItemConfirm extends Fragment {
     private String mParam2;
     private EditText prodDescText;
     private ImageView prodImage;
+    List<String> lables = new ArrayList<>();
 
     private OnFragmentInteractionListener mListener;
 
@@ -84,35 +91,20 @@ public class AddItemConfirm extends Fragment {
         prodDescText= (EditText)view.findViewById(R.id.prodDescText);
         prodDescText.setText(bundle.getString("PRODUCT_NAME"));
         prodImage = (ImageView)view.findViewById(R.id.prodImage);
-        Bitmap bitmap = (Bitmap)bundle.getParcelable("PRODUCT_IMG");
+        final Bitmap bitmap = (Bitmap)bundle.getParcelable("PRODUCT_IMG");
         Drawable d = new BitmapDrawable(getResources(),bitmap);
         prodImage.setImageDrawable(d);
-
-//        NumberPicker s = (NumberPicker) view.findViewById(R.id.quantPick);
-//        s.setMaxValue(10);
-//        s.setMinValue(1);
-//        s.setValue(5);
-//        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),
-//                android.R.layout.simple_spinner_item, arraySpinner);
-//        s.setAdapter(adapter);
-
+        final Spinner catList = (Spinner)view.findViewById(R.id.spinner);
+        loadSpinnerData(view, catList);
         ImageButton addItemToDB = (ImageButton)view.findViewById(R.id.addButton);
         addItemToDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
-                Category category = new Category();
-                category.setCategoryId("GUM");
-                category.setName("Fevicol");
-                Product product = new Product("GUM","GLU");
-                System.out.println(prodDesc.getText());
-                product.setProductName(prodDesc.getText().toString());
-                product.setQuantity(1);
-                product.setThreshold(2);
-                Item item = new Item("GLU",2);
-                item.setPrice(10.00);
-                ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), category, product, item);
-
+                Toast.makeText(getActivity().getApplicationContext(),catList.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                String selectedCat = catList.getSelectedItem().toString();
+                ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(),catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
+                getActivity().onBackPressed();
             }
         });
         ImageButton removeBtn = (ImageButton)view.findViewById(R.id.removeButton);
@@ -123,6 +115,18 @@ public class AddItemConfirm extends Fragment {
             }
         });
         return view;
+    }
+
+    public void loadSpinnerData(View view, Spinner catList){
+        CategoryDao categoryDao = DAOFactory.getCategoryDao(getActivity().getApplicationContext());
+//        List<String> lables = new ArrayList<>();
+        for(Category category : categoryDao.getAllCategories()){
+            System.out.println(category.getName());
+            lables.add(category.getName());
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item, lables);
+        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        catList.setAdapter(dataAdapter);
     }
 
     // TODO: Rename method, update argument and hook method into UI event

@@ -42,22 +42,43 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/addButton"
-        android:layout_below="@+id/prodImage"
+        android:src="@mipmap/plus_icon"
+        android:background="#084B8A"
+        android:layout_below="@+id/spinner"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:src="@mipmap/plus_icon"
-        android:background="#084B8A" />
+        android:layout_marginTop="36dp" />
 
     <ImageButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/removeButton"
         android:src="@mipmap/cross_icon"
-        android:layout_alignBottom="@+id/addButton"
+        android:background="#084B8A"
+        android:layout_alignTop="@+id/addButton"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:layout_alignParentEnd="true" />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
         android:layout_below="@+id/prodImage"
-        android:background="#084B8A" />
+        android:layout_marginTop="38dp"
+        android:layout_alignLeft="@+id/prodImage"
+        android:popupBackground="#000000" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Category"
+        android:textStyle="bold"
+        android:id="@+id/catText"
+        android:textColor="#FAFAFA"
+        android:layout_alignTop="@+id/spinner"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
