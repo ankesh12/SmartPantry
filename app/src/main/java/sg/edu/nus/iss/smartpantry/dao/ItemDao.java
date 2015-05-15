@@ -12,6 +12,6 @@ public interface ItemDao {
     public boolean updateItem(Item item);
     public boolean deleteItem(Item item);
     public List<Item> getAllItems();
-    public List<Item> getItemsByProductId(String  productId);
+    public List<Item> getItemsByProductName(String  productName);
 
 }

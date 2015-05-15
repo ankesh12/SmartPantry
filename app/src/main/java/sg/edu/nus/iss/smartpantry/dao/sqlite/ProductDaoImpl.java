@@ -24,12 +24,11 @@ public class ProductDaoImpl implements ProductDao {
     private SqliteHelper dbHelper;
 
     // Category Table Columns names
-    private static final String COL_ID = "prodId";
-    private static final String COL_NAME = "productName";
+    private static final String COL_NAME = "ProductName";
     private static final String COL_QTY = "Quantity";
-    private static final String COL_CATEGORY_ID = "CategoryId";
+    private static final String COL_CATEGORY_NAME = "CategoryName";
     private static final String COL_THRESHOLD = "Threshold";
-    private static final String COL_IMAGE = "prodImage";
+    private static final String COL_IMAGE = "ProdImage";
     private static final String COL_BARCODE = "BarCode";
 
     public ProductDaoImpl(Context context)
@@ -45,10 +44,9 @@ public class ProductDaoImpl implements ProductDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_ID, product.getProdId());
             values.put(COL_NAME, product.getProductName());
             values.put(COL_QTY, product.getQuantity());
-            values.put(COL_CATEGORY_ID, product.getCategoryId());
+            values.put(COL_CATEGORY_NAME, product.getCategoryName());
             values.put(COL_THRESHOLD, product.getThreshold());
             if (product.getProdImage() != null)
             {
@@ -80,10 +78,9 @@ public class ProductDaoImpl implements ProductDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_ID, product.getProdId());
             values.put(COL_NAME, product.getProductName());
             values.put(COL_QTY, product.getQuantity());
-            values.put(COL_CATEGORY_ID, product.getCategoryId());
+            values.put(COL_CATEGORY_NAME, product.getCategoryName());
             values.put(COL_THRESHOLD, product.getThreshold());
             if (product.getProdImage() != null)
             {
@@ -97,7 +94,7 @@ public class ProductDaoImpl implements ProductDao {
                 values.put(COL_BARCODE, product.getBarCode());
 
             // updating row
-            db.update(dbHelper.TABLE_PRODUCT, values, COL_ID + " = " + product.getProdId(), null);
+            db.update(dbHelper.TABLE_PRODUCT, values, COL_NAME + " = " + product.getProductName(), null);
             db.close();
             return true;
         }
@@ -113,7 +110,7 @@ public class ProductDaoImpl implements ProductDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_PRODUCT, COL_ID + " = " + product.getProdId(), null);
+            db.delete(dbHelper.TABLE_PRODUCT, COL_NAME + " = " + product.getProductName(), null);
             db.close();
             return true;
         }
@@ -136,19 +133,18 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(3),cursor.getString(0));
-                product.setProductName(cursor.getString(1));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(4)));
-                if (cursor.getBlob(5) != null)
+                Product product = new Product(cursor.getString(2),cursor.getString(0));
+                product.setQuantity(Integer.parseInt(cursor.getString(1)));
+                product.setThreshold(Integer.parseInt(cursor.getString(3)));
+                if (cursor.getBlob(4) != null)
                 {
-                    byte[] blobVal = cursor.getBlob(5);
+                    byte[] blobVal = cursor.getBlob(4);
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
 
-                if (cursor.getString(6) != null)
-                    product.setBarCode(cursor.getString(6));
+                if (cursor.getString(5) != null)
+                    product.setBarCode(cursor.getString(5));
 
                 // Adding product to list
                 productList.add(product);
@@ -158,11 +154,11 @@ public class ProductDaoImpl implements ProductDao {
         // return product list
         return productList;
     }
-    // Getting All Products by category id
-    public List<Product> getProductsByCategoryId(String categoryId) {
+    // Getting All Products by category name
+    public List<Product> getProductsByCategoryName(String categoryName) {
         List<Product> productList = new ArrayList<Product>();
 
-        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_PRODUCT + " WHERE "+COL_CATEGORY_ID+" = '"+categoryId+"'";
+        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_PRODUCT + " WHERE "+COL_CATEGORY_NAME+" = '"+categoryName+"'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -170,18 +166,18 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(3),cursor.getString(0));
-                product.setProductName(cursor.getString(1));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(4)));
-                if (cursor.getBlob(5) != null)
+                Product product = new Product(cursor.getString(2),cursor.getString(0));
+                product.setQuantity(Integer.parseInt(cursor.getString(1)));
+                product.setThreshold(Integer.parseInt(cursor.getString(3)));
+                if (cursor.getBlob(4) != null)
                 {
-                    byte[] blobVal = cursor.getBlob(5);
+                    byte[] blobVal = cursor.getBlob(4);
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
-                if (cursor.getString(6) != null)
-                    product.setBarCode(cursor.getString(6));
+
+                if (cursor.getString(5) != null)
+                    product.setBarCode(cursor.getString(5));
                 // Adding product to list
                 productList.add(product);
             } while (cursor.moveToNext());
@@ -189,5 +185,43 @@ public class ProductDaoImpl implements ProductDao {
 
         // return product list
         return productList;
+    }
+
+    //Get product object by Product Name
+    public Product getProductByName(String prodName){
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_NAME + " = '" + prodName + "'";
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.getCount() == 0){
+            return null;
+        }
+        Product product = new Product(cursor.getString(2),cursor.getString(0));
+        product.setQuantity(Integer.parseInt(cursor.getString(1)));
+        product.setThreshold(Integer.parseInt(cursor.getString(3)));
+        if (cursor.getBlob(4) != null)
+        {
+            byte[] blobVal = cursor.getBlob(4);
+            Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+            product.setProdImage(bmp);
+        }
+
+        if (cursor.getString(5) != null)
+            product.setBarCode(cursor.getString(5));
+        return product;
+    }
+
+    public boolean isProductExists(String prodName)
+    {
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + COL_NAME + " = '" + prodName + "'";
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+
+        if (cursor.getCount() == 0){
+            return false;
+        }
+        else
+            return true;
     }
 }

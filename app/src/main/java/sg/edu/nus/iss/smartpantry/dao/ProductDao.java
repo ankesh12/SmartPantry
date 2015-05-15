@@ -12,5 +12,7 @@ public interface ProductDao {
     public boolean updateProduct(Product product);
     public boolean deleteProduct(Product product);
     public List<Product> getAllProducts();
-    public List<Product> getProductsByCategoryId(String categoryId);
+    public List<Product> getProductsByCategoryName(String categoryName);
+    public Product getProductByName(String prodName);
+    public boolean isProductExists(String prodName);
 }

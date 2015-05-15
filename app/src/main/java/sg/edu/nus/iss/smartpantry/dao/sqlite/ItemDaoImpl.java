@@ -21,8 +21,8 @@ public class ItemDaoImpl implements ItemDao {
     private SqliteHelper dbHelper;
 
     // Category Table Columns names
-    private static final String COL_ID = "itemId";
-    private static final String COL_PRODUCT_ID = "productId";
+    private static final String COL_ID = "ItemId";
+    private static final String COL_PRODUCT_NAME = "ProductName";
     private static final String COL_EXPIRY_DATE = "ExpiryDate";
     private static final String COL_PRICE = "Price";
 
@@ -39,7 +39,7 @@ public class ItemDaoImpl implements ItemDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_PRODUCT_ID, item.getProductId());
+            values.put(COL_PRODUCT_NAME, item.getProductName());
             if (item.getExpiryDate() != null)
                 values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
             values.put(COL_PRICE, item.getPrice());
@@ -65,13 +65,13 @@ public class ItemDaoImpl implements ItemDao {
 
             ContentValues values = new ContentValues();
             values.put(COL_ID, item.getItemId());
-            values.put(COL_PRODUCT_ID, item.getProductId());
+            values.put(COL_PRODUCT_NAME, item.getProductName());
             if (item.getExpiryDate() != null)
                 values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
             values.put(COL_PRICE, item.getPrice());
 
             // updating row
-            db.update(dbHelper.TABLE_ITEM, values, COL_ID + " = '" + item.getItemId()+"' and "+COL_PRODUCT_ID + " = '" + item.getProductId()+"'", null);
+            db.update(dbHelper.TABLE_ITEM, values, COL_ID + " = '" + item.getItemId()+"' and "+COL_PRODUCT_NAME + " = '" + item.getProductName()+"'", null);
             db.close();
             return true;
         }
@@ -87,7 +87,7 @@ public class ItemDaoImpl implements ItemDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_ITEM, COL_ID + " = " + item.getItemId()+" and "+COL_PRODUCT_ID + " = " + item.getProductId(), null);
+            db.delete(dbHelper.TABLE_ITEM, COL_ID + " = " + item.getItemId()+" and "+COL_PRODUCT_NAME + " = " + item.getProductName(), null);
             db.close();
             return true;
         }
@@ -122,11 +122,11 @@ public class ItemDaoImpl implements ItemDao {
         // return item list
         return itemList;
     }
-    // Getting All Items by product id
-    public List<Item> getItemsByProductId(String productId) {
+    // Getting All Items by product Name
+    public List<Item> getItemsByProductName(String productName) {
         List<Item> itemList = new ArrayList<Item>();
 
-        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+COL_PRODUCT_ID+" = '"+productId+"'";
+        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+COL_PRODUCT_NAME+" = '"+productName+"'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);

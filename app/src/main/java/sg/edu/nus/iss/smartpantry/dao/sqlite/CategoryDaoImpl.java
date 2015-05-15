@@ -20,8 +20,7 @@ public class CategoryDaoImpl implements CategoryDao {
     private SqliteHelper dbHelper;
 
     // Category Table Columns names
-    private static final String COL_ID = "CategoryId";
-    private static final String COL_NAME = "Name";
+    private static final String COL_NAME = "CategoryName";
 
     public CategoryDaoImpl(Context context)
     {
@@ -35,8 +34,7 @@ public class CategoryDaoImpl implements CategoryDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_ID, category.getCategoryId());
-            values.put(COL_NAME, category.getName());
+            values.put(COL_NAME, category.getCategoryName());
 
             db.insert(dbHelper.TABLE_CATEGORY, null, values);
             db.close();
@@ -56,11 +54,10 @@ public class CategoryDaoImpl implements CategoryDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_ID, category.getCategoryId());
-            values.put(COL_NAME, category.getName());
+            values.put(COL_NAME, category.getCategoryName());
 
             // updating row
-            db.update(dbHelper.TABLE_CATEGORY, values, COL_ID + " = " + category.getCategoryId(), null);
+            db.update(dbHelper.TABLE_CATEGORY, values, COL_NAME + " = " + category.getCategoryName(), null);
             db.close();
             return true;
         }
@@ -76,7 +73,7 @@ public class CategoryDaoImpl implements CategoryDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_CATEGORY, COL_ID + " = " + category.getCategoryId(), null);
+            db.delete(dbHelper.TABLE_CATEGORY, COL_NAME + " = " + category.getCategoryName(), null);
             db.close();
             return true;
         }
@@ -100,8 +97,7 @@ public class CategoryDaoImpl implements CategoryDao {
         if (cursor.moveToFirst()) {
             do {
                 Category category = new Category();
-                category.setCategoryId(cursor.getString(0));
-                category.setName(cursor.getString(1));
+                category.setCategoryName(cursor.getString(0));
                 // Adding category to list
                 categoryList.add(category);
             } while (cursor.moveToNext());
@@ -111,21 +107,33 @@ public class CategoryDaoImpl implements CategoryDao {
         return categoryList;
     }
 
-   //Get category object by CategoryID
-    public Category getCategoryById(String id){
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_ID + " = '" + id + "'";
+   //Get category object by CategoryName
+    public Category getCategoryByName(String categoryName){
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_NAME + " = '" + categoryName + "'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
+        cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
             return null;
         }
-        cursor.moveToFirst();
-        System.out.println("Count: " + cursor.getCount());
+
         Category category = new Category();
-        category.setCategoryId(cursor.getString(0));
-        category.setName(cursor.getString(1));
+        category.setCategoryName(cursor.getString(0));
         return category;
+    }
+
+    public boolean isCategoryExists(String categoryName)
+    {
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_NAME + " = '" + categoryName + "'";
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+
+        if (cursor.getCount() == 0){
+            return false;
+        }
+        else
+            return true;
     }
 }
