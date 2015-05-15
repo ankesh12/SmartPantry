@@ -32,15 +32,10 @@ public class SPApp extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
         setActivityBackgroundColor("#084B8A");
+        //Create the list view for products
+        loadProductList();
         //Get objects for controller
         mainController = ControlFactory.getInstance().getMainController();
-//        mainController = new MainController();
-        ProductDao productDao = DAOFactory.getProductDao(getApplicationContext());
-        productList = productDao.getAllProducts();
-        //List View
-        listView = (ListView) findViewById(android.R.id.list);
-        customAdapter = new CustomAdapter(this,productList,getApplicationContext());
-        listView.setAdapter(customAdapter);
 
         //Add item functionality
         Button addItemBtn = (Button) findViewById(R.id.addItem_btn);
@@ -63,6 +58,12 @@ public class SPApp extends ListActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        loadProductList();
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -79,5 +80,14 @@ public class SPApp extends ListActivity {
     public void setActivityBackgroundColor(String color) {
         View view = this.getWindow().getDecorView();
         view.setBackgroundColor(Color.parseColor(color));
+    }
+
+    private void loadProductList(){
+        ProductDao productDao = DAOFactory.getProductDao(getApplicationContext());
+        productList = productDao.getAllProducts();
+        //List View
+        listView = (ListView) findViewById(android.R.id.list);
+        customAdapter = new CustomAdapter(this,productList,getApplicationContext());
+        listView.setAdapter(customAdapter);
     }
 }

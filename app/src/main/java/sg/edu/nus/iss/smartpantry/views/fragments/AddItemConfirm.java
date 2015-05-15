@@ -121,8 +121,7 @@ public class AddItemConfirm extends Fragment {
         CategoryDao categoryDao = DAOFactory.getCategoryDao(getActivity().getApplicationContext());
 //        List<String> lables = new ArrayList<>();
         for(Category category : categoryDao.getAllCategories()){
-            System.out.println(category.getName());
-            lables.add(category.getName());
+            lables.add(category.getCategoryName());
         }
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item, lables);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

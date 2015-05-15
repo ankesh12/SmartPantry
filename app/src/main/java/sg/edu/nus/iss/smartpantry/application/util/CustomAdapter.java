@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -56,14 +57,16 @@ public class CustomAdapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.browselist, null);
         TextView itemName = (TextView)convertView.findViewById(R.id.Itemname);
         TextView category = (TextView)convertView.findViewById(R.id.category);
-        //TextView quantity = (TextView)convertView.findViewById(R.id.quantity);
+        TextView quantity = (TextView)convertView.findViewById(R.id.quant);
+        ImageView imageView = (ImageView)convertView.findViewById(R.id.icon);
 
         Product product = productList.get(i);
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
 
         itemName.setText(product.getProductName());
-        category.setText(catDao.getCategoryById(product.getCategoryId()).getName());
-        //quantity.setText(product.getQuantity());
+        category.setText(catDao.getCategoryByName(product.getCategoryName()).getCategoryName());
+        quantity.setText(String.valueOf(product.getQuantity()));
+        imageView.setImageBitmap(product.getProdImage());
 
         return convertView;
     }

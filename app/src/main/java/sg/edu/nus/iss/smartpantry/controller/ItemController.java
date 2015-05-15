@@ -3,7 +3,6 @@ package sg.edu.nus.iss.smartpantry.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.widget.Toast;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
@@ -30,20 +29,19 @@ public class ItemController {
         ProductDao prodDao = DAOFactory.getProductDao(context);
         System.out.println("........Creating Objects....");
 
-//        Category category = new Category();
-//        category.setName(categoryName);
-        Product product = new Product(categoryName,"GLU");
-        product.setProductName(productName);
+        //Category category = new Category();
+        //category.setName(categoryName);
+        Product product = new Product(categoryName,productName);
         product.setQuantity(1);
         product.setThreshold(2);
-        //product.setProdImage(bitmap);
-        Item itm = new Item("GLU",2);
+        product.setProdImage(bitmap);
+        Item itm = new Item(productName,2);
         itm.setPrice(10.00);
         prodDao.addProduct(product);
         itemDao.addItem(itm);
 
 
-        Toast.makeText(context,String.valueOf(itemDao.getItemsByProductId("BOT").get(0).getPrice()),Toast.LENGTH_SHORT).show();
+        //Toast.makeText(context,String.valueOf(itemDao.getItemsByProductName(productName).get(0).getPrice()),Toast.LENGTH_SHORT).show();
 
     }
 //    public void addItem(Context context, Category category, Product product, Item item){
