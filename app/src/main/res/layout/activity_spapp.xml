@@ -11,5 +11,11 @@
         android:id="@+id/addItem_btn"
         android:text="@string/add_item" />
 
+    <ListView
+        android:id="@android:id/list"
+        android:layout_below="@+id/addItem_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" />
+
 </RelativeLayout>
 

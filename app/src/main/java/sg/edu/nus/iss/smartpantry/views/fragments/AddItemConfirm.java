@@ -102,14 +102,14 @@ public class AddItemConfirm extends Fragment {
             public void onClick(View view) {
                 EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
                 Category category = new Category();
-                category.setCategoryId("MIS");
-                category.setName("Mugs");
-                Product product = new Product("MIS","BOT");
+                category.setCategoryId("GUM");
+                category.setName("Fevicol");
+                Product product = new Product("GUM","GLU");
                 System.out.println(prodDesc.getText());
                 product.setProductName(prodDesc.getText().toString());
                 product.setQuantity(1);
                 product.setThreshold(2);
-                Item item = new Item("BOT",3);
+                Item item = new Item("GLU",2);
                 ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), category, product, item);
 
             }

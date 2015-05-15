@@ -110,4 +110,22 @@ public class CategoryDaoImpl implements CategoryDao {
         // return category list
         return categoryList;
     }
+
+   //Get category object by CategoryID
+    public Category getCategoryById(String id){
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_ID + " = '" + id + "'";
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+
+        if (cursor.getCount() == 0){
+            return null;
+        }
+        cursor.moveToFirst();
+        System.out.println("Count: " + cursor.getCount());
+        Category category = new Category();
+        category.setCategoryId(cursor.getString(0));
+        category.setName(cursor.getString(1));
+        return category;
+    }
 }
