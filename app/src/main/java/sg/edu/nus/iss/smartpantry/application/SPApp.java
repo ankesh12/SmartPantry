@@ -31,7 +31,11 @@ public class SPApp extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
-        setActivityBackgroundColor("#084B8A");
+        setActivityBackgroundColor("#455A64");
+
+        /*Category category = new Category();
+        category.setCategoryName("Misc");
+        DAOFactory.getCategoryDao(this).addCategory(category);*/
         //Create the list view for products
         loadProductList();
         //Get objects for controller
