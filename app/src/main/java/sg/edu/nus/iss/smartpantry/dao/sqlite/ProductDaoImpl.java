@@ -4,7 +4,11 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
+import java.io.ByteArrayOutputStream;
+import java.sql.Blob;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -46,8 +50,15 @@ public class ProductDaoImpl implements ProductDao {
             values.put(COL_QTY, product.getQuantity());
             values.put(COL_CATEGORY_ID, product.getCategoryId());
             values.put(COL_THRESHOLD, product.getThreshold());
-            values.put(COL_IMAGE, product.getProdImage());
-            values.put(COL_BARCODE, product.getBarCode());
+            if (product.getProdImage() != null)
+            {
+                Bitmap image = product.getProdImage();
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 100, out);
+                values.put(COL_IMAGE, out.toByteArray());
+            }
+            if (product.getBarCode() != null)
+                values.put(COL_BARCODE, product.getBarCode());
 
             db.insert(dbHelper.TABLE_PRODUCT, null, values);
             db.close();
@@ -74,8 +85,16 @@ public class ProductDaoImpl implements ProductDao {
             values.put(COL_QTY, product.getQuantity());
             values.put(COL_CATEGORY_ID, product.getCategoryId());
             values.put(COL_THRESHOLD, product.getThreshold());
-            values.put(COL_IMAGE, product.getProdImage());
-            values.put(COL_BARCODE, product.getBarCode());
+            if (product.getProdImage() != null)
+            {
+                Bitmap image = product.getProdImage();
+                ByteArrayOutputStream out = new ByteArrayOutputStream();
+                image.compress(Bitmap.CompressFormat.PNG, 100, out);
+                values.put(COL_IMAGE, out.toByteArray());
+            }
+
+            if (product.getBarCode() != null)
+                values.put(COL_BARCODE, product.getBarCode());
 
             // updating row
             db.update(dbHelper.TABLE_PRODUCT, values, COL_ID + " = " + product.getProdId(), null);
@@ -121,8 +140,16 @@ public class ProductDaoImpl implements ProductDao {
                 product.setProductName(cursor.getString(1));
                 product.setQuantity(Integer.parseInt(cursor.getString(2)));
                 product.setThreshold(Integer.parseInt(cursor.getString(4)));
-                product.setProdImage(cursor.getBlob(5));
-                product.setBarCode(cursor.getString(6));
+                if (cursor.getBlob(5) != null)
+                {
+                    byte[] blobVal = cursor.getBlob(5);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                    product.setProdImage(bmp);
+                }
+
+                if (cursor.getString(6) != null)
+                    product.setBarCode(cursor.getString(6));
+
                 // Adding product to list
                 productList.add(product);
             } while (cursor.moveToNext());
@@ -147,8 +174,14 @@ public class ProductDaoImpl implements ProductDao {
                 product.setProductName(cursor.getString(1));
                 product.setQuantity(Integer.parseInt(cursor.getString(2)));
                 product.setThreshold(Integer.parseInt(cursor.getString(4)));
-                product.setProdImage(cursor.getBlob(5));
-                product.setBarCode(cursor.getString(6));
+                if (cursor.getBlob(5) != null)
+                {
+                    byte[] blobVal = cursor.getBlob(5);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                    product.setProdImage(bmp);
+                }
+                if (cursor.getString(6) != null)
+                    product.setBarCode(cursor.getString(6));
                 // Adding product to list
                 productList.add(product);
             } while (cursor.moveToNext());

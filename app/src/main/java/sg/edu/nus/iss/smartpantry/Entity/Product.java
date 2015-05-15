@@ -1,5 +1,7 @@
 package sg.edu.nus.iss.smartpantry.Entity;
 
+import android.graphics.Bitmap;
+
 /**
  * Created by CHARAN on 5/8/2015.
  */
@@ -9,7 +11,7 @@ public class Product {
     private int quantity;
     private String categoryId;
     private int threshold;
-    private byte[] prodImage;
+    private Bitmap prodImage;
     private String barCode;
 
     public Product(String categoryId,String prodId){
@@ -45,11 +47,11 @@ public class Product {
         this.threshold = threshold;
     }
 
-    public byte[] getProdImage() {
+    public Bitmap getProdImage() {
         return prodImage;
     }
 
-    public void setProdImage(byte[] prodImage) {
+    public void setProdImage(Bitmap prodImage) {
         this.prodImage = prodImage;
     }
 

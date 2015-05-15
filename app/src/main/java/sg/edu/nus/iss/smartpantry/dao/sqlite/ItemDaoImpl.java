@@ -39,9 +39,9 @@ public class ItemDaoImpl implements ItemDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_ID, item.getItemId());
             values.put(COL_PRODUCT_ID, item.getProductId());
-            //values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
+            if (item.getExpiryDate() != null)
+                values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
             values.put(COL_PRICE, item.getPrice());
 
             db.insert(dbHelper.TABLE_ITEM, null, values);
@@ -66,7 +66,8 @@ public class ItemDaoImpl implements ItemDao {
             ContentValues values = new ContentValues();
             values.put(COL_ID, item.getItemId());
             values.put(COL_PRODUCT_ID, item.getProductId());
-            values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
+            if (item.getExpiryDate() != null)
+                values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
             values.put(COL_PRICE, item.getPrice());
 
             // updating row
@@ -110,7 +111,8 @@ public class ItemDaoImpl implements ItemDao {
         if (cursor.moveToFirst()) {
             do {
                 Item item = new Item(cursor.getString(1),Integer.parseInt(cursor.getString(0)));
-                item.setExpiryDate(Date.valueOf(cursor.getString(2)));
+                if (cursor.getString(2) != null)
+                    item.setExpiryDate(Date.valueOf(cursor.getString(2)));
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 // Adding item to list
                 itemList.add(item);
@@ -133,7 +135,8 @@ public class ItemDaoImpl implements ItemDao {
         if (cursor.moveToFirst()) {
             do {
                 Item item = new Item(cursor.getString(1),Integer.parseInt(cursor.getString(0)));
-                //item.setExpiryDate(Date.valueOf(cursor.getString(2)));
+                if (cursor.getString(2) != null)
+                    item.setExpiryDate(Date.valueOf(cursor.getString(2)));
                 item.setPrice(Double.parseDouble(cursor.getString(3)));
                 // Adding item to list
                 itemList.add(item);
