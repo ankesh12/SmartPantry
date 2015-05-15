@@ -115,6 +115,13 @@ public class AddItemConfirm extends Fragment {
 
             }
         });
+        ImageButton removeBtn = (ImageButton)view.findViewById(R.id.removeButton);
+        removeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
         return view;
     }
 
