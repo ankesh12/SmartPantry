@@ -1,20 +1,31 @@
 package sg.edu.nus.iss.smartpantry.application;
 
+import android.app.ListActivity;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ListView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
+import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
+import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 
 
-public class SPApp extends ActionBarActivity {
+public class SPApp extends ListActivity {
     private MainController mainController;
+    List<Product> productList = new ArrayList<Product>();
+    ListView listView;
+    CustomAdapter customAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +35,14 @@ public class SPApp extends ActionBarActivity {
         //Get objects for controller
         mainController = ControlFactory.getInstance().getMainController();
 //        mainController = new MainController();
+        ProductDao productDao = DAOFactory.getProductDao(getApplicationContext());
+        productList = productDao.getAllProducts();
+        //List View
+        listView = (ListView) findViewById(android.R.id.list);
+        customAdapter = new CustomAdapter(this,productList,getApplicationContext());
+        listView.setAdapter(customAdapter);
 
+        //Add item functionality
         Button addItemBtn = (Button) findViewById(R.id.addItem_btn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
