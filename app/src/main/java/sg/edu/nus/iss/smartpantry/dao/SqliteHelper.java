@@ -10,7 +10,7 @@ import android.util.Log;
  */
 public class SqliteHelper extends SQLiteOpenHelper {
 
-    private static final String DATABASE_NAME = "SmartPantry";
+    private static final String DATABASE_NAME = "SmartPantry.sqlite";
 
     private static final int DATABASE_VERSION = 1;
 
@@ -18,9 +18,26 @@ public class SqliteHelper extends SQLiteOpenHelper {
     public final String TABLE_PRODUCT = "Product";
     public final String TABLE_ITEM = "Item";
 
-    private final String CREATE_TABLE_CATEGORY = "CREATE TABLE Category (CategoryName STRING NOT NULL ON CONFLICT ROLLBACK PRIMARY KEY ON CONFLICT ROLLBACK)";
-    private final String CREATE_TABLE_PRODUCT = "CREATE TABLE Product (ProductName STRING NOT NULL ON CONFLICT ROLLBACK PRIMARY KEY ON CONFLICT ROLLBACK, Quantity INTEGER (10000) NOT NULL ON CONFLICT ROLLBACK DEFAULT (0), CategoryName STRING NOT NULL ON CONFLICT ROLLBACK REFERENCES Category (CategoryName) ON DELETE CASCADE ON UPDATE CASCADE MATCH SIMPLE, Threshold INTEGER (2) NOT NULL ON CONFLICT ROLLBACK DEFAULT (1), ProdImage BLOB, BarCode STRING (300))";
-    private final String CREATE_TABLE_ITEM = "CREATE TABLE Item (ItemId INTEGER (5), ProductName STRING REFERENCES Product (productName) ON DELETE CASCADE ON UPDATE CASCADE MATCH SIMPLE, ExpiryDate DATE, Price DECIMAL (4, 2) NOT NULL ON CONFLICT ROLLBACK DEFAULT (0), PRIMARY KEY (ItemId, ProductName) ON CONFLICT ROLLBACK)";
+    // Category Table Columns names
+    public static final String COL_CAT_NAME = "CategoryName";
+
+    // Product Table Columns names
+    public static final String COL_PROD_NAME = "ProductName";
+    public static final String COL_PROD_QTY = "Quantity";
+    public static final String COL_PROD_CATEGORY_NAME = "CategoryName";
+    public static final String COL_PROD_THRESHOLD = "Threshold";
+    public static final String COL_PROD_IMAGE = "ProdImage";
+    public static final String COL_PROD_BARCODE = "BarCode";
+
+    // Item Table Columns names
+    public static final String COL_ITEM_ID = "ItemId";
+    public static final String COL_ITEM_PRODUCT_NAME = "ProductName";
+    public static final String COL_ITEM_EXPIRY_DATE = "ExpiryDate";
+    public static final String COL_ITEM_PRICE = "Price";
+
+    private final String CREATE_TABLE_CATEGORY = "CREATE TABLE "+TABLE_CATEGORY+" ("+COL_CAT_NAME+" STRING NOT NULL ON CONFLICT ROLLBACK PRIMARY KEY ON CONFLICT ROLLBACK)";
+    private final String CREATE_TABLE_PRODUCT = "CREATE TABLE "+TABLE_PRODUCT+" ("+COL_PROD_NAME+" STRING NOT NULL ON CONFLICT ROLLBACK PRIMARY KEY ON CONFLICT ROLLBACK, "+COL_PROD_QTY+" INTEGER (10000) NOT NULL ON CONFLICT ROLLBACK DEFAULT (0), "+COL_PROD_CATEGORY_NAME+" STRING NOT NULL ON CONFLICT ROLLBACK REFERENCES "+TABLE_CATEGORY+" ("+COL_CAT_NAME+") ON DELETE CASCADE ON UPDATE CASCADE MATCH SIMPLE, "+COL_PROD_THRESHOLD+" INTEGER (2) NOT NULL ON CONFLICT ROLLBACK DEFAULT (1), "+COL_PROD_IMAGE+" BLOB, BarCode STRING (300))";
+    private final String CREATE_TABLE_ITEM = "CREATE TABLE "+TABLE_ITEM+" ("+COL_ITEM_ID+" INTEGER (5), "+COL_ITEM_PRODUCT_NAME+" STRING REFERENCES "+TABLE_PRODUCT+" ("+COL_PROD_NAME+") ON DELETE CASCADE ON UPDATE CASCADE MATCH SIMPLE, "+COL_ITEM_EXPIRY_DATE+" DATE, "+COL_ITEM_PRICE+" DECIMAL (4, 2) NOT NULL ON CONFLICT ROLLBACK DEFAULT (0), PRIMARY KEY ("+COL_ITEM_ID+", "+COL_ITEM_PRODUCT_NAME+") ON CONFLICT ROLLBACK)";
 
     public SqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);

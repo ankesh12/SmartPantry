@@ -13,5 +13,6 @@ public interface ItemDao {
     public boolean deleteItem(Item item);
     public List<Item> getAllItems();
     public List<Item> getItemsByProductName(String  productName);
+    public int generateItemIdForProduct(String productName);
 
 }

@@ -19,9 +19,6 @@ public class CategoryDaoImpl implements CategoryDao {
 
     private SqliteHelper dbHelper;
 
-    // Category Table Columns names
-    private static final String COL_NAME = "CategoryName";
-
     public CategoryDaoImpl(Context context)
     {
         dbHelper = new SqliteHelper(context);
@@ -34,7 +31,7 @@ public class CategoryDaoImpl implements CategoryDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_NAME, category.getCategoryName());
+            values.put(dbHelper.COL_CAT_NAME, category.getCategoryName());
 
             db.insert(dbHelper.TABLE_CATEGORY, null, values);
             db.close();
@@ -54,10 +51,10 @@ public class CategoryDaoImpl implements CategoryDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_NAME, category.getCategoryName());
+            values.put(dbHelper.COL_CAT_NAME, category.getCategoryName());
 
             // updating row
-            db.update(dbHelper.TABLE_CATEGORY, values, COL_NAME + " = " + category.getCategoryName(), null);
+            db.update(dbHelper.TABLE_CATEGORY, values, dbHelper.COL_CAT_NAME + " = '" + category.getCategoryName()+"'", null);
             db.close();
             return true;
         }
@@ -73,7 +70,7 @@ public class CategoryDaoImpl implements CategoryDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_CATEGORY, COL_NAME + " = " + category.getCategoryName(), null);
+            db.delete(dbHelper.TABLE_CATEGORY, dbHelper.COL_CAT_NAME + " = '" + category.getCategoryName()+"'", null);
             db.close();
             return true;
         }
@@ -109,7 +106,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
    //Get category object by CategoryName
     public Category getCategoryByName(String categoryName){
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_NAME + " = '" + categoryName + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_NAME + " = '" + categoryName + "'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
@@ -126,9 +123,10 @@ public class CategoryDaoImpl implements CategoryDao {
 
     public boolean isCategoryExists(String categoryName)
     {
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_NAME + " = '" + categoryName + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_NAME + " = '" + categoryName + "'";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
+        cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
             return false;

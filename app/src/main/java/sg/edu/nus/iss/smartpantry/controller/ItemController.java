@@ -3,6 +3,9 @@ package sg.edu.nus.iss.smartpantry.controller;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.widget.Toast;
+
+import java.util.Random;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
@@ -31,14 +34,25 @@ public class ItemController {
 
         //Category category = new Category();
         //category.setName(categoryName);
-        Product product = new Product(categoryName,productName);
-        product.setQuantity(1);
-        product.setThreshold(2);
-        product.setProdImage(bitmap);
-        Item itm = new Item(productName,2);
-        itm.setPrice(10.00);
-        prodDao.addProduct(product);
-        itemDao.addItem(itm);
+        boolean isExistingProduct = prodDao.isProductExists(productName);
+        Random rand = new Random();
+        if(isExistingProduct == false)
+        {
+            Product product = new Product(categoryName,productName);
+            product.setThreshold(rand.nextInt(10));
+            product.setProdImage(bitmap);
+            prodDao.addProduct(product);
+        }
+
+        int itemId = itemDao.generateItemIdForProduct(productName);
+        if(itemId != -1)
+        {
+            Item itm = new Item(productName,itemId);
+            itm.setPrice(rand.nextInt(100));
+            itemDao.addItem(itm);
+        }
+        else
+            Toast.makeText(context,"Error in generating the Item ID!!!!",Toast.LENGTH_SHORT).show();
 
 
         //Toast.makeText(context,String.valueOf(itemDao.getItemsByProductName(productName).get(0).getPrice()),Toast.LENGTH_SHORT).show();

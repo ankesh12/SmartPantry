@@ -23,14 +23,6 @@ public class ProductDaoImpl implements ProductDao {
 
     private SqliteHelper dbHelper;
 
-    // Category Table Columns names
-    private static final String COL_NAME = "ProductName";
-    private static final String COL_QTY = "Quantity";
-    private static final String COL_CATEGORY_NAME = "CategoryName";
-    private static final String COL_THRESHOLD = "Threshold";
-    private static final String COL_IMAGE = "ProdImage";
-    private static final String COL_BARCODE = "BarCode";
-
     public ProductDaoImpl(Context context)
     {
         dbHelper = new SqliteHelper(context);
@@ -44,19 +36,19 @@ public class ProductDaoImpl implements ProductDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_NAME, product.getProductName());
-            values.put(COL_QTY, product.getQuantity());
-            values.put(COL_CATEGORY_NAME, product.getCategoryName());
-            values.put(COL_THRESHOLD, product.getThreshold());
+            values.put(dbHelper.COL_PROD_NAME, product.getProductName());
+            values.put(dbHelper.COL_PROD_QTY, product.getQuantity());
+            values.put(dbHelper.COL_PROD_CATEGORY_NAME, product.getCategoryName());
+            values.put(dbHelper.COL_PROD_THRESHOLD, product.getThreshold());
             if (product.getProdImage() != null)
             {
                 Bitmap image = product.getProdImage();
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.PNG, 100, out);
-                values.put(COL_IMAGE, out.toByteArray());
+                values.put(dbHelper.COL_PROD_IMAGE, out.toByteArray());
             }
             if (product.getBarCode() != null)
-                values.put(COL_BARCODE, product.getBarCode());
+                values.put(dbHelper.COL_PROD_BARCODE, product.getBarCode());
 
             db.insert(dbHelper.TABLE_PRODUCT, null, values);
             db.close();
@@ -78,23 +70,23 @@ public class ProductDaoImpl implements ProductDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_NAME, product.getProductName());
-            values.put(COL_QTY, product.getQuantity());
-            values.put(COL_CATEGORY_NAME, product.getCategoryName());
-            values.put(COL_THRESHOLD, product.getThreshold());
+            values.put(dbHelper.COL_PROD_NAME, product.getProductName());
+            values.put(dbHelper.COL_PROD_QTY, product.getQuantity());
+            values.put(dbHelper.COL_PROD_CATEGORY_NAME, product.getCategoryName());
+            values.put(dbHelper.COL_PROD_THRESHOLD, product.getThreshold());
             if (product.getProdImage() != null)
             {
                 Bitmap image = product.getProdImage();
                 ByteArrayOutputStream out = new ByteArrayOutputStream();
                 image.compress(Bitmap.CompressFormat.PNG, 100, out);
-                values.put(COL_IMAGE, out.toByteArray());
+                values.put(dbHelper.COL_PROD_IMAGE, out.toByteArray());
             }
 
             if (product.getBarCode() != null)
-                values.put(COL_BARCODE, product.getBarCode());
+                values.put(dbHelper.COL_PROD_BARCODE, product.getBarCode());
 
             // updating row
-            db.update(dbHelper.TABLE_PRODUCT, values, COL_NAME + " = " + product.getProductName(), null);
+            db.update(dbHelper.TABLE_PRODUCT, values, dbHelper.COL_PROD_NAME + " = " + product.getProductName(), null);
             db.close();
             return true;
         }
@@ -110,7 +102,7 @@ public class ProductDaoImpl implements ProductDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_PRODUCT, COL_NAME + " = " + product.getProductName(), null);
+            db.delete(dbHelper.TABLE_PRODUCT, dbHelper.COL_PROD_NAME + " = '" + product.getProductName()+"'", null);
             db.close();
             return true;
         }
@@ -158,7 +150,7 @@ public class ProductDaoImpl implements ProductDao {
     public List<Product> getProductsByCategoryName(String categoryName) {
         List<Product> productList = new ArrayList<Product>();
 
-        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_PRODUCT + " WHERE "+COL_CATEGORY_NAME+" = '"+categoryName+"'";
+        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_PRODUCT + " WHERE "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+categoryName+"'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -189,10 +181,11 @@ public class ProductDaoImpl implements ProductDao {
 
     //Get product object by Product Name
     public Product getProductByName(String prodName){
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + COL_NAME + " = '" + prodName + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + dbHelper.COL_PROD_NAME + " = '" + prodName + "'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
+        cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
             return null;
@@ -214,9 +207,10 @@ public class ProductDaoImpl implements ProductDao {
 
     public boolean isProductExists(String prodName)
     {
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + COL_NAME + " = '" + prodName + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + dbHelper.COL_PROD_NAME + " = '" + prodName + "'";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
+        cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
             return false;

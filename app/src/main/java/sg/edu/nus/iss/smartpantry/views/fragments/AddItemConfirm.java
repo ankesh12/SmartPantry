@@ -79,7 +79,6 @@ public class AddItemConfirm extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
 
     @Override
@@ -101,9 +100,9 @@ public class AddItemConfirm extends Fragment {
             @Override
             public void onClick(View view) {
                 EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
-                Toast.makeText(getActivity().getApplicationContext(),catList.getSelectedItem().toString(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 String selectedCat = catList.getSelectedItem().toString();
-                ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(),catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
+                ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
                 getActivity().onBackPressed();
             }
         });
@@ -120,6 +119,18 @@ public class AddItemConfirm extends Fragment {
     public void loadSpinnerData(View view, Spinner catList){
         CategoryDao categoryDao = DAOFactory.getCategoryDao(getActivity().getApplicationContext());
 //        List<String> lables = new ArrayList<>();
+
+        List<Category> refCatList = categoryDao.getAllCategories();
+
+        if (refCatList.size() == 0)
+        {
+            Category c = new Category();
+            c.setCategoryName("MISC");
+            categoryDao.addCategory(c);
+            c.setCategoryName("BOOKS");
+            categoryDao.addCategory(c);
+        }
+
         for(Category category : categoryDao.getAllCategories()){
             lables.add(category.getCategoryName());
         }

@@ -20,12 +20,6 @@ public class ItemDaoImpl implements ItemDao {
 
     private SqliteHelper dbHelper;
 
-    // Category Table Columns names
-    private static final String COL_ID = "ItemId";
-    private static final String COL_PRODUCT_NAME = "ProductName";
-    private static final String COL_EXPIRY_DATE = "ExpiryDate";
-    private static final String COL_PRICE = "Price";
-
     public ItemDaoImpl(Context context)
     {
         dbHelper = new SqliteHelper(context);
@@ -39,19 +33,21 @@ public class ItemDaoImpl implements ItemDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            String selectQuery = "SELECT  MAX("+COL_ID+") FROM " + dbHelper.TABLE_ITEM + " WHERE "+ COL_PRODUCT_NAME + " = '"+ item.getProductName() +"'";
 
-            Cursor cursor = db.rawQuery(selectQuery, null);
-            if (cursor.getCount() == 0)
-                values.put(COL_ID, 1);
-            else
-                values.put(COL_ID, cursor.getInt(0)+1);
-            values.put(COL_PRODUCT_NAME, item.getProductName());
+            values.put(dbHelper.COL_ITEM_ID, item.getItemId());
+            values.put(dbHelper.COL_ITEM_PRODUCT_NAME, item.getProductName());
             if (item.getExpiryDate() != null)
-                values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
-            values.put(COL_PRICE, item.getPrice());
+                values.put(dbHelper.COL_ITEM_EXPIRY_DATE, item.getExpiryDate().toString());
+            values.put(dbHelper.COL_ITEM_PRICE, item.getPrice());
 
             db.insert(dbHelper.TABLE_ITEM, null, values);
+
+            String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper.COL_ITEM_PRODUCT_NAME+" = '"+item.getProductName()+"'";
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            cursor.moveToFirst();
+            String updateQuery = "UPDATE  " + dbHelper.TABLE_PRODUCT + " SET "+dbHelper.COL_PROD_QTY+"="+String.valueOf(cursor.getCount())+" WHERE "+dbHelper.COL_PROD_NAME+" = '"+item.getProductName()+"'";
+            db.execSQL(updateQuery);
+
             db.close();
             return true;
         }
@@ -71,14 +67,14 @@ public class ItemDaoImpl implements ItemDao {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
 
             ContentValues values = new ContentValues();
-            values.put(COL_ID, item.getItemId());
-            values.put(COL_PRODUCT_NAME, item.getProductName());
+            values.put(dbHelper.COL_ITEM_ID, item.getItemId());
+            values.put(dbHelper.COL_ITEM_PRODUCT_NAME, item.getProductName());
             if (item.getExpiryDate() != null)
-                values.put(COL_EXPIRY_DATE, item.getExpiryDate().toString());
-            values.put(COL_PRICE, item.getPrice());
+                values.put(dbHelper.COL_ITEM_EXPIRY_DATE, item.getExpiryDate().toString());
+            values.put(dbHelper.COL_ITEM_PRICE, item.getPrice());
 
             // updating row
-            db.update(dbHelper.TABLE_ITEM, values, COL_ID + " = '" + item.getItemId()+"' and "+COL_PRODUCT_NAME + " = '" + item.getProductName()+"'", null);
+            db.update(dbHelper.TABLE_ITEM, values, dbHelper.COL_ITEM_ID + " = '" + item.getItemId()+"' and "+dbHelper.COL_ITEM_PRODUCT_NAME + " = '" + item.getProductName()+"'", null);
             db.close();
             return true;
         }
@@ -94,7 +90,13 @@ public class ItemDaoImpl implements ItemDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_ITEM, COL_ID + " = " + item.getItemId()+" and "+COL_PRODUCT_NAME + " = " + item.getProductName(), null);
+            db.delete(dbHelper.TABLE_ITEM, dbHelper.COL_ITEM_ID + " = " + item.getItemId()+" and "+dbHelper.COL_ITEM_PRODUCT_NAME + " = '" + item.getProductName()+"'", null);
+
+            String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper.COL_ITEM_PRODUCT_NAME+" = '"+item.getProductName()+"'";
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            cursor.moveToFirst();
+            String updateQuery = "UPDATE  " + dbHelper.TABLE_PRODUCT + " SET "+dbHelper.COL_PROD_QTY+"="+String.valueOf(cursor.getCount())+" WHERE "+dbHelper.COL_PROD_NAME+" = '"+item.getProductName()+"'";
+            db.execSQL(updateQuery);
             db.close();
             return true;
         }
@@ -133,7 +135,7 @@ public class ItemDaoImpl implements ItemDao {
     public List<Item> getItemsByProductName(String productName) {
         List<Item> itemList = new ArrayList<Item>();
 
-        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+COL_PRODUCT_NAME+" = '"+productName+"'";
+        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper.COL_ITEM_PRODUCT_NAME+" = '"+productName+"'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -152,5 +154,36 @@ public class ItemDaoImpl implements ItemDao {
 
         // return item list
         return itemList;
+    }
+
+    public int generateItemIdForProduct(String productName)
+    {
+        try
+        {
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+            String testQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+ dbHelper.COL_ITEM_PRODUCT_NAME + " = '"+ productName +"'";
+            String selectQuery = "SELECT  MAX("+dbHelper.COL_ITEM_ID+") FROM " + dbHelper.TABLE_ITEM + " WHERE "+ dbHelper.COL_ITEM_PRODUCT_NAME + " = '"+ productName +"'";
+
+            Cursor cursor = db.rawQuery(testQuery, null);
+            cursor.moveToFirst();
+            if (cursor.getCount() == 0) {
+                db.close();
+                return 1;
+            }
+            else {
+                cursor = db.rawQuery(selectQuery, null);
+                cursor.moveToFirst();
+                int id = cursor.getInt(0) + 1;
+                db.close();
+                return id;
+            }
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return -1;
+        }
     }
 }
