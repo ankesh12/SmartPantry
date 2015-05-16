@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.smartpantry.application;
 
+import android.app.ExpandableListActivity;
 import android.app.ListActivity;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -7,24 +8,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
+import sg.edu.nus.iss.smartpantry.dao.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 
 
-public class SPApp extends ListActivity {
+public class SPApp extends ExpandableListActivity{
     private MainController mainController;
     List<Product> productList = new ArrayList<Product>();
-    ListView listView;
+    List<Item> prodItemList = new ArrayList<Item>();
+    List<List<Item>> itemList = new ArrayList<List<Item>>();
+    ExpandableListView expListView;
     CustomAdapter customAdapter;
 
     @Override
@@ -36,6 +42,7 @@ public class SPApp extends ListActivity {
         /*Category category = new Category();
         category.setCategoryName("Misc");
         DAOFactory.getCategoryDao(this).addCategory(category);*/
+
         //Create the list view for products
         loadProductList();
         //Get objects for controller
@@ -88,10 +95,18 @@ public class SPApp extends ListActivity {
 
     private void loadProductList(){
         ProductDao productDao = DAOFactory.getProductDao(getApplicationContext());
+        ItemDao itemDao = DAOFactory.getItemDao(getApplicationContext());
         productList = productDao.getAllProducts();
-        //List View
-        listView = (ListView) findViewById(android.R.id.list);
-        customAdapter = new CustomAdapter(this,productList,getApplicationContext());
-        listView.setAdapter(customAdapter);
+        for(Product p:productList)
+        {
+            prodItemList= itemDao.getItemsByProductName(p.getProductName());
+            if(prodItemList.size() > 0)
+                itemList.add(prodItemList);
+
+        }
+        //Expandable List View
+        expListView = (ExpandableListView) findViewById(android.R.id.list);
+        customAdapter = new CustomAdapter(this,productList,itemList,getApplicationContext());
+        expListView.setAdapter(customAdapter);
     }
 }
