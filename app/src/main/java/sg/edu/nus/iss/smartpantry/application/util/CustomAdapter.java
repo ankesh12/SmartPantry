@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
@@ -19,6 +20,7 @@ import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
 import sg.edu.nus.iss.smartpantry.dao.ItemDao;
+import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 
 /**
  * Created by A0134493A on 15/5/2015.
@@ -98,23 +100,24 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         ImageView deleteItem =(ImageView) convertView.findViewById(R.id.deleteIcon);
 
         final Item selItem = itemList.get(groupPosition).get(childPosition);
-        List<Item> itmList = itemList.get(groupPosition);
 
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(parent.getContext(),"Item Clicked",Toast.LENGTH_LONG);
-                ItemDao itmDao = DAOFactory.getItemDao(parent.getContext());
+                ProductDao productDao = DAOFactory.getProductDao(context);
+                ItemDao itemDao = DAOFactory.getItemDao(context);
                 String prodName = selItem.getProductName();
-                itmDao.deleteItem(selItem);
-                Toast.makeText(parent.getContext(), "Item Deleted Sucessfully", Toast.LENGTH_LONG);
+                itemDao.deleteItem(selItem);
+                Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
                 itemList.get(groupPosition).remove(childPosition);
-                if (itemList.get(groupPosition).size() == 0)
+                if (itemList.get(groupPosition).isEmpty())
                 {
+                    productDao.deleteProduct(productDao.getProductByName(prodName));
                     productList.remove(groupPosition);
                     itemList.remove(groupPosition);
-                    Toast.makeText(parent.getContext(), "Product Removed Sucessfully", Toast.LENGTH_LONG);
+                    Toast.makeText(context, "Product Removed Successfully", Toast.LENGTH_SHORT).show();
                 }
+                refreshData();
                 CustomAdapter.this.notifyDataSetChanged();
                 CustomAdapter.this.notifyDataSetInvalidated();
             }
@@ -146,5 +149,21 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         productList = products;
         itemList=items;
         this.context = context;
+    }
+
+    public void refreshData()
+    {
+        ProductDao productDao = DAOFactory.getProductDao(context);
+        ItemDao itemDao = DAOFactory.getItemDao(context);
+        productList = productDao.getAllProducts();
+        List<Item> prodItemList = new ArrayList<Item>();
+        itemList.clear();
+        for(Product p:productList)
+        {
+            prodItemList= itemDao.getItemsByProductName(p.getProductName());
+            if(prodItemList.size() > 0)
+                itemList.add(prodItemList);
+
+        }
     }
 }
