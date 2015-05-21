@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.widget.Toast;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Random;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
@@ -26,7 +29,7 @@ public class ItemController {
         return intent;
     }
 
-    public void addItem(Context context,  String categoryName, String productName, Bitmap bitmap){
+    public void addItem(Context context,  String categoryName, String productName, Bitmap bitmap) throws ParseException {
         ItemDao itemDao= DAOFactory.getItemDao(context);
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
         ProductDao prodDao = DAOFactory.getProductDao(context);
@@ -47,9 +50,20 @@ public class ItemController {
         int itemId = itemDao.generateItemIdForProduct(productName);
         if(itemId != -1)
         {
-            Item itm = new Item(productName,itemId);
-            itm.setPrice(rand.nextInt(100));
-            itemDao.addItem(itm);
+            try {
+                Item itm = new Item(productName, itemId);
+
+                itm.setPrice(rand.nextInt(100));
+                String dateStr = "28/05/2015";
+                SimpleDateFormat curFormater = new SimpleDateFormat("dd/MM/yyyy");
+                Date dateObj = curFormater.parse(dateStr);
+                itm.setExpiryDate(new java.sql.Date(dateObj.getTime()));
+
+                itemDao.addItem(itm);
+            }
+            catch (ParseException p){
+                p.printStackTrace();
+            }
         }
         else
             Toast.makeText(context,"Error in generating the Item ID!!!!",Toast.LENGTH_SHORT).show();

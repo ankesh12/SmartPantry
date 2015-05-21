@@ -22,6 +22,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,7 +117,11 @@ public class AddItemConfirm extends Fragment {
                 EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
                 Toast.makeText(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 String selectedCat = catList.getSelectedItem().toString();
-                ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
+                try {
+                    ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 getActivity().onBackPressed();
             }
         });
