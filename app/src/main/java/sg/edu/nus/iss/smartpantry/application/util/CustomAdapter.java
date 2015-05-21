@@ -118,8 +118,6 @@ public class CustomAdapter extends BaseExpandableListAdapter {
                     Toast.makeText(context, "Product Removed Successfully", Toast.LENGTH_SHORT).show();
                 }
                 refreshData();
-                CustomAdapter.this.notifyDataSetChanged();
-                CustomAdapter.this.notifyDataSetInvalidated();
             }
         });
 
@@ -165,5 +163,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
                 itemList.add(prodItemList);
 
         }
+        CustomAdapter.this.notifyDataSetChanged();
+        CustomAdapter.this.notifyDataSetInvalidated();
     }
 }
