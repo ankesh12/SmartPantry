@@ -13,6 +13,7 @@ import android.os.Message;
 import android.view.Window;
 import android.view.WindowManager.LayoutParams;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.mirasense.scanditsdk.ScanditSDKAutoAdjustingBarcodePicker;
 import com.mirasense.scanditsdk.ScanditSDKBarcodePicker;
@@ -259,21 +260,29 @@ public class ScanBarcodeActivity
                     } catch (IOException e) {
                         e.printStackTrace();
                     }catch (ItemNotFoundException e) {
-                        e.printStackTrace();
+                        details = null;
                     }
                     return details;
                 }
                 @Override
                 protected void onPostExecute(ArrayList<String> s) {
-                    callAddConfirm(s.get(0),d);
+                    if (s==null){
+                        callAddConfirm(null, null);
+                    }else {
+                        callAddConfirm(s.get(0), d);
+                    }
                 }
             }.execute();
         }
 
         private void callAddConfirm(String prodTitle,Drawable image) {
+            if(prodTitle==null){
+                Toast.makeText(ScanBarcodeActivity.this,"Product Not Found.", Toast.LENGTH_SHORT).show();
+                onResume();
+                return;
+            }
             Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
             Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
-//            String dirName = Environment.
             Bundle b = new Bundle();
             b.putString("PRODUCT_NAME", prodTitle); //Your id
             b.putParcelable("PRODUCT_IMG", bitmap);
