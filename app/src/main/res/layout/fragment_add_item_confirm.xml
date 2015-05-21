@@ -1,92 +1,186 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="sg.edu.nus.iss.smartpantry.views.fragments.AddItemConfirm"
-    android:weightSum="1">
+    tools:context="sg.edu.nus.iss.smartpantry.views.fragments.AddItemConfirmUpd"
+    android:background="#455A64">
+
+    <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Product"
         android:id="@+id/productText"
-        android:layout_weight="0.23"
-        android:textColor="#FAFAFA"
-        android:textStyle="bold"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textStyle="bold"
+        android:textColor="#ffffffff" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/prodDescText"
-        android:inputType="textMultiLine"
-        android:textColor="#E6E6E6"
         android:layout_below="@+id/productText"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:textIsSelectable="false"
+        android:singleLine="true"/>
 
-    <ImageView
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prodDescText"
+        android:weightSum="3"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayout">
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/prodImage"
+            android:layout_weight="1"/>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2">
+            android:orientation="vertical">
+            <View
+                android:layout_width="2dp"
+                android:layout_height="80dp"
+                android:id="@+id/vertDivider"
+                android:background="#ff000000"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/linearLayout"
+                android:layout_marginRight="10dp"/>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="Quantity  :"
+                    android:id="@+id/productQtyText"
+                    android:textStyle="bold"
+                    android:textColor="#ffffffff"
+                    android:layout_marginTop="14dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true"
+                    android:text="Expiry      :"
+                    android:id="@+id/productExpDateText"
+                    android:textStyle="bold"
+                    android:layout_marginTop="22dp"
+                    android:textColor="#ffffffff"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_height="wrap_content"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/productQtyText"
+                    android:layout_toEndOf="@+id/productQtyText"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:id="@+id/prodQty"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toRightOf="@+id/productExpDateText"
+                    android:layout_toEndOf="@+id/productExpDateText"
+                    android:inputType="date"
+                    android:ems="10"
+                    android:id="@+id/prodExpDate"/>
+
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:id="@+id/dividerTwo"
+        android:background="#ff000000"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout"
+        android:layout_marginTop="10dp"/>
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/prodImage"
-        android:layout_gravity="center"
-        android:gravity="center"
-        android:adjustViewBounds="false"
-        android:layout_below="@+id/prodDescText"
-        android:layout_centerInParent="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Category"
+        android:id="@+id/catText"
+        android:layout_below="@+id/linearLayout"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="30dp"
+        android:textStyle="bold"
+        android:textColor="#ffffffff"/>
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinner"
-        android:layout_below="@+id/prodImage"
-        android:layout_marginTop="38dp"
-        android:layout_alignLeft="@+id/prodImage"
+        android:layout_alignBottom="@+id/catText"
+        android:layout_toRightOf="@+id/catText"
+        android:layout_toEndOf="@+id/catText"
+        android:layout_marginLeft="51dp"
+        android:layout_marginStart="51dp"
         android:popupBackground="#000000" />
-
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
-        android:layout_below="@+id/spinner"
-        android:id="@+id/divider"
-        android:background="@android:color/darker_gray"
-        android:layout_marginTop="20dp"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Category"
-        android:textStyle="bold"
-        android:id="@+id/catText"
-        android:textColor="#FAFAFA"
-        android:layout_alignTop="@+id/spinner"
+        android:id="@+id/dividerThree"
+        android:background="#ff000000"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/catText"
+        android:layout_marginTop="30dp"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
+
+    <LinearLayout android:layout_width="fill_parent"
+        android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:id="@+id/addButton"
-        android:src="@mipmap/plus_icon"
-        android:background="#084B8A"
-        android:layout_alignTop="@+id/divider"
-        android:layout_toRightOf="@+id/productText"
-        android:layout_toEndOf="@+id/productText"
-        android:layout_marginTop="20dp"/>
+        android:layout_below="@+id/dividerThree"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:id="@+id/linearLayoutButtons">
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/addButton"
+            android:layout_below="@+id/dividerThree"
+            android:layout_toRightOf="@+id/prodDescText"
+            android:layout_toEndOf="@+id/prodDescText"
+            android:src="@mipmap/plus_icon"
+            android:layout_weight="1"
+            android:background="#455A64" />
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/removeButton"
-        android:src="@mipmap/cross_icon"
-        android:background="#084B8A"
-        android:layout_below="@+id/divider"
-        android:layout_toRightOf="@+id/prodImage"
-        android:layout_toEndOf="@+id/prodImage"
-        android:layout_marginTop="20dp"/>
-
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/removeButton"
+            android:src="@mipmap/cross_icon"
+            android:layout_below="@+id/dividerThree"
+            android:layout_alignRight="@+id/spinner"
+            android:layout_alignEnd="@+id/spinner"
+            android:layout_weight="1"
+            android:background="#455A64" />
+    </LinearLayout>
 
 </RelativeLayout>
