@@ -43,8 +43,6 @@ public class SPApp extends ExpandableListActivity{
         category.setCategoryName("Misc");
         DAOFactory.getCategoryDao(this).addCategory(category);*/
 
-        //Create the list view for products
-        loadProductList();
         //Get objects for controller
         mainController = ControlFactory.getInstance().getMainController();
 
@@ -57,6 +55,12 @@ public class SPApp extends ExpandableListActivity{
                 mainController.addItem(SPApp.this);
             }
         });
+        //Expandable List View
+        expListView = (ExpandableListView) findViewById(android.R.id.list);
+        customAdapter = new CustomAdapter(this,productList,itemList,getApplicationContext());
+        expListView.setAdapter(customAdapter);
+        //Create the list view for products
+        customAdapter.refreshData();
     }
 
 
@@ -71,7 +75,7 @@ public class SPApp extends ExpandableListActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        loadProductList();
+        customAdapter.refreshData();
     }
 
     @Override
@@ -92,21 +96,5 @@ public class SPApp extends ExpandableListActivity{
         View view = this.getWindow().getDecorView();
         view.setBackgroundColor(Color.parseColor(color));
     }
-
-    private void loadProductList(){
-        ProductDao productDao = DAOFactory.getProductDao(getApplicationContext());
-        ItemDao itemDao = DAOFactory.getItemDao(getApplicationContext());
-        productList = productDao.getAllProducts();
-        for(Product p:productList)
-        {
-            prodItemList= itemDao.getItemsByProductName(p.getProductName());
-            if(prodItemList.size() > 0)
-                itemList.add(prodItemList);
-
-        }
-        //Expandable List View
-        expListView = (ExpandableListView) findViewById(android.R.id.list);
-        customAdapter = new CustomAdapter(this,productList,itemList,getApplicationContext());
-        expListView.setAdapter(customAdapter);
-    }
+    
 }
