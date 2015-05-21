@@ -1,6 +1,8 @@
 package sg.edu.nus.iss.smartpantry.views.fragments;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,10 +13,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -46,6 +51,15 @@ public class AddItemConfirm extends Fragment {
     private EditText prodDescText;
     private ImageView prodImage;
     List<String> lables = new ArrayList<>();
+    private TextView tvDisplayDate;
+    private DatePicker dpResult;
+    private Button btnChangeDate;
+
+    private int year;
+    private int month;
+    private int day;
+
+    static final int DATE_DIALOG_ID = 999;
 
     private OnFragmentInteractionListener mListener;
 
@@ -84,7 +98,7 @@ public class AddItemConfirm extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_item_confirm, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_item_confirm_upd, container, false);
 
         Bundle bundle = this.getArguments();
         prodDescText= (EditText)view.findViewById(R.id.prodDescText);
@@ -111,6 +125,13 @@ public class AddItemConfirm extends Fragment {
             @Override
             public void onClick(View v) {
                 getActivity().onBackPressed();
+            }
+        });
+        EditText expDate = (EditText)view.findViewById(R.id.prodExpDate);
+        expDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().showDialog(DATE_DIALOG_ID);
             }
         });
         return view;
@@ -177,4 +198,33 @@ public class AddItemConfirm extends Fragment {
         public void onFragmentInteraction(Uri uri);
     }
 
+    protected Dialog onCreateDialog(int id) {
+        switch (id) {
+            case DATE_DIALOG_ID:
+                // set date picker as current date
+                return new DatePickerDialog(getActivity().getApplicationContext(), datePickerListener,year, month,day);
+        }
+        return null;
+    }
+
+    private DatePickerDialog.OnDateSetListener datePickerListener
+            = new DatePickerDialog.OnDateSetListener() {
+
+        // when dialog box is closed, below method will be called.
+        public void onDateSet(DatePicker view, int selectedYear,
+                              int selectedMonth, int selectedDay) {
+            year = selectedYear;
+            month = selectedMonth;
+            day = selectedDay;
+
+            // set selected date into textview
+            tvDisplayDate.setText(new StringBuilder().append(month + 1)
+                    .append("-").append(day).append("-").append(year)
+                    .append(" "));
+
+            // set selected date into datepicker also
+            dpResult.init(year, month, day, null);
+
+        }
+    };
 }

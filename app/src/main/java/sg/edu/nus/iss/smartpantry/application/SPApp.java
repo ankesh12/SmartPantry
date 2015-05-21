@@ -17,10 +17,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
-import sg.edu.nus.iss.smartpantry.dao.ItemDao;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 
 
 public class SPApp extends ExpandableListActivity{
