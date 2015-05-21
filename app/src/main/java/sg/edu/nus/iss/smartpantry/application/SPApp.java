@@ -1,8 +1,12 @@
 package sg.edu.nus.iss.smartpantry.application;
 
+import android.app.AlarmManager;
 import android.app.ExpandableListActivity;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -10,12 +14,14 @@ import android.widget.Button;
 import android.widget.ExpandableListView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
+import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
 
@@ -33,6 +39,7 @@ public class SPApp extends ExpandableListActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
         setActivityBackgroundColor("#455A64");
+
 
         /*Category category = new Category();
         category.setCategoryName("Misc");
@@ -56,7 +63,8 @@ public class SPApp extends ExpandableListActivity{
         expListView.setAdapter(customAdapter);
         //Create the list view for products
         customAdapter.refreshData();
-    }
+
+   }
 
 
     @Override
@@ -71,6 +79,26 @@ public class SPApp extends ExpandableListActivity{
     protected void onResume() {
         super.onResume();
         customAdapter.refreshData();
+
+        //Notification set up
+        Calendar c = Calendar.getInstance();
+        System.out.println("Current time => " + c.getTime());
+        System.out.print("Hours: " + c.getTime().getHours());
+        AlarmManager am = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent i = new Intent(this, NotificationService.class);
+        PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
+        am.cancel(pi);
+
+
+        // by my own convention, minutes <= 0 means notifications are disabled
+        if (c.getTime().getHours() >= 14 ) {
+            System.out.println("Main andar Hun!");
+            int minutes = 60*24*60;
+            am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime() + 30*1000,
+                    AlarmManager.INTERVAL_FIFTEEN_MINUTES, pi);
+        }
+        startService(i);
     }
 
     @Override
