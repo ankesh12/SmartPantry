@@ -99,7 +99,7 @@ public class AddItemConfirm extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_item_confirm_upd, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_item_confirm, container, false);
 
         Bundle bundle = this.getArguments();
         prodDescText= (EditText)view.findViewById(R.id.prodDescText);
