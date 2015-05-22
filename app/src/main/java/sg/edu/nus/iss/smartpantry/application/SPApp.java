@@ -40,11 +40,6 @@ public class SPApp extends ExpandableListActivity{
         setContentView(R.layout.activity_spapp);
         setActivityBackgroundColor("#455A64");
 
-
-        /*Category category = new Category();
-        category.setCategoryName("Misc");
-        DAOFactory.getCategoryDao(this).addCategory(category);*/
-
         //Get objects for controller
         mainController = ControlFactory.getInstance().getMainController();
 
@@ -53,7 +48,6 @@ public class SPApp extends ExpandableListActivity{
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //MainController mainController = controlFactory.getMainController();
                 mainController.addItem(SPApp.this);
             }
         });
