@@ -99,7 +99,7 @@ public class AddItemConfirm extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_add_item_confirm_upd, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_item_confirm, container, false);
 
         Bundle bundle = this.getArguments();
         prodDescText= (EditText)view.findViewById(R.id.prodDescText);
@@ -111,14 +111,26 @@ public class AddItemConfirm extends Fragment {
         final Spinner catList = (Spinner)view.findViewById(R.id.spinner);
         loadSpinnerData(view, catList);
         ImageButton addItemToDB = (ImageButton)view.findViewById(R.id.addButton);
+        final EditText quantity = (EditText)view.findViewById(R.id.prodQty);
         addItemToDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
                 Toast.makeText(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
                 String selectedCat = catList.getSelectedItem().toString();
+                if(quantity.getText() == null){
+                    quantity.setText(0);
+                }
+                System.out.println(quantity.getText());
+                int qtyEntered =Integer.valueOf(quantity.getText().toString());
                 try {
-                    ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
+                    if(qtyEntered<=0){
+                        Toast.makeText(getActivity().getApplicationContext(),"Quantity cannot be less than 1", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    for(int i=0;i < qtyEntered;i++) {
+                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
