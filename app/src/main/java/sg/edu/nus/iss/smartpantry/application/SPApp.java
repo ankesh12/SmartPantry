@@ -4,6 +4,7 @@ import android.app.AlarmManager;
 import android.app.ExpandableListActivity;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -24,6 +25,7 @@ import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
+import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 
 
 public class SPApp extends ExpandableListActivity{
@@ -33,6 +35,7 @@ public class SPApp extends ExpandableListActivity{
     List<List<Item>> itemList = new ArrayList<List<Item>>();
     ExpandableListView expListView;
     CustomAdapter customAdapter;
+    private static final int CAMERA_REQUEST = 1888;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +54,33 @@ public class SPApp extends ExpandableListActivity{
                 mainController.addItem(SPApp.this);
             }
         });
+        Button camButton = (Button)findViewById(R.id.addItem_cam);
+        camButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+            }
+        });
         //Expandable List View
         expListView = (ExpandableListView) findViewById(android.R.id.list);
         customAdapter = new CustomAdapter(this,productList,itemList,getApplicationContext());
         expListView.setAdapter(customAdapter);
         //Create the list view for products
         customAdapter.refreshData();
+    }
 
-   }
-
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
+            Bitmap image = (Bitmap) data.getExtras().get("data");
+            Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
+            Bundle b = new Bundle();
+            b.putString("PRODUCT_NAME", ""); //Your id
+            b.putParcelable("PRODUCT_IMG", image);
+            intent.putExtras(b);
+            startActivity(intent);
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
