@@ -107,12 +107,13 @@ public class CustomAdapter extends BaseExpandableListAdapter {
                 ProductDao productDao = DAOFactory.getProductDao(context);
                 ItemDao itemDao = DAOFactory.getItemDao(context);
                 String prodName = selItem.getProductName();
+                String categoryName = selItem.getCategoryName();
                 itemDao.deleteItem(selItem);
                 Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
                 itemList.get(groupPosition).remove(childPosition);
                 if (itemList.get(groupPosition).isEmpty())
                 {
-                    productDao.deleteProduct(productDao.getProductByName(prodName));
+                    productDao.deleteProduct(productDao.getProduct(categoryName,prodName));
                     productList.remove(groupPosition);
                     itemList.remove(groupPosition);
                     Toast.makeText(context, "Product Removed Successfully", Toast.LENGTH_SHORT).show();
@@ -141,29 +142,34 @@ public class CustomAdapter extends BaseExpandableListAdapter {
     private List<Product> productList;
     private List<List<Item>> itemList;
     Context context;
+    int lastExpandedGroupPosition;
 
     public CustomAdapter(Activity activity, List<Product> products,List<List<Item>> items, Context context){
         this.activity = activity;
         productList = products;
         itemList=items;
         this.context = context;
+        lastExpandedGroupPosition=-1;
     }
 
     public void refreshData()
     {
         ProductDao productDao = DAOFactory.getProductDao(context);
         ItemDao itemDao = DAOFactory.getItemDao(context);
+        productList = new ArrayList<Product>();
         productList = productDao.getAllProducts();
-        List<Item> prodItemList = new ArrayList<Item>();
-        itemList.clear();
+        itemList = new ArrayList<List<Item>>();
         for(Product p:productList)
         {
-            prodItemList= itemDao.getItemsByProductName(p.getProductName());
+            List<Item> prodItemList = new ArrayList<Item>();
+            prodItemList= itemDao.getItemsByProductAndCategoryName(p.getCategoryName(),p
+                    .getProductName());
             if(prodItemList.size() > 0)
                 itemList.add(prodItemList);
 
         }
         CustomAdapter.this.notifyDataSetChanged();
-        CustomAdapter.this.notifyDataSetInvalidated();
+        //CustomAdapter.this.notifyDataSetInvalidated();
     }
+
 }

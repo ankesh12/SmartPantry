@@ -37,7 +37,7 @@ public class ItemController {
 
         //Category category = new Category();
         //category.setName(categoryName);
-        boolean isExistingProduct = prodDao.isProductExists(productName);
+        boolean isExistingProduct = prodDao.isProductExists(categoryName,productName);
         Random rand = new Random();
         if(isExistingProduct == false)
         {
@@ -51,7 +51,7 @@ public class ItemController {
         if(itemId != -1)
         {
             try {
-                Item itm = new Item(productName, itemId);
+                Item itm = new Item(categoryName,productName, itemId);
 
                 itm.setPrice(rand.nextInt(100));
                 String dateStr = "28/05/2015";

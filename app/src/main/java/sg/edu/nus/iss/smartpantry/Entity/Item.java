@@ -7,14 +7,16 @@ import java.sql.Date;
  */
 public class Item {
     private int itemId;
+    private String categoryName;
     private String productName;
     private Date expiryDate;
     private double price;
 
-    public Item(String productName,int itemId){
+    public Item(String categoryName,String productName,int itemId){
 
         this.itemId = itemId;
         this.productName = productName;
+        this.categoryName=categoryName;
 
     }
 
@@ -22,9 +24,9 @@ public class Item {
         return itemId;
     }
 
-    public String getProductName() {
-        return productName;
-    }
+    public String getProductName() { return productName; }
+
+    public String getCategoryName() { return categoryName; }
 
     public Date getExpiryDate() {
         return expiryDate;

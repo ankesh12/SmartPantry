@@ -36,12 +36,15 @@ public class SPApp extends ExpandableListActivity{
     ExpandableListView expListView;
     CustomAdapter customAdapter;
     private static final int CAMERA_REQUEST = 1888;
+    int lastExpandedGroupPosition;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
         setActivityBackgroundColor("#455A64");
+
+        lastExpandedGroupPosition=-1;
 
         //Get objects for controller
         mainController = ControlFactory.getInstance().getMainController();
@@ -68,6 +71,16 @@ public class SPApp extends ExpandableListActivity{
         expListView.setAdapter(customAdapter);
         //Create the list view for products
         customAdapter.refreshData();
+
+        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+
+                if(groupPosition != lastExpandedGroupPosition )
+                    expListView.collapseGroup(lastExpandedGroupPosition );
+                lastExpandedGroupPosition = groupPosition;
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
