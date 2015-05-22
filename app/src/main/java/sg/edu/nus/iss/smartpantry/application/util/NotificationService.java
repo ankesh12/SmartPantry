@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.os.IBinder;
@@ -18,6 +19,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
+import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.ItemDao;
@@ -89,7 +91,8 @@ public class NotificationService extends Service {
                         //System.out.println("Difference" + diff);
                         int diff = (int) ((expiryDate.getTime() - df.parse(formattedDate).getTime())/ (1000 * 60 * 60 * 24));
                         System.out.println("Days: " + diff);
-                        if(diff >= 7){
+                        if(diff <=7){
+
                              resultItem.add(item);
                         }
 
@@ -117,7 +120,10 @@ public class NotificationService extends Service {
         @Override
         protected void onPostExecute(List<Item> result) {
             // handle your data
+            int id =1;
             for(Item item: result) {
+                Product product = DAOFactory.getProductDao(getApplicationContext()).getProductByName(item.getProductName());
+                Bitmap bitmap = product.getProdImage();
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Expiry Notification")
@@ -127,7 +133,8 @@ public class NotificationService extends Service {
                 NotificationManager mNotificationManager =
                         (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 // mId allows you to update the notification later on.
-                mNotificationManager.notify(item.getItemId(), mBuilder.build());
+
+                mNotificationManager.notify(id++, mBuilder.build());
 
             }
             stopSelf();
