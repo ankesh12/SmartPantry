@@ -5,9 +5,20 @@
     android:background="#ffffffff"
     android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft">
 
+    <!-- Date Of Purchase -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/dop"
+        android:layout_marginTop="1dip"
+        android:textSize="12dp"
+        android:textColor="#ff000000"
+        android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
+        />
     <!-- Expiry Date -->
     <TextView
         android:id="@+id/expiryDate"
+        android:layout_below="@+id/dop"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12dp"
@@ -26,6 +37,7 @@
         android:textColor="#ff000000"
         android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft"
         />
+
     <!-- Thumbnail Image -->
     <ImageView
         android:id="@+id/deleteIcon"

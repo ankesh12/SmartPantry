@@ -141,6 +141,7 @@ public class ItemDaoImpl implements ItemDao {
                 if (cursor.getString(3) != null)
                     item.setExpiryDate(Date.valueOf(cursor.getString(3)));
                 item.setPrice(Double.parseDouble(cursor.getString(4)));
+                item.setDop(Date.valueOf(cursor.getString(5)));
                 // Adding item to list
                 itemList.add(item);
             } while (cursor.moveToNext());
@@ -168,6 +169,7 @@ public class ItemDaoImpl implements ItemDao {
                 if (cursor.getString(3) != null)
                     item.setExpiryDate(Date.valueOf(cursor.getString(3)));
                 item.setPrice(Double.parseDouble(cursor.getString(4)));
+                item.setDop(Date.valueOf(cursor.getString(5)));
                 // Adding item to list
                 itemList.add(item);
             } while (cursor.moveToNext());

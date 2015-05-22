@@ -11,6 +11,7 @@ public class Item {
     private String productName;
     private Date expiryDate;
     private double price;
+    private Date dop;
 
     public Item(String categoryName,String productName,int itemId){
 
@@ -42,5 +43,13 @@ public class Item {
 
     public void setPrice(double price) {
         this.price = price;
+    }
+
+    public Date getDop() {
+        return dop;
+    }
+
+    public void setDop(Date dop) {
+        this.dop = dop;
     }
 }

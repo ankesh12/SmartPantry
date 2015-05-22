@@ -42,7 +42,7 @@ public class ItemController {
         if(isExistingProduct == false)
         {
             Product product = new Product(categoryName,productName);
-            product.setThreshold(rand.nextInt(10));
+            //product.setThreshold(rand.nextInt(10));
             product.setProdImage(bitmap);
             prodDao.addProduct(product);
         }
@@ -53,11 +53,11 @@ public class ItemController {
             try {
                 Item itm = new Item(categoryName,productName, itemId);
 
-                itm.setPrice(rand.nextInt(100));
+                //itm.setPrice(rand.nextInt(100));
                 String dateStr = "28/05/2015";
                 SimpleDateFormat curFormater = new SimpleDateFormat("dd/MM/yyyy");
                 Date dateObj = curFormater.parse(dateStr);
-                itm.setExpiryDate(new java.sql.Date(dateObj.getTime()));
+                //itm.setExpiryDate(new java.sql.Date(dateObj.getTime()));
 
                 itemDao.addItem(itm);
             }

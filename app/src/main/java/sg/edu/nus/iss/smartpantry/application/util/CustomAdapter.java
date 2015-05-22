@@ -5,7 +5,6 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -33,7 +32,10 @@ public class CustomAdapter extends BaseExpandableListAdapter {
 
     @Override
     public int getChildrenCount(int groupPosition) {
-        return itemList.get(groupPosition).size();
+        if(itemList.get(groupPosition) == null)
+            return 0;
+        else
+            return itemList.get(groupPosition).size();
     }
 
     @Override
@@ -95,6 +97,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
             convertView = itemInflater.inflate(R.layout.itemlist, null);
         }
 
+        TextView dop = (TextView)convertView.findViewById(R.id.dop);
         TextView expiryDate = (TextView)convertView.findViewById(R.id.expiryDate);
         TextView price = (TextView)convertView.findViewById(R.id.price);
         ImageView deleteItem =(ImageView) convertView.findViewById(R.id.deleteIcon);
@@ -106,28 +109,27 @@ public class CustomAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 ProductDao productDao = DAOFactory.getProductDao(context);
                 ItemDao itemDao = DAOFactory.getItemDao(context);
-                String prodName = selItem.getProductName();
-                String categoryName = selItem.getCategoryName();
                 itemDao.deleteItem(selItem);
                 Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
                 itemList.get(groupPosition).remove(childPosition);
                 if (itemList.get(groupPosition).isEmpty())
-                {
-                    productDao.deleteProduct(productDao.getProduct(categoryName,prodName));
-                    productList.remove(groupPosition);
-                    itemList.remove(groupPosition);
-                    Toast.makeText(context, "Product Removed Successfully", Toast.LENGTH_SHORT).show();
-                }
+                    itemList.set(groupPosition,null);
                 refreshData();
             }
         });
 
 
+        dop.setText("Date Of Purchase: "+selItem.getDop());
+
         if(selItem.getExpiryDate() == null)
-            expiryDate.setText("Expiry Date: None");
+            expiryDate.setText(null);
         else
             expiryDate.setText("Expiry Date: "+selItem.getExpiryDate().toString());
-        price.setText("Price: "+String.valueOf(selItem.getPrice()));
+
+        if(selItem.getPrice() == 0)
+            price.setText(null);
+        else
+            price.setText("Price: "+String.valueOf(selItem.getPrice()));
 
         return convertView;
     }
@@ -164,12 +166,13 @@ public class CustomAdapter extends BaseExpandableListAdapter {
             List<Item> prodItemList = new ArrayList<Item>();
             prodItemList= itemDao.getItemsByProductAndCategoryName(p.getCategoryName(),p
                     .getProductName());
-            if(prodItemList.size() > 0)
+            if(prodItemList.size() == 0)
+                itemList.add(null);
+            else
                 itemList.add(prodItemList);
 
         }
         CustomAdapter.this.notifyDataSetChanged();
-        //CustomAdapter.this.notifyDataSetInvalidated();
     }
 
 }
