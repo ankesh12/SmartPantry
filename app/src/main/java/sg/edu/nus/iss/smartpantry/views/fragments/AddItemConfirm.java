@@ -18,13 +18,16 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Category;
@@ -46,6 +49,7 @@ public class AddItemConfirm extends Fragment {
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    private static int pick=1;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -66,15 +70,6 @@ public class AddItemConfirm extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment AddItemConfirm.
-     */
-    // TODO: Rename and change types and number of parameters
     public static AddItemConfirm newInstance(String param1, String param2) {
         AddItemConfirm fragment = new AddItemConfirm();
         Bundle args = new Bundle();
@@ -84,12 +79,11 @@ public class AddItemConfirm extends Fragment {
         return fragment;
     }
 
-    public AddItemConfirm() {
-        // Required empty public constructor
-    }
+    public AddItemConfirm() {}
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
 
         if (getArguments() != null) {
@@ -123,20 +117,26 @@ public class AddItemConfirm extends Fragment {
                 if(quantity.getText() == null){
                     quantity.setText(0);
                 }
-                System.out.println(quantity.getText());
                 int qtyEntered =Integer.valueOf(quantity.getText().toString());
                 try {
                     if(qtyEntered<=0){
                         Toast.makeText(getActivity().getApplicationContext(),"Quantity cannot be less than 1", Toast.LENGTH_SHORT).show();
                         return;
                     }
+                    boolean isExistingProduct = DAOFactory.getProductDao(getActivity().getApplicationContext()).isProductExists(selectedCat, prodDesc.getText().toString());
+                    show();
+                    System.out.println(pick);
+                    Date expiryDate = null;
+                    if(expDate.getText()!=null) {
+                        expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
+                    }
                     for(int i=0;i < qtyEntered;i++) {
-                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap);
+                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,0);
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                getActivity().onBackPressed();
+//                getActivity().onBackPressed();
             }
         });
         ImageButton removeBtn = (ImageButton)view.findViewById(R.id.removeButton);
@@ -262,4 +262,32 @@ public class AddItemConfirm extends Fragment {
 
         }
     };
+
+    public void show(){
+//        final int pick;
+        final Dialog d = new Dialog(getActivity());
+        d.setTitle("Threshold Qty");
+        d.setContentView(R.layout.dialog);
+        Button b1 = (Button) d.findViewById(R.id.setBtn);
+        Button b2 = (Button) d.findViewById(R.id.cancelBtn);
+        final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
+        np.setMaxValue(20);
+        np.setMinValue(0);
+        np.setWrapSelectorWheel(false);
+        b1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pick=np.getValue();//set the value to textview
+                System.out.println("Threshold Value: "+pick);
+                d.dismiss();
+            }
+        });
+        b2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
+    }
 }

@@ -46,7 +46,7 @@
             android:layout_weight="2">
             android:orientation="vertical">
             <View
-                android:layout_width="2dp"
+                android:layout_width="1dp"
                 android:layout_height="80dp"
                 android:id="@+id/vertDivider"
                 android:background="#ff000000"
@@ -65,21 +65,21 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:text="Quantity  :"
+                    android:text="Quantity            :"
                     android:id="@+id/productQtyText"
                     android:textStyle="bold"
                     android:textColor="#ffffffff"
-                    android:layout_marginTop="14dp"/>
+                    android:layout_marginTop="16dp"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:text="Expiry      :"
+                    android:text="Expiry                :"
                     android:id="@+id/productExpDateText"
                     android:textStyle="bold"
-                    android:layout_marginTop="22dp"
+                    android:layout_marginTop="25dp"
                     android:textColor="#ffffffff"/>
             </LinearLayout>
 
@@ -106,7 +106,6 @@
                     android:ems="10"
                     android:id="@+id/prodExpDate"
                     android:focusable="false"/>
-
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
