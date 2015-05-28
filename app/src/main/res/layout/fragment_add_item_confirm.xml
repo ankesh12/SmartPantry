@@ -19,7 +19,7 @@
         android:textColor="#ffffffff" />
 
     <EditText
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/prodDescText"
         android:layout_below="@+id/productText"
@@ -104,7 +104,8 @@
                     android:layout_toEndOf="@+id/productExpDateText"
                     android:inputType="date"
                     android:ems="10"
-                    android:id="@+id/prodExpDate"/>
+                    android:id="@+id/prodExpDate"
+                    android:focusable="false"/>
 
             </LinearLayout>
         </LinearLayout>

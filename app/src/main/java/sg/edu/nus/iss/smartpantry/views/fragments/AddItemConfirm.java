@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Category;
@@ -55,6 +56,7 @@ public class AddItemConfirm extends Fragment {
     private TextView tvDisplayDate;
     private DatePicker dpResult;
     private Button btnChangeDate;
+    EditText expDate;
 
     private int year;
     private int month;
@@ -144,11 +146,27 @@ public class AddItemConfirm extends Fragment {
                 getActivity().onBackPressed();
             }
         });
-        EditText expDate = (EditText)view.findViewById(R.id.prodExpDate);
+        expDate = (EditText)view.findViewById(R.id.prodExpDate);
         expDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getActivity().showDialog(DATE_DIALOG_ID);
+                final Calendar c = Calendar.getInstance();
+                int mYear = c.get(Calendar.YEAR);
+                int mMonth = c.get(Calendar.MONTH);
+                int mDay = c.get(Calendar.DAY_OF_MONTH);
+
+                DatePickerDialog dpd = new DatePickerDialog(getActivity(),
+                        new DatePickerDialog.OnDateSetListener() {
+
+                            @Override
+                            public void onDateSet(DatePicker view, int year,
+                                                  int monthOfYear, int dayOfMonth) {
+                                expDate.setText(dayOfMonth + "-"
+                                        + (monthOfYear + 1) + "-" + year);
+
+                            }
+                        }, mYear, mMonth, mDay);
+                dpd.show();
             }
         });
         return view;
