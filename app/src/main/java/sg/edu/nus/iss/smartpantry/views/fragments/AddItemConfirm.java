@@ -124,7 +124,7 @@ public class AddItemConfirm extends Fragment {
                         return;
                     }
                     boolean isExistingProduct = DAOFactory.getProductDao(getActivity().getApplicationContext()).isProductExists(selectedCat, prodDesc.getText().toString());
-                    show();
+//                    show();
                     System.out.println(pick);
                     Date expiryDate = null;
                     if(expDate.getText()!=null) {
