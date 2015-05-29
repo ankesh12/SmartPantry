@@ -229,22 +229,24 @@ public class ProductDaoImpl implements ProductDao {
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            Product product = new Product(cursor.getString(1),cursor.getString(0));
+            product.setQuantity(Integer.parseInt(cursor.getString(2)));
+            product.setThreshold(Integer.parseInt(cursor.getString(3)));
+            if (cursor.getBlob(4) != null)
+            {
+                byte[] blobVal = cursor.getBlob(4);
+                Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                product.setProdImage(bmp);
+            }
 
-        Product product = new Product(cursor.getString(1),cursor.getString(0));
-        product.setQuantity(Integer.parseInt(cursor.getString(2)));
-        product.setThreshold(Integer.parseInt(cursor.getString(3)));
-        if (cursor.getBlob(4) != null)
-        {
-            byte[] blobVal = cursor.getBlob(4);
-            Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
-            product.setProdImage(bmp);
+            if (cursor.getString(5) != null)
+                product.setBarCode(cursor.getString(5));
+
+            // return product
+            return product;
         }
+        return null;
 
-        if (cursor.getString(5) != null)
-            product.setBarCode(cursor.getString(5));
-
-        // return product list
-        return product;
     }
 }

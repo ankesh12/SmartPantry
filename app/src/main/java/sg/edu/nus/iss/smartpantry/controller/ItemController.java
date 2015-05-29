@@ -44,7 +44,8 @@ public class ItemController {
         if(itemId != -1)
         {
                 Item itm = new Item(categoryName,productName, itemId);
-                itm.setExpiryDate(new java.sql.Date(expiryDate.getTime()));
+                if (expiryDate!=null)
+                    itm.setExpiryDate(new java.sql.Date(expiryDate.getTime()));
                 itemDao.addItem(itm);
         }
         else {

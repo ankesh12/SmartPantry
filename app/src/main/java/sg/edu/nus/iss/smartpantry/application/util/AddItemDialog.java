@@ -3,14 +3,12 @@ package sg.edu.nus.iss.smartpantry.application.util;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -81,7 +79,7 @@ public class AddItemDialog extends Dialog {
                 for(int i=0;i < qtyEntered;i++) {
                     try {
                         Date expiryDate = null;
-                        if(expDate.getText()!=null) {
+                        if(!expDate.getText().toString().trim().equals("")) {
                             expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
                         }
                         ControlFactory.getInstance().getItemController().addItem(parentActivity
