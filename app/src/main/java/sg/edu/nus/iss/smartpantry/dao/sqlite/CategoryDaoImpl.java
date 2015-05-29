@@ -24,6 +24,7 @@ public class CategoryDaoImpl implements CategoryDao {
         dbHelper = new SqliteHelper(context);
     }
 
+    @Override
     public boolean addCategory(Category category)
     {
         try
@@ -44,6 +45,8 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
     }
+
+    @Override
     public boolean updateCategory(Category category)
     {
         try
@@ -65,6 +68,8 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
     }
+
+    @Override
     public boolean deleteCategory(Category category)
     {
         try
@@ -81,7 +86,9 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
     }
+
     // Getting All Categories
+    @Override
     public List<Category> getAllCategories() {
         List<Category> categoryList = new ArrayList<Category>();
         // Select All Query
@@ -105,6 +112,7 @@ public class CategoryDaoImpl implements CategoryDao {
     }
 
    //Get category object by CategoryName
+   @Override
     public Category getCategoryByName(String categoryName){
         String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_NAME + " = '" + categoryName + "'";
 
@@ -121,6 +129,7 @@ public class CategoryDaoImpl implements CategoryDao {
         return category;
     }
 
+    @Override
     public boolean isCategoryExists(String categoryName)
     {
         String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_NAME + " = '" + categoryName + "'";
