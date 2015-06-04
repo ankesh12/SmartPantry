@@ -247,4 +247,41 @@ public class ProductDaoImpl implements ProductDao {
         // return product list
         return product;
     }
+
+    @Override
+    public List<Product> getProductBelowThreshold() {
+        List<Product> productList = new ArrayList<Product>();
+        // Select All Query
+        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_PRODUCT;
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getString(1),cursor.getString(0));
+                product.setQuantity(Integer.parseInt(cursor.getString(2)));
+                product.setThreshold(Integer.parseInt(cursor.getString(3)));
+                if (cursor.getBlob(4) != null)
+                {
+                    byte[] blobVal = cursor.getBlob(4);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                    product.setProdImage(bmp);
+                }
+
+                if (cursor.getString(5) != null)
+                    product.setBarCode(cursor.getString(5));
+
+                // Adding product to list
+                if (product.getQuantity() <= product.getThreshold()){
+                    productList.add(product);
+                }
+
+            } while (cursor.moveToNext());
+        }
+
+        // return product list
+        return productList;
+    }
 }
