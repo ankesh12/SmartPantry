@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,6 +27,7 @@ import java.util.List;
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.AddItemDialog;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.application.util.TestTable;
@@ -50,7 +52,7 @@ public class SPApp extends ExpandableListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
-        setActivityBackgroundColor("#455A64");
+        setActivityBackgroundColor("#3B5998");
 
         //Azure deployment
         try {
@@ -120,11 +122,13 @@ public class SPApp extends ExpandableListActivity{
             @Override
             public void onGroupExpand(int groupPosition) {
 
-                if(groupPosition != lastExpandedGroupPosition )
-                    expListView.collapseGroup(lastExpandedGroupPosition );
+                if (groupPosition != lastExpandedGroupPosition)
+                    expListView.collapseGroup(lastExpandedGroupPosition);
                 lastExpandedGroupPosition = groupPosition;
             }
         });
+
+        registerForContextMenu(expListView);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -164,7 +168,6 @@ public class SPApp extends ExpandableListActivity{
 
         // by my own convention, minutes <= 0 means notifications are disabled
         if (c.getTime().getHours() >= 14 ) {
-            System.out.println("Main andar Hun!");
             int minutes = 60*24*60;
             am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() + 30*1000,
@@ -191,5 +194,41 @@ public class SPApp extends ExpandableListActivity{
         View view = this.getWindow().getDecorView();
         view.setBackgroundColor(Color.parseColor(color));
     }
-    
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        ExpandableListView.ExpandableListContextMenuInfo info=
+                (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
+        int groupPos =ExpandableListView.getPackedPositionGroup(info.packedPosition);
+        int menuItemIndex = item.getItemId();
+        //String[] menuItems = getResources().getStringArray(R.array.menu);
+        //String menuItemName = menuItems[menuItemIndex];
+        Product selProd = (Product)expListView.getExpandableListAdapter().getGroup(groupPos);
+        boolean flag=true;
+
+        switch (menuItemIndex)
+        {
+            case 0: AddItemDialog itmDialog = new AddItemDialog(this,selProd,customAdapter);
+                itmDialog.show();
+            default: flag=false;
+        }
+        return flag;
+
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        if (v.getId()==android.R.id.list) {
+            ExpandableListView.ExpandableListContextMenuInfo info=
+                    (ExpandableListView.ExpandableListContextMenuInfo)menuInfo;
+            int groupPos =ExpandableListView.getPackedPositionGroup(info.packedPosition);
+            Product selProd = (Product)expListView.getExpandableListAdapter().getGroup(groupPos);
+            menu.setHeaderTitle(selProd.getProductName());
+            String[] menuItems = getResources().getStringArray(R.array.menu);
+            for (int i = 0; i<menuItems.length; i++) {
+                menu.add(Menu.NONE, i, i, menuItems[i]);
+            }
+        }
+    }
 }

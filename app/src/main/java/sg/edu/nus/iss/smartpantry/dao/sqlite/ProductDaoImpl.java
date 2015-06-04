@@ -27,7 +27,7 @@ public class ProductDaoImpl implements ProductDao {
         dbHelper = new SqliteHelper(context);
     }
 
-
+    @Override
     public boolean addProduct(Product product)
     {
         try
@@ -61,7 +61,7 @@ public class ProductDaoImpl implements ProductDao {
 
     }
 
-
+    @Override
     public boolean updateProduct(Product product)
     {
         try
@@ -96,6 +96,8 @@ public class ProductDaoImpl implements ProductDao {
         }
 
     }
+
+    @Override
     public boolean deleteProduct(Product product)
     {
         try
@@ -112,7 +114,9 @@ public class ProductDaoImpl implements ProductDao {
         }
 
     }
+
     // Getting All Products
+    @Override
     public List<Product> getAllProducts() {
         List<Product> productList = new ArrayList<Product>();
         // Select All Query
@@ -145,7 +149,9 @@ public class ProductDaoImpl implements ProductDao {
         // return product list
         return productList;
     }
+
     // Getting All Products by category name
+    @Override
     public List<Product> getProductsByCategoryName(String categoryName) {
         List<Product> productList = new ArrayList<Product>();
 
@@ -179,6 +185,7 @@ public class ProductDaoImpl implements ProductDao {
     }
 
     //Get products List by Product Name
+    @Override
     public List<Product> getProductsByName(String prodName){
         List<Product> productList = new ArrayList<Product>();
         String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + dbHelper.COL_PROD_NAME + " = '" + prodName + "'";
@@ -210,6 +217,7 @@ public class ProductDaoImpl implements ProductDao {
         return productList;
     }
 
+    @Override
     public boolean isProductExists(String categoryName,String prodName)
     {
         String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME + " = '"+categoryName +"'";
@@ -223,29 +231,99 @@ public class ProductDaoImpl implements ProductDao {
         else
             return true;
     }
+
+    @Override
     public Product getProduct(String categoryName,String prodName)
     {
         String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME + " = '"+categoryName +"'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
-        cursor.moveToFirst();
+        if (cursor.moveToFirst()) {
+            Product product = new Product(cursor.getString(1),cursor.getString(0));
+            product.setQuantity(Integer.parseInt(cursor.getString(2)));
+            product.setThreshold(Integer.parseInt(cursor.getString(3)));
+            if (cursor.getBlob(4) != null)
+            {
+                byte[] blobVal = cursor.getBlob(4);
+                Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                product.setProdImage(bmp);
+            }
 
-        Product product = new Product(cursor.getString(1),cursor.getString(0));
-        product.setQuantity(Integer.parseInt(cursor.getString(2)));
-        product.setThreshold(Integer.parseInt(cursor.getString(3)));
-        if (cursor.getBlob(4) != null)
-        {
-            byte[] blobVal = cursor.getBlob(4);
-            Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
-            product.setProdImage(bmp);
+            if (cursor.getString(5) != null)
+                product.setBarCode(cursor.getString(5));
+
+            // return product
+            return product;
         }
+        return null;
 
-        if (cursor.getString(5) != null)
-            product.setBarCode(cursor.getString(5));
+    }
 
-        // return product list
-        return product;
+    @Override
+    public List<Product> getProductsNearingThreshold() {
+        List<Product> productList = new ArrayList<Product>();
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + dbHelper
+                .COL_PROD_QTY + "=0 OR " + dbHelper.COL_PROD_QTY + " <= " + dbHelper.COL_PROD_THRESHOLD;
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getString(1), cursor.getString(0));
+                product.setQuantity(Integer.parseInt(cursor.getString(2)));
+                product.setThreshold(Integer.parseInt(cursor.getString(3)));
+                if (cursor.getBlob(4) != null) {
+                    byte[] blobVal = cursor.getBlob(4);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                    product.setProdImage(bmp);
+                }
+
+                if (cursor.getString(5) != null)
+                    product.setBarCode(cursor.getString(5));
+
+                // Adding product to list
+                productList.add(product);
+            } while (cursor.moveToNext());
+        }
+        return productList;
+    }
+
+    @Override
+    public List<Product> getProductsNearingExpiry() {
+        List<Product> productList = new ArrayList<Product>();
+        String selectQuery ="SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper
+                .COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_ITEM_PRODUCT_NAME+" FROM "+dbHelper
+                .TABLE_ITEM+" WHERE "+dbHelper.COL_ITEM_EXPIRY_DATE+" BETWEEN CURRENT_DATE AND " +
+                "date(CURRENT_DATE,'+7 day') OR "+dbHelper.COL_ITEM_EXPIRY_DATE+" < CURRENT_DATE)" +
+                " AND "+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper
+                .COL_ITEM_CATEGORY_NAME+" FROM "+dbHelper.TABLE_ITEM+" WHERE "+dbHelper
+                .COL_ITEM_EXPIRY_DATE+" BETWEEN CURRENT_DATE AND date(CURRENT_DATE,'+7 day') OR " +
+                ""+dbHelper.COL_ITEM_EXPIRY_DATE+" < CURRENT_DATE)";
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Product product = new Product(cursor.getString(1), cursor.getString(0));
+                product.setQuantity(Integer.parseInt(cursor.getString(2)));
+                product.setThreshold(Integer.parseInt(cursor.getString(3)));
+                if (cursor.getBlob(4) != null) {
+                    byte[] blobVal = cursor.getBlob(4);
+                    Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                    product.setProdImage(bmp);
+                }
+
+                if (cursor.getString(5) != null)
+                    product.setBarCode(cursor.getString(5));
+
+                // Adding product to list
+                productList.add(product);
+            } while (cursor.moveToNext());
+        }
+        return productList;
     }
 
     @Override

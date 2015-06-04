@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".SPApp">
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="4"
+        android:weightSum="2"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
         <!--<LinearLayout-->

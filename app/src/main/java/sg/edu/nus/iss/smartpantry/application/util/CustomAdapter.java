@@ -74,6 +74,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
 
         TextView itemName = (TextView)convertView.findViewById(R.id.Itemname);
         TextView category = (TextView)convertView.findViewById(R.id.category);
+        TextView threshQty = (TextView)convertView.findViewById(R.id.threshold);
         TextView quantity = (TextView)convertView.findViewById(R.id.quant);
         ImageView imageView = (ImageView)convertView.findViewById(R.id.icon);
 
@@ -82,6 +83,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
 
         itemName.setText(product.getProductName());
         category.setText(catDao.getCategoryByName(product.getCategoryName()).getCategoryName());
+        threshQty.setText(String.valueOf( product.getThreshold()));
         quantity.setText(String.valueOf(product.getQuantity()));
         imageView.setImageBitmap(product.getProdImage());
 

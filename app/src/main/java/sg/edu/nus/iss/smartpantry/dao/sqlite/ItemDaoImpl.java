@@ -25,7 +25,7 @@ public class ItemDaoImpl implements ItemDao {
         dbHelper = new SqliteHelper(context);
     }
 
-
+    @Override
     public boolean addItem(Item item)
     {
         try
@@ -65,7 +65,7 @@ public class ItemDaoImpl implements ItemDao {
 
     }
 
-
+    @Override
     public boolean updateItem(Item item)
     {
         try
@@ -95,6 +95,8 @@ public class ItemDaoImpl implements ItemDao {
         }
 
     }
+
+    @Override
     public boolean deleteItem(Item item)
     {
         try
@@ -124,7 +126,9 @@ public class ItemDaoImpl implements ItemDao {
         }
 
     }
+
     // Getting All Items
+    @Override
     public List<Item> getAllItems() {
         List<Item> itemList = new ArrayList<Item>();
         // Select All Query
@@ -150,7 +154,8 @@ public class ItemDaoImpl implements ItemDao {
         // return item list
         return itemList;
     }
-    // Getting All Items by product Name
+
+    @Override
     public List<Item> getItemsByProductAndCategoryName(String categoryName,String  productName) {
         List<Item> itemList = new ArrayList<Item>();
 
@@ -179,6 +184,7 @@ public class ItemDaoImpl implements ItemDao {
         return itemList;
     }
 
+    @Override
     public int generateItemIdForProduct(String productName)
     {
         try
@@ -211,5 +217,34 @@ public class ItemDaoImpl implements ItemDao {
             System.out.println(e.getMessage());
             return -1;
         }
+    }
+
+    @Override
+    public List<Item> getItemsNearingExpiry() {
+        List<Item> itemList = new ArrayList<Item>();
+        // Select All Query
+        String selectQuery = "SELECT * FROM "+dbHelper.TABLE_ITEM+" WHERE "+dbHelper
+                .COL_ITEM_EXPIRY_DATE+" BETWEEN CURRENT_DATE AND date(CURRENT_DATE,'+7 day') OR " +
+                ""+dbHelper.COL_ITEM_EXPIRY_DATE+" < CURRENT_DATE";
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Item item = new Item(cursor.getString(2),cursor.getString(1),Integer.parseInt
+                        (cursor.getString(0)));
+                if (cursor.getString(3) != null)
+                    item.setExpiryDate(Date.valueOf(cursor.getString(3)));
+                item.setPrice(Double.parseDouble(cursor.getString(4)));
+                item.setDop(Date.valueOf(cursor.getString(5)));
+                // Adding item to list
+                itemList.add(item);
+            } while (cursor.moveToNext());
+        }
+
+        // return item list
+        return itemList;
     }
 }
