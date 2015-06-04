@@ -14,5 +14,6 @@ public interface ItemDao {
     public List<Item> getAllItems();
     public List<Item> getItemsByProductAndCategoryName(String categoryName,String  productName);
     public int generateItemIdForProduct(String productName);
+    public List<Item> getItemsNearingExpiry();
 
 }
