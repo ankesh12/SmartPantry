@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -99,13 +100,28 @@ public class ExpItemsAdapter extends BaseExpandableListAdapter {
         if (convertView == null)
         {
             LayoutInflater itemInflater = (LayoutInflater) this.context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            convertView = itemInflater.inflate(R.layout.expitemslist, null);
+            convertView = itemInflater.inflate(R.layout.itemlist, null);
         }
 
         TextView dop = (TextView)convertView.findViewById(R.id.dop);
         TextView expiryDate = (TextView)convertView.findViewById(R.id.expiryDate);
+        ImageView deleteItem =(ImageView) convertView.findViewById(R.id.deleteIcon);
 
         final Item selItem = itemList.get(groupPosition).get(childPosition);
+
+        deleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductDao productDao = DAOFactory.getProductDao(context);
+                ItemDao itemDao = DAOFactory.getItemDao(context);
+                itemDao.deleteItem(selItem);
+                Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
+                itemList.get(groupPosition).remove(childPosition);
+                if (itemList.get(groupPosition).isEmpty())
+                    itemList.set(groupPosition,null);
+                refreshData();
+            }
+        });
 
         dop.setText("Date Of Purchase: "+selItem.getDop());
 

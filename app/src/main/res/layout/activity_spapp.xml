@@ -6,7 +6,7 @@
     android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".SPApp">
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:weightSum="2"
+        android:weightSum="3"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
         <!--<LinearLayout-->
@@ -54,6 +54,13 @@
         android:id="@+id/addItem_cam"
         android:layout_weight="1"
         android:background="@mipmap/camera_icon"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="50dp"
+            android:id="@+id/expItems"
+            android:layout_weight="1"
+            android:text="Show Exp"/>
     </LinearLayout>
 
     <ExpandableListView
