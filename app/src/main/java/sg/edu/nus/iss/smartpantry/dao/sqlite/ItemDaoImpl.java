@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
+import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.dao.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
 
@@ -220,12 +221,14 @@ public class ItemDaoImpl implements ItemDao {
     }
 
     @Override
-    public List<Item> getItemsNearingExpiry() {
+    public List<Item> getItemsNearingExpiryByProduct(Product prod) {
         List<Item> itemList = new ArrayList<Item>();
         // Select All Query
-        String selectQuery = "SELECT * FROM "+dbHelper.TABLE_ITEM+" WHERE "+dbHelper
+        String selectQuery = "SELECT * FROM "+dbHelper.TABLE_ITEM+" WHERE ("+dbHelper
                 .COL_ITEM_EXPIRY_DATE+" BETWEEN CURRENT_DATE AND date(CURRENT_DATE,'+7 day') OR " +
-                ""+dbHelper.COL_ITEM_EXPIRY_DATE+" < CURRENT_DATE";
+                ""+dbHelper.COL_ITEM_EXPIRY_DATE+" < CURRENT_DATE) AND "+dbHelper
+                .COL_ITEM_PRODUCT_NAME+" = '"+prod.getProductName()+"' AND "+dbHelper
+                .COL_ITEM_CATEGORY_NAME+" = '"+prod.getCategoryName()+"'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
