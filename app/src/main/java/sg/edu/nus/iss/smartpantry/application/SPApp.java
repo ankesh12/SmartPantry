@@ -44,7 +44,7 @@ public class SPApp extends ExpandableListActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
-        setActivityBackgroundColor("#455A64");
+        setActivityBackgroundColor("#3B5998");
 
         lastExpandedGroupPosition=-1;
 

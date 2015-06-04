@@ -24,27 +24,63 @@
         android:layout_alignTop="@+id/icon"
         android:layout_toRightOf="@+id/icon"
         android:textSize="17dp"
+        android:textStyle="bold"
         android:textColor="#ffffffff" />"
 
-    <!-- Category -->
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/category"
         android:layout_below="@id/Itemname"
-        android:layout_marginTop="1dip"
-        android:layout_toRightOf="@+id/icon"
-        android:text="Yoooo"
-        />
+        android:layout_toRightOf="@+id/icon">
+        <!-- Category -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/categoryText"
+            android:layout_marginTop="1dip"
+            android:text="Cat : "
+            android:textStyle="bold"
+            android:textColor="#ffff281c" />
 
-    <!-- Quantity -->
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/quant"
-        android:textColor="#FF4081"
-        />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/category"
+            android:layout_marginTop="1dip"
+            android:text="Yoooo"/>
 
+
+        <!-- Threshold -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/threshText"
+            android:layout_marginTop="1dip"
+            android:text="Thresh : "
+            android:textStyle="bold"
+            android:textColor="#ffff281c" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/threshold"
+            android:layout_marginTop="1dip"
+            android:text="Yoooo"/>
+
+        <!-- Quantity -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:id="@+id/qtyText"
+            android:text="Qty : "
+            android:textStyle="bold"
+            android:textColor="#ffff281c" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/quant"
+            />
+    </LinearLayout>
 </RelativeLayout>

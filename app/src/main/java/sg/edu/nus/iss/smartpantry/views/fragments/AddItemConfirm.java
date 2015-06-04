@@ -31,29 +31,15 @@ import java.util.Date;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Category;
+import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link AddItemConfirm.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link AddItemConfirm#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class AddItemConfirm extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-    private static int pick=1;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class AddItemConfirm extends Fragment {
+    private static int pick=1;
     private EditText prodDescText;
     private ImageView prodImage;
     List<String> lables = new ArrayList<>();
@@ -73,8 +59,6 @@ public class AddItemConfirm extends Fragment {
     public static AddItemConfirm newInstance(String param1, String param2) {
         AddItemConfirm fragment = new AddItemConfirm();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -85,11 +69,6 @@ public class AddItemConfirm extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -112,8 +91,6 @@ public class AddItemConfirm extends Fragment {
             @Override
             public void onClick(View view) {
                 EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
-                Toast.makeText(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), Toast.LENGTH_SHORT).show();
-                String selectedCat = catList.getSelectedItem().toString();
                 if(quantity.getText() == null){
                     quantity.setText(0);
                 }
@@ -123,20 +100,23 @@ public class AddItemConfirm extends Fragment {
                         Toast.makeText(getActivity().getApplicationContext(),"Quantity cannot be less than 1", Toast.LENGTH_SHORT).show();
                         return;
                     }
-                    boolean isExistingProduct = DAOFactory.getProductDao(getActivity().getApplicationContext()).isProductExists(selectedCat, prodDesc.getText().toString());
-//                    show();
-                    System.out.println(pick);
                     Date expiryDate = null;
-                    if(expDate.getText()!=null) {
+                    if(!expDate.getText().toString().trim().equals("")) {
                         expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
                     }
-                    for(int i=0;i < qtyEntered;i++) {
-                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,0);
+                    Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(catList.getSelectedItem().toString(),prodDesc.getText().toString());
+                    if(product==null){
+                        show(qtyEntered,prodDesc.getText().toString(),catList.getSelectedItem().toString(),bitmap,expiryDate);
+                    }else{
+
+                        for(int i=0;i < qtyEntered;i++) {
+                            ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,0);
+                        }
+                        getActivity().onBackPressed();
                     }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-//                getActivity().onBackPressed();
             }
         });
         ImageButton removeBtn = (ImageButton)view.findViewById(R.id.removeButton);
@@ -219,16 +199,6 @@ public class AddItemConfirm extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         public void onFragmentInteraction(Uri uri);
     }
@@ -263,29 +233,37 @@ public class AddItemConfirm extends Fragment {
         }
     };
 
-    public void show(){
+    public void show(final int qty, final String productName, final String categoryName, final Bitmap image, final Date expDate) {
 //        final int pick;
         final Dialog d = new Dialog(getActivity());
-        d.setTitle("Threshold Qty");
+        d.setTitle("Set Threshold");
         d.setContentView(R.layout.dialog);
         Button b1 = (Button) d.findViewById(R.id.setBtn);
         Button b2 = (Button) d.findViewById(R.id.cancelBtn);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
-        np.setMaxValue(20);
-        np.setMinValue(0);
+        np.setMaxValue(50);
+        np.setMinValue(1);
         np.setWrapSelectorWheel(false);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pick=np.getValue();//set the value to textview
-                System.out.println("Threshold Value: "+pick);
+                pick = np.getValue();
+                System.out.println("Threshold Value: " + pick);
+                try {
+                    for(int i=0;i<qty;i++)
+                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), categoryName, productName, image, expDate, pick);
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
                 d.dismiss();
+                getActivity().onBackPressed();
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 d.dismiss();
+//                getActivity().onBackPressed();
             }
         });
         d.show();
