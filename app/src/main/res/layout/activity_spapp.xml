@@ -54,6 +54,14 @@
         android:id="@+id/addItem_cam"
         android:layout_weight="1"
         android:background="@mipmap/camera_icon"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="ShopList"
+            android:id="@+id/shopListBtn"
+            android:layout_weight="1" />
     </LinearLayout>
 
     <ExpandableListView
