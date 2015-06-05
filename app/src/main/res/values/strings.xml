@@ -1,14 +1,17 @@
 <resources>
-    <string name="app_name">SmartPantry</string>
+    <string name="app_name">Smart Pantry</string>
 
     <string name="hello_world">Yiiii!</string>
     <string name="add_item">ADD ITEM</string>
     <string name="action_settings">Settings</string>
+    <string name="action_watch_list">Watch List</string>
+    <string name="action_expiring_item">Expiring Items</string>
     <string name="title_activity_sphome">SPHome</string>
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_item_details">ItemDetails</string>
+    <string name="title_activity_item_details">Item Details</string>
+    <string name="title_activity_expiring_list">Expiring Item</string>
     <string name="plus_but_desc">AddItemButton</string>
-    <string name="title_activity_shop_create">ShopCreateActivity</string>
+    <string name="title_activity_shop_create">Watch List</string>
 </resources>

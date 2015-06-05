@@ -1,14 +1,15 @@
 package sg.edu.nus.iss.smartpantry.application;
 
 import android.app.AlarmManager;
-import android.app.ExpandableListActivity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.view.ContextMenu;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,20 +23,21 @@ import java.util.List;
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.AddItemDialog;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
+import sg.edu.nus.iss.smartpantry.views.ExpiringItems;
 import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
+import sg.edu.nus.iss.smartpantry.views.fragments.HomePageFragment;
 
 //import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 //import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
 //import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 
 
-public class SPApp extends ExpandableListActivity{
+public class SPApp extends ActionBarActivity{
     private MainController mainController;
     List<Product> productList = new ArrayList<Product>();
     List<Item> prodItemList = new ArrayList<Item>();
@@ -52,6 +54,15 @@ public class SPApp extends ExpandableListActivity{
         setContentView(R.layout.activity_spapp);
         setActivityBackgroundColor("#3B5998");
 
+        if (savedInstanceState == null) {
+            HomePageFragment homePageFragment= new HomePageFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            //AddItemConfirm addItemConfirm = new AddItemConfirm();
+            //addItemConfirm.setArguments(b);
+            fragmentTransaction.add(R.id.listContainer, homePageFragment, "ShopList");
+            fragmentTransaction.commit();
+        }
         //Azure deployment
 //        try {
 //            mClient = new MobileServiceClient(
@@ -75,7 +86,7 @@ public class SPApp extends ExpandableListActivity{
 //            }
 //        });
 
-        lastExpandedGroupPosition=-1;
+        //lastExpandedGroupPosition=-1;
 
         //Get objects for controller
         mainController = ControlFactory.getInstance().getMainController();
@@ -110,7 +121,7 @@ public class SPApp extends ExpandableListActivity{
             }
         });
         //Expandable List View
-        expListView = (ExpandableListView) findViewById(android.R.id.list);
+        /*expListView = (ExpandableListView) findViewById(android.R.id.list);
         customAdapter = new CustomAdapter(this,productList,itemList,getApplicationContext());
         expListView.setAdapter(customAdapter);
         //Create the list view for products
@@ -126,7 +137,7 @@ public class SPApp extends ExpandableListActivity{
             }
         });
 
-        registerForContextMenu(expListView);
+        registerForContextMenu(expListView);*/
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -152,7 +163,7 @@ public class SPApp extends ExpandableListActivity{
     @Override
     protected void onResume() {
         super.onResume();
-        customAdapter.refreshData();
+        //customAdapter.refreshData();
 
         //Notification set up
         Calendar c = Calendar.getInstance();
@@ -185,6 +196,14 @@ public class SPApp extends ExpandableListActivity{
         if (id == R.id.action_settings) {
             return true;
         }
+        if(id == R.id.action_watch_list){
+            Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+            startActivity(intent);
+        }
+        else if(id == R.id.action_expiring_items){
+            Intent intent =  new Intent(getApplicationContext(), ExpiringItems.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
@@ -193,7 +212,7 @@ public class SPApp extends ExpandableListActivity{
         view.setBackgroundColor(Color.parseColor(color));
     }
 
-    @Override
+    /*@Override
     public boolean onContextItemSelected(MenuItem item) {
         ExpandableListView.ExpandableListContextMenuInfo info=
                 (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
@@ -228,5 +247,5 @@ public class SPApp extends ExpandableListActivity{
                 menu.add(Menu.NONE, i, i, menuItems[i]);
             }
         }
-    }
+    }*/
 }
