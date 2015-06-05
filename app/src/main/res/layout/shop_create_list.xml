@@ -2,32 +2,56 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent" >
-    <TextView android:layout_height="wrap_content"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:textSize="16sp"
-        android:padding="10dp"
-        android:id="@+id/prodName"> </TextView>
+        android:layout_height="wrap_content"
+        android:id="@+id/prodLayout"
+        android:layout_marginLeft="10dp">
+        <TextView android:layout_height="wrap_content"
+            android:layout_width="wrap_content"
+            android:textSize="20sp"
+            android:id="@+id/prodName"
+            android:text="Yoo"
+            android:textStyle="bold"
+            android:textColor="#0B0B61"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prodLayout"
+        android:orientation="horizontal"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/linearLayout2">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Expiring"
+            android:layout_marginRight="20dp"
+            android:layout_marginTop="3dp"
+            android:textColor="#FF0000"
+            android:textStyle="bold"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="Quantity:"
-        android:layout_toLeftOf="@+id/qty01"
-        android:layout_marginRight="1dp"
-        />
-    <EditText
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toLeftOf="@+id/CheckBox01"
-        android:layout_marginRight="10dp"
-        android:id="@+id/qty01"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Quantity:"
+            android:layout_marginTop="3dp"
+            android:textStyle="bold"
+            android:layout_centerInParent="true"/>
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:id="@+id/qty01"
+            android:minEms="2"/>
+
+    </LinearLayout>
 
     <CheckBox android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:padding="10dp"
         android:id="@+id/CheckBox01"
-        android:focusable="false"
-        android:layout_marginRight="6sp"
-        android:layout_alignParentRight="true"> </CheckBox>
+        android:layout_alignBottom="@+id/linearLayout2"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>

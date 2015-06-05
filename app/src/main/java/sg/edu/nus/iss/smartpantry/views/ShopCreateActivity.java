@@ -51,7 +51,10 @@ public class ShopCreateActivity extends ActionBarActivity {
             Intent intent =  new Intent(getApplicationContext(), SPApp.class);
             startActivity(intent);
         }
-
+        else if(id == R.id.action_expiring_items){
+            Intent intent =  new Intent(getApplicationContext(), ExpiringItems.class);
+            startActivity(intent);
+        }
         return super.onOptionsItemSelected(item);
     }
 }

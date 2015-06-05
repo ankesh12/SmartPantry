@@ -63,6 +63,10 @@ public class ExpiringItems extends ActionBarActivity {
             Intent intent =  new Intent(getApplicationContext(), SPApp.class);
             startActivity(intent);
         }
+        if(id == R.id.action_watch_list){
+            Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+            startActivity(intent);
+        }
 
         return super.onOptionsItemSelected(item);
     }
