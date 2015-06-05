@@ -60,7 +60,7 @@ public class SPApp extends ActionBarActivity{
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             //AddItemConfirm addItemConfirm = new AddItemConfirm();
             //addItemConfirm.setArguments(b);
-            fragmentTransaction.add(R.id.listContainer, homePageFragment, "ShopList");
+            fragmentTransaction.add(R.id.listContainer, homePageFragment, "HomePage");
             fragmentTransaction.commit();
         }
         //Azure deployment

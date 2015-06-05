@@ -1,39 +1,32 @@
 package sg.edu.nus.iss.smartpantry.views;
 
-import android.app.ExpandableListActivity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import sg.edu.nus.iss.smartpantry.Entity.Item;
-import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.ExpItemsAdapter;
-import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
-import sg.edu.nus.iss.smartpantry.controller.MainController;
+import sg.edu.nus.iss.smartpantry.views.fragments.ExpiringItemFragment;
 
-public class ExpiringItems extends ExpandableListActivity {
-    private MainController mainController;
-    List<Product> productList = new ArrayList<Product>();
-    List<Item> prodItemList = new ArrayList<Item>();
-    List<List<Item>> itemList = new ArrayList<List<Item>>();
-    ExpandableListView expListView;
-    ExpItemsAdapter customAdapter;
-    int lastExpandedGroupPosition;
+public class ExpiringItems extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expiring_items);
         setActivityBackgroundColor("#3B5998");
-
-        lastExpandedGroupPosition=-1;
+        if (savedInstanceState == null) {
+            ExpiringItemFragment expiringItemFragment= new ExpiringItemFragment();
+            FragmentManager fragmentManager = getFragmentManager();
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.relExpiringLayout, expiringItemFragment, "ExpireList");
+            fragmentTransaction.commit();
+        }
+        /*lastExpandedGroupPosition=-1;
 
         mainController = ControlFactory.getInstance().getMainController();
         expListView = (ExpandableListView) findViewById(android.R.id.list);
@@ -49,7 +42,7 @@ public class ExpiringItems extends ExpandableListActivity {
                     expListView.collapseGroup(lastExpandedGroupPosition);
                 lastExpandedGroupPosition = groupPosition;
             }
-        });
+        });*/
     }
 
     @Override
