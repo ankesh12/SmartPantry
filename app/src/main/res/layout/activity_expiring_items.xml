@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <!-- Thumbnail Image -->
+    <!--<ImageView-->
+        <!--android:id="@+id/icon"-->
+        <!--android:layout_width="80dp"-->
+        <!--android:layout_height="80dp"-->
+        <!--android:layout_marginBottom="5dp"-->
+        <!--android:layout_marginLeft="5dp"-->
+        <!--android:layout_marginRight="5dp"-->
+        <!--android:layout_marginTop="5dp"-->
+        <!--android:layout_alignParentLeft="true"-->
+        <!--android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"-->
+        <!--android:src="@mipmap/ic_launcher" />-->
+
+    <!-- Item Name -->
+    <!--<TextView-->
+        <!--android:id="@+id/Itemname"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_alignTop="@+id/icon"-->
+        <!--android:layout_toRightOf="@+id/icon"-->
+        <!--android:textSize="17dp"-->
+        <!--android:textStyle="bold"-->
+        <!--android:textColor="#ffffffff" />"-->
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_below="@id/Itemname"-->
+        <!--android:layout_toRightOf="@+id/icon"-->
+        <!--android:id="@+id/linearLayout">-->
+        <!--&lt;!&ndash; Category &ndash;&gt;-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/categoryText"-->
+            <!--android:layout_marginTop="1dip"-->
+            <!--android:text="Cat : "-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="#ffff281c" />-->
+
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/category"-->
+            <!--android:layout_marginTop="1dip"-->
+            <!--android:text="Yoooo"/>-->
+
+        <!--&lt;!&ndash; Quantity &ndash;&gt;-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="20dp"-->
+            <!--android:id="@+id/qtyText"-->
+            <!--android:text="Qty Exp: "-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="#ffff281c" />-->
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/quant"-->
+            <!--/>-->
+    <!--</LinearLayout>-->
+    <ExpandableListView
+        android:id= "@android:id/list"
+        android:layout_below="@+id/linearLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent" />
+</RelativeLayout>

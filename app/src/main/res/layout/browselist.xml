@@ -37,14 +37,14 @@
         android:layout_height="wrap_content"
         >
         <!-- Category -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/categoryText"
-            android:layout_marginTop="1dip"
-            android:text="Cat : "
-            android:textStyle="bold"
-            android:textColor="#ffff281c" />
+        <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/categoryText"-->
+            <!--android:layout_marginTop="1dip"-->
+            <!--android:text="Cat : "-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="#ffff281c" />-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -63,7 +63,7 @@
             android:layout_marginTop="1dip"
             android:text="Thresh : "
             android:textStyle="bold"
-            android:textColor="#ffff281c" />
+            android:textColor="#ff13ff23" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -80,7 +80,7 @@
             android:id="@+id/qtyText"
             android:text="Qty : "
             android:textStyle="bold"
-            android:textColor="#ffff281c" />
+            android:textColor="#ff13ff23" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
