@@ -101,32 +101,41 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
     public List<ShoppingProduct> getYetToBuyProductsInShopLists() {
         List<ShoppingProduct> productList = new ArrayList<ShoppingProduct>();
         // Select All Query
-        String selectQuery = "SELECT DISTINCT "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_QTY+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_THRESHOLD+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_IMAGE+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_BARCODE+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_QTY+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+" FROM "+dbHelper.TABLE_PRODUCT+","+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0) AND "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0)";
+        String selectShopItemQuery = "SELECT * FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor shopCursor = db.rawQuery(selectShopItemQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (shopCursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1),cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null)
+                String shopListNameVal=shopCursor.getString(0);
+                String prodName=shopCursor.getString(1);
+                String categoryName=shopCursor.getString(2);
+                int shopQty =(Integer.parseInt(shopCursor.getString(3)));
+                Boolean isPurchased =(Boolean.parseBoolean(shopCursor.getString(4)));
+
+                String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+categoryName+"'";
+                Cursor cursor = db.rawQuery(selectProdQuery, null);
+                if (cursor.moveToFirst())
                 {
-                    byte[] blobVal = cursor.getBlob(4);
-                    Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
-                    product.setProdImage(bmp);
+                    Product product = new Product(cursor.getString(1),cursor.getString(0));
+                    product.setQuantity(Integer.parseInt(cursor.getString(2)));
+                    product.setThreshold(Integer.parseInt(cursor.getString(3)));
+                    if (cursor.getBlob(4) != null)
+                    {
+                        byte[] blobVal = cursor.getBlob(4);
+                        Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                        product.setProdImage(bmp);
+                    }
+
+                    if (cursor.getString(5) != null)
+                        product.setBarCode(cursor.getString(5));
+
+                    // Adding product to list
+                    productList.add(new ShoppingProduct(product,shopQty,isPurchased));
                 }
-
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
-
-                int shopQty =(Integer.parseInt(cursor.getString(6)));
-                Boolean isPurchased =(Boolean.parseBoolean(cursor.getString(7)));
-                // Adding product to list
-                productList.add(new ShoppingProduct(product,shopQty,isPurchased));
-            } while (cursor.moveToNext());
+            } while (shopCursor.moveToNext());
         }
 
         // return product list
@@ -137,32 +146,41 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
     public List<ShoppingProduct> getProductsByShopListName(String shopListName) {
         List<ShoppingProduct> productList = new ArrayList<ShoppingProduct>();
         // Select All Query
-        String selectQuery = "SELECT "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_QTY+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_THRESHOLD+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_IMAGE+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_BARCODE+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_QTY+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+" FROM "+dbHelper.TABLE_PRODUCT+","+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+" = '"+shopListName+"') AND "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+" = '"+shopListName+"')";
+        String selectShopItemQuery = "SELECT * FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+"='"+shopListName+"'";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery, null);
+        Cursor shopCursor = db.rawQuery(selectShopItemQuery, null);
 
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (shopCursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1),cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null)
+                String shopListNameVal=shopCursor.getString(0);
+                String prodName=shopCursor.getString(1);
+                String categoryName=shopCursor.getString(2);
+                int shopQty =(Integer.parseInt(shopCursor.getString(3)));
+                Boolean isPurchased =(Boolean.parseBoolean(shopCursor.getString(4)));
+
+                String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+categoryName+"'";
+                Cursor cursor = db.rawQuery(selectProdQuery, null);
+                if (cursor.moveToFirst())
                 {
-                    byte[] blobVal = cursor.getBlob(4);
-                    Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
-                    product.setProdImage(bmp);
+                    Product product = new Product(cursor.getString(1),cursor.getString(0));
+                    product.setQuantity(Integer.parseInt(cursor.getString(2)));
+                    product.setThreshold(Integer.parseInt(cursor.getString(3)));
+                    if (cursor.getBlob(4) != null)
+                    {
+                        byte[] blobVal = cursor.getBlob(4);
+                        Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
+                        product.setProdImage(bmp);
+                    }
+
+                    if (cursor.getString(5) != null)
+                        product.setBarCode(cursor.getString(5));
+
+                    // Adding product to list
+                    productList.add(new ShoppingProduct(product,shopQty,isPurchased));
                 }
-
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
-
-                int shopQty =(Integer.parseInt(cursor.getString(6)));
-                Boolean isPurchased =(Boolean.parseBoolean(cursor.getString(7)));
-                // Adding product to list
-                productList.add(new ShoppingProduct(product,shopQty,isPurchased));
-            } while (cursor.moveToNext());
+            } while (shopCursor.moveToNext());
         }
 
         // return product list
