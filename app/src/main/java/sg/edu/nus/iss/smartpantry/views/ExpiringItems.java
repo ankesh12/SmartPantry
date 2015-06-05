@@ -2,6 +2,7 @@ package sg.edu.nus.iss.smartpantry.views;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.SPApp;
 import sg.edu.nus.iss.smartpantry.views.fragments.ExpiringItemFragment;
 
 public class ExpiringItems extends ActionBarActivity {
@@ -56,8 +58,10 @@ public class ExpiringItems extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_settings) {
-            return true;
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.home) {
+            Intent intent =  new Intent(getApplicationContext(), SPApp.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
