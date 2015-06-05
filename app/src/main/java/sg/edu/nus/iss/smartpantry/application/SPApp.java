@@ -57,9 +57,7 @@ public class SPApp extends ActionBarActivity{
         if (savedInstanceState == null) {
             HomePageFragment homePageFragment= new HomePageFragment();
             FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            //AddItemConfirm addItemConfirm = new AddItemConfirm();
-            //addItemConfirm.setArguments(b);
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();;
             fragmentTransaction.add(R.id.listContainer, homePageFragment, "HomePage");
             fragmentTransaction.commit();
         }
@@ -99,18 +97,7 @@ public class SPApp extends ActionBarActivity{
                 mainController.addItem(SPApp.this);
             }
         });
-        Button shopList = (Button) findViewById(R.id.shopListBtn);
-        shopList.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
-                startActivity(intent);
-//                FragmentManager fragment = SPApp.this.getFragmentManager();
-//                fragment.beginTransaction()
-//                        .replace(R.id.container, new ShopListCreateFragment())
-//                        .commit();
-           }
-        });
+
 
         Button camButton = (Button)findViewById(R.id.addItem_cam);
         camButton.setOnClickListener(new View.OnClickListener() {
@@ -120,24 +107,6 @@ public class SPApp extends ActionBarActivity{
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
-        //Expandable List View
-        /*expListView = (ExpandableListView) findViewById(android.R.id.list);
-        customAdapter = new CustomAdapter(this,productList,itemList,getApplicationContext());
-        expListView.setAdapter(customAdapter);
-        //Create the list view for products
-        customAdapter.refreshData();
-
-        expListView.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
-            @Override
-            public void onGroupExpand(int groupPosition) {
-
-                if (groupPosition != lastExpandedGroupPosition)
-                    expListView.collapseGroup(lastExpandedGroupPosition);
-                lastExpandedGroupPosition = groupPosition;
-            }
-        });
-
-        registerForContextMenu(expListView);*/
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
