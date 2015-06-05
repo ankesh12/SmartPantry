@@ -115,7 +115,7 @@ public class ShopListCreateFragment extends Fragment {
         prodList = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductsNearingExpiry();
         for(Product product: prodList){
             if(!yetToBuyProd.contains(product)) {
-                productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold()));
+                productList.add(new ProductNameList(product.getProductName() + "(Expiring)", product.getCategoryName(), product.getThreshold()));
             }
         }
         //Get Below Threshold Product Names
