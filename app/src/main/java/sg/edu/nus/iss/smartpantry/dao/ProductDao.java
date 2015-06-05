@@ -17,4 +17,6 @@ public interface ProductDao {
     public boolean isProductExists(String categoryName,String prodName);
     public Product getProduct(String categoryName,String prodName);
     public List<Product> getProductBelowThreshold();
+    public List<Product> getProductsNearingThreshold();
+    public List<Product> getProductsNearingExpiry();
 }

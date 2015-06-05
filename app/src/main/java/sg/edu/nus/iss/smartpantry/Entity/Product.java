@@ -57,4 +57,16 @@ public class Product {
     public void setBarCode(String barCode) {
         this.barCode = barCode;
     }
+
+    @Override
+    public int hashCode() {
+        return getProductName().hashCode() + getCategoryName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        Product product = (Product) o;
+        return (this.getProductName().equalsIgnoreCase(product.getProductName()) && this.getCategoryName().equalsIgnoreCase(product.getCategoryName()));
+    }
 }
+

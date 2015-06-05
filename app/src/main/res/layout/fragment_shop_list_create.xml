@@ -1,12 +1,22 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="sg.edu.nus.iss.smartpantry.views.fragments.ShopListCreateFragment">
 
+    <Button
+        android:layout_width="350dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:id="@+id/createShpBtn"
+        android:text="Create Shopping List"
+        android:background="#4CAF50"
+        android:clickable="false" />
+
     <ListView
         android:id="@+id/shopCreateList"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createShpBtn">
     </ListView>
 
-</FrameLayout>
+</RelativeLayout>

@@ -15,11 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ExpandableListView;
 
-import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
-import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -30,11 +25,14 @@ import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.AddItemDialog;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
-import sg.edu.nus.iss.smartpantry.application.util.TestTable;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
 import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
+
+//import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
+//import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
+//import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 
 
 public class SPApp extends ExpandableListActivity{
@@ -46,7 +44,7 @@ public class SPApp extends ExpandableListActivity{
     CustomAdapter customAdapter;
     private static final int CAMERA_REQUEST = 1888;
     int lastExpandedGroupPosition;
-    private MobileServiceClient mClient;
+    //private MobileServiceClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,27 +53,27 @@ public class SPApp extends ExpandableListActivity{
         setActivityBackgroundColor("#3B5998");
 
         //Azure deployment
-        try {
-            mClient = new MobileServiceClient(
-                    "https://isscourse.azure-mobile.net/",
-                    "krwsNiMRCExqanRaHcVWvocQKdLjbk62",
-                    this
-            );
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-        TestTable item = new TestTable();
-        item.Text = "Awesome item";
-        mClient.getTable(TestTable.class).insert(item, new TableOperationCallback<TestTable>() {
-            @Override
-            public void onCompleted(TestTable entity, Exception exception, ServiceFilterResponse response) {
-                if (exception == null) {
-                    // Insert succeeded
-                } else {
-                    // Insert failed
-                }
-            }
-        });
+//        try {
+//            mClient = new MobileServiceClient(
+//                    "https://isscourse.azure-mobile.net/",
+//                    "krwsNiMRCExqanRaHcVWvocQKdLjbk62",
+//                    this
+//            );
+//        } catch (MalformedURLException e) {
+//            e.printStackTrace();
+//        }
+//        TestTable item = new TestTable();
+//        item.Text = "Awesome item";
+//        mClient.getTable(TestTable.class).insert(item, new TableOperationCallback<TestTable>() {
+//            @Override
+//            public void onCompleted(TestTable entity, Exception exception, ServiceFilterResponse response) {
+//                if (exception == null) {
+//                    // Insert succeeded
+//                } else {
+//                    // Insert failed
+//                }
+//            }
+//        });
 
         lastExpandedGroupPosition=-1;
 
