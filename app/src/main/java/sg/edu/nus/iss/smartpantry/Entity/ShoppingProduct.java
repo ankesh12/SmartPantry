@@ -27,4 +27,15 @@ public class ShoppingProduct {
     public boolean getIsPurchased() {
         return isPurchased;
     }
+
+    @Override
+    public int hashCode() {
+        return getProduct().getProductName().hashCode() + getProduct().getCategoryName().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        ShoppingProduct shopProduct = (ShoppingProduct) o;
+        return (getProduct().equals(shopProduct.getProduct()));
+    }
 }

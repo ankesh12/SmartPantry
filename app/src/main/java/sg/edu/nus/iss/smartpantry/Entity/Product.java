@@ -65,6 +65,11 @@ public class Product {
 
     @Override
     public boolean equals(Object o) {
+//        if(o.getClass().equals(ShoppingProduct.class)){
+//            ShoppingProduct shopProd = (ShoppingProduct) o;
+//            return (this.getProductName().equalsIgnoreCase(shopProd.getProduct().getProductName()) && this.getCategoryName().equalsIgnoreCase(shopProd.getProduct().getCategoryName()));
+//        }
+
         Product product = (Product) o;
         return (this.getProductName().equalsIgnoreCase(product.getProductName()) && this.getCategoryName().equalsIgnoreCase(product.getCategoryName()));
     }

@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import sg.edu.nus.iss.smartpantry.Entity.Product;
+import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 
@@ -22,7 +22,7 @@ import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 public class ShopListFragment extends Fragment {
 
     ListView listView;
-    private ArrayAdapter<Product> listAdapter;
+    private ArrayAdapter<ShoppingProduct> listAdapter;
     public static ShopListFragment newInstance(String param1, String param2) {
         ShopListFragment fragment = new ShopListFragment();
         Bundle args = new Bundle();
@@ -46,9 +46,13 @@ public class ShopListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_list, container, false);
         listView = (ListView) view.findViewById(R.id.display_shop_list);
-        List<Product> productList = DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getYetToBuyProductsInShopLists();
-        System.out.println("Display:" + productList.get(0).getProductName());
-        listAdapter = new ProductArrayAdapter(getActivity().getApplicationContext(),productList);
+        //List<Product> productList = DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getYetToBuyProductsInShopLists();
+        List<ShoppingProduct> shoppingList = DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getYetToBuyProductsInShopLists();
+        for(ShoppingProduct pro: shoppingList){
+            System.out.println("From the DB:" + pro.getProduct().getProductName() );
+        }
+        System.out.println("Display:" + shoppingList.get(0).getProduct().getProductName());
+        listAdapter = new ProductArrayAdapter(getActivity().getApplicationContext(),shoppingList);
         listView.setAdapter(listAdapter);
         return view;
     }
@@ -87,11 +91,11 @@ public class ShopListFragment extends Fragment {
         super.onAttach(activity);
 
     }
-    private static class ProductArrayAdapter extends ArrayAdapter<Product> {
+    private static class ProductArrayAdapter extends ArrayAdapter<ShoppingProduct> {
 
         private LayoutInflater inflater;
 
-        public ProductArrayAdapter( Context context, List<Product> planetList ) {
+        public ProductArrayAdapter( Context context, List<ShoppingProduct> planetList ) {
             super( context, R.layout.display_shop_list, R.id.display_prod_name, planetList );
             // Cache the LayoutInflate to avoid asking for a new one each time.
             inflater = LayoutInflater.from(context) ;
@@ -100,7 +104,8 @@ public class ShopListFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Planet to display
-            Product productNameList = (Product) this.getItem( position );
+            //Product productNameList = (Product) this.getItem( position ).getProduct();
+            ShoppingProduct shopProdList = (ShoppingProduct) this.getItem(position);
 
             // The child views in each row.
             CheckBox checkBox ;
@@ -143,8 +148,8 @@ public class ShopListFragment extends Fragment {
             //prodTextView.setTag( productNameList );
 
             // Display planet data
-            prodTextView.setText( productNameList.getProductName() );
-            quantTextView.setText(String.valueOf(productNameList.getQuantity()));
+            prodTextView.setText( shopProdList.getProduct().getProductName() );
+            quantTextView.setText(String.valueOf(shopProdList.getShopQty()));
 
             return convertView;
         }
