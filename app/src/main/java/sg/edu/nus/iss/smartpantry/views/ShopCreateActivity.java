@@ -2,12 +2,14 @@ package sg.edu.nus.iss.smartpantry.views;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.SPApp;
 import sg.edu.nus.iss.smartpantry.views.fragments.ShopListCreateFragment;
 
 public class ShopCreateActivity extends ActionBarActivity {
@@ -45,8 +47,9 @@ public class ShopCreateActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        if (id == R.id.home) {
+            Intent intent =  new Intent(getApplicationContext(), SPApp.class);
+            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
