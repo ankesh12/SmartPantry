@@ -7,6 +7,8 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Product;
+import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 
@@ -107,22 +110,24 @@ public class ShopListCreateFragment extends Fragment {
                     new Planet("Eris")
             };
         }*/
-        final List<Product> yetToBuyProd;
-        yetToBuyProd = DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getYetToBuyProductsInShopLists();
+        //final List<Product> yetToBuyProd;
+        final List<ShoppingProduct> yetToBuyShopProd;
+        yetToBuyShopProd = DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getYetToBuyProductsInShopLists();
+        //yetToBuyProd = DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getYetToBuyProductsInShopLists();
         final ArrayList<ProductNameList> productList = new ArrayList<ProductNameList>();
         List<Product> prodList;
         //Get Expiring Item Product Names
         prodList = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductsNearingExpiry();
         for(Product product: prodList){
-            if(!yetToBuyProd.contains(product)) {
-                productList.add(new ProductNameList(product.getProductName() + "(Expiring)", product.getCategoryName(), product.getThreshold()));
+            if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
+                productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold()));
             }
         }
         //Get Below Threshold Product Names
         prodList = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductBelowThreshold();
         for(Product product: prodList){
             ProductNameList checkProd = new ProductNameList(product.getProductName(),product.getCategoryName(),product.getThreshold());
-            if(!yetToBuyProd.contains(product)) {
+            if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
                 if (!productList.contains(checkProd)) {
                     System.out.println("Hai be ");
                     productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold()));
@@ -135,6 +140,9 @@ public class ShopListCreateFragment extends Fragment {
         // Set our custom array adapter as the ListView's adapter.
         listAdapter = new ProductArrayAdapter(getActivity(), productList);
         mainListView.setAdapter( listAdapter );
+        mainListView.invalidateViews();
+        listAdapter.notifyDataSetChanged();
+        //mainListView.not
 
         //Logic for creating shopping list
         createShpBtn = (Button) view.findViewById(R.id.createShpBtn);
@@ -144,8 +152,11 @@ public class ShopListCreateFragment extends Fragment {
                 for(ProductNameList productNameList : productList){
                     if(productNameList.isChecked()){
                         Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(productNameList.getCatName(),productNameList.getName());
-                        DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).addProductToShopList("ShopList1",product,productNameList.getQuantity(),false);
-                        System.out.println("This item is checked: " + productNameList.getName());
+                        if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
+                            System.out.println("This item is checked: " + productNameList.getName() + " " + productNameList.getQuantity());
+                            DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).addProductToShopList("ShopList1", product, productNameList.getQuantity(), false);
+                            System.out.println("This item is checked: " + productNameList.getName());
+                        }
                     }
                 }
                 ShopListFragment shopListFragment = new ShopListFragment();
@@ -182,7 +193,13 @@ public class ShopListCreateFragment extends Fragment {
         //mListener = null;
     }
 
-    /**
+    @Override
+    public void onResume() {
+        super.onResume();
+        mainListView.invalidateViews();
+        listAdapter.notifyDataSetChanged();
+    }
+/**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
      * to the activity and potentially other fragments contained in that
@@ -350,67 +367,6 @@ public class ShopListCreateFragment extends Fragment {
         }
 
     }
-    /** Custom adapter for displaying an array of Planet objects. */
-    /*private static class PlanetArrayAdapter extends ArrayAdapter<Planet> {
-
-        private LayoutInflater inflater;
-
-        public PlanetArrayAdapter( Context context, List<Planet> planetList ) {
-            super( context, R.layout.shop_create_list, R.id.prodName, planetList );
-            // Cache the LayoutInflate to avoid asking for a new one each time.
-            inflater = LayoutInflater.from(context) ;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // Planet to display
-            Planet planet = (Planet) this.getItem( position );
-
-            // The child views in each row.
-            CheckBox checkBox ;
-            TextView textView ;
-
-            // Create a new row view
-            if ( convertView == null ) {
-                convertView = inflater.inflate(R.layout.shop_create_list, null);
-
-                // Find the child views.
-                textView = (TextView) convertView.findViewById( R.id.prodName );
-                checkBox = (CheckBox) convertView.findViewById( R.id.CheckBox01 );
-
-                // Optimization: Tag the row with it's child views, so we don't have to
-                // call findViewById() later when we reuse the row.
-                convertView.setTag( new PlanetViewHolder(textView,checkBox) );
-
-                // If CheckBox is toggled, update the planet it is tagged with.
-                checkBox.setOnClickListener( new View.OnClickListener() {
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v ;
-                        Planet planet = (Planet) cb.getTag();
-                        planet.setChecked( cb.isChecked() );
-                    }
-                });
-            }
-            // Reuse existing row view
-            else {
-                // Because we use a ViewHolder, we avoid having to call findViewById().
-                PlanetViewHolder viewHolder = (PlanetViewHolder) convertView.getTag();
-                checkBox = viewHolder.getCheckBox() ;
-                textView = viewHolder.getTextView() ;
-            }
-
-            // Tag the CheckBox with the Planet it is displaying, so that we can
-            // access the planet in onClick() when the CheckBox is toggled.
-            checkBox.setTag( planet );
-
-            // Display planet data
-            checkBox.setChecked( planet.isChecked() );
-            textView.setText( planet.getName() );
-
-            return convertView;
-        }
-
-    }*/
     private static class ProductArrayAdapter extends ArrayAdapter<ProductNameList> {
 
         private LayoutInflater inflater;
@@ -424,12 +380,12 @@ public class ShopListCreateFragment extends Fragment {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             // Planet to display
-            ProductNameList productNameList = (ProductNameList) this.getItem( position );
+            final ProductNameList productNameList = (ProductNameList) this.getItem( position );
 
             // The child views in each row.
             CheckBox checkBox ;
-            TextView textView ;
-            EditText editText;
+            final TextView textView ;
+            final EditText editText;
             // Create a new row view
             if ( convertView == null ) {
                 convertView = inflater.inflate(R.layout.shop_create_list, null);
@@ -469,6 +425,22 @@ public class ShopListCreateFragment extends Fragment {
             checkBox.setChecked( productNameList.isChecked() );
             textView.setText( productNameList.getName() );
             editText.setText(String.valueOf(productNameList.getQuantity()));
+            editText.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence charSequence, int i, int i2, int i3) {
+
+                }
+
+                @Override
+                public void afterTextChanged(Editable editable) {
+                    productNameList.setQuantity(Integer.parseInt(editText.getText().toString()));
+                }
+            });
 
             return convertView;
         }
