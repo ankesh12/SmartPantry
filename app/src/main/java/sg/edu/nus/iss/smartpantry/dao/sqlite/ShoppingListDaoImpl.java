@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Product;
+import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.dao.ShoppingListDao;
 import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
 
@@ -97,11 +98,10 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
     }
 
     @Override
-    public List<Product> getYetToBuyProductsInShopLists() {
-        List<Product> productList = new ArrayList<Product>();
+    public List<ShoppingProduct> getYetToBuyProductsInShopLists() {
+        List<ShoppingProduct> productList = new ArrayList<ShoppingProduct>();
         // Select All Query
-        String selectQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0) AND "+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0)";
-        String qtyQuery = "SELECT * FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0) AND "+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0)";
+        String selectQuery = "SELECT "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_QTY+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_THRESHOLD+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_IMAGE+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_BARCODE+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_QTY+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+" FROM "+dbHelper.TABLE_PRODUCT+","+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0) AND "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+"=0)";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -122,8 +122,10 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                 if (cursor.getString(5) != null)
                     product.setBarCode(cursor.getString(5));
 
+                int shopQty =(Integer.parseInt(cursor.getString(6)));
+                Boolean isPurchased =(Boolean.parseBoolean(cursor.getString(7)));
                 // Adding product to list
-                productList.add(product);
+                productList.add(new ShoppingProduct(product,shopQty,isPurchased));
             } while (cursor.moveToNext());
         }
 
@@ -132,10 +134,10 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
     }
 
     @Override
-    public List<Product> getProductsByShopListName(String shopListName) {
-        List<Product> productList = new ArrayList<Product>();
+    public List<ShoppingProduct> getProductsByShopListName(String shopListName) {
+        List<ShoppingProduct> productList = new ArrayList<ShoppingProduct>();
         // Select All Query
-        String selectQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+" = '"+shopListName+"') AND "+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+" = '"+shopListName+"')";
+        String selectQuery = "SELECT "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_QTY+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_THRESHOLD+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_IMAGE+","+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_BARCODE+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_QTY+","+dbHelper.TABLE_SHOPPING_LIST+"."+dbHelper.COL_SHOPPING_LIST_IS_PURCHASED+" FROM "+dbHelper.TABLE_PRODUCT+","+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+" = '"+shopListName+"') AND "+dbHelper.TABLE_PRODUCT+"."+dbHelper.COL_PROD_CATEGORY_NAME+" IN (SELECT "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+" = '"+shopListName+"')";
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -156,8 +158,10 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                 if (cursor.getString(5) != null)
                     product.setBarCode(cursor.getString(5));
 
+                int shopQty =(Integer.parseInt(cursor.getString(6)));
+                Boolean isPurchased =(Boolean.parseBoolean(cursor.getString(7)));
                 // Adding product to list
-                productList.add(product);
+                productList.add(new ShoppingProduct(product,shopQty,isPurchased));
             } while (cursor.moveToNext());
         }
 
