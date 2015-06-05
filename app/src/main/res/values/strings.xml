@@ -12,7 +12,7 @@
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_activity_item_details">Item Details</string>
-    <string name="title_activity_expiring_list">Expiring Item</string>
+    <string name="title_activity_expiring_list">Expiring Items</string>
     <string name="plus_but_desc">AddItemButton</string>
     <string name="title_activity_shop_create">Watch List</string>
 </resources>
