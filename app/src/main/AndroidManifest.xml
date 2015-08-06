@@ -41,18 +41,18 @@
             android:name=".views.ItemDetails"
             android:label="@string/title_activity_item_details" >
         </activity>
+        <activity
+            android:name=".views.ShopCreateActivity"
+            android:label="@string/title_activity_shop_create" />
+        <activity
+            android:name=".views.ExpiringItems"
+            android:label="@string/title_activity_expiring_list" />
 
-        <activity android:name=".views.ShopCreateActivity"
-            android:label="@string/title_activity_shop_create" ></activity>
-        <activity android:name=".views.ExpiringItems"
-            android:label="@string/title_activity_expiring_list" ></activity>
         <service
             android:name=".application.util.NotificationService"
             android:enabled="true"
             android:exported="true"
-            android:launchMode = "singleTask"
-            >
-
+            android:launchMode="singleTask" >
         </service>
 
         <receiver
@@ -63,6 +63,8 @@
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
             </intent-filter>
         </receiver>
+
+
     </application>
 
 </manifest>

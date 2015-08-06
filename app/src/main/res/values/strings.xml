@@ -15,4 +15,6 @@
     <string name="title_activity_expiring_list">Expiring Items</string>
     <string name="plus_but_desc">AddItemButton</string>
     <string name="title_activity_shop_create">Watch List</string>
+    <string name="speech_prompt">Speak out the product name</string>
+    <string name="speech_not_supported">Device does not support voice recognition</string>
 </resources>

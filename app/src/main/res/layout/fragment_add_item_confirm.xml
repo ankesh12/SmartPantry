@@ -18,20 +18,33 @@
         android:textStyle="bold"
         android:textColor="#ffffffff" />
 
-    <EditText
-        android:layout_width="match_parent"
+    <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/prodDescText"
+        android:weightSum="5"
+        android:orientation="horizontal"
         android:layout_below="@+id/productText"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:textIsSelectable="false"
-        android:singleLine="true"/>
+        android:id="@+id/prodNameLayout">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/prodDescText"
+            android:textIsSelectable="false"
+            android:singleLine="true"
+            android:layout_weight="4"/>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/micButton"
+            android:src="@mipmap/microphone"
+            android:layout_weight="1"
+            android:background="#455A64" />
+    </LinearLayout>
 
     <LinearLayout android:layout_width="fill_parent"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/prodDescText"
+        android:layout_below="@+id/prodNameLayout"
         android:weightSum="3"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
@@ -184,5 +197,7 @@
             android:layout_weight="1"
             android:background="#455A64" />
     </LinearLayout>
+
+
 
 </RelativeLayout>
