@@ -15,6 +15,7 @@ import sg.edu.nus.iss.smartpantry.application.util.ScanBarcodeActivity;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
 import sg.edu.nus.iss.smartpantry.dao.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.views.AddItemByBTReader;
 
 /**
  * Created by A0134493A on 7/5/2015.
@@ -23,6 +24,11 @@ public class ItemController {
 
     public Intent showAddItem(Context context){
         Intent intent = new Intent(context,ScanBarcodeActivity.class);
+        return intent;
+    }
+
+    public Intent showAddItemByBTReader(Context context){
+        Intent intent = new Intent(context,AddItemByBTReader.class);
         return intent;
     }
 
