@@ -64,7 +64,10 @@
             </intent-filter>
         </receiver>
 
-
+        <activity
+            android:name=".views.AddItemByBTReader"
+            android:label="@string/title_activity_add_item_by_btreader" >
+        </activity>
     </application>
 
 </manifest>
