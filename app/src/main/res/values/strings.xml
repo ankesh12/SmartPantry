@@ -17,4 +17,5 @@
     <string name="title_activity_shop_create">Watch List</string>
     <string name="speech_prompt">Speak out the product name</string>
     <string name="speech_not_supported">Device does not support voice recognition</string>
+    <string name="title_activity_add_item_by_btreader">AddItemByBTReader</string>
 </resources>
