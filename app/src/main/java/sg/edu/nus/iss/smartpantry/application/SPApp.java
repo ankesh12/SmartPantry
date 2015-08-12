@@ -107,6 +107,14 @@ public class SPApp extends ActionBarActivity{
                 startActivityForResult(cameraIntent, CAMERA_REQUEST);
             }
         });
+
+        Button btrButton = (Button)findViewById(R.id.addItem_bt);
+        btrButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mainController.addItemByBTReader(SPApp.this);
+            }
+        });
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
