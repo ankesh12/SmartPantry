@@ -108,7 +108,7 @@ public class ItemLookup {
          * Here is an example in map form, where the request parameters are stored in a map.
          */
         System.out.println("Map form example:");
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("Service", "AWSECommerceService");
         params.put("Version", "2009-03-31");
         params.put("Operation", "ItemLookup");
@@ -129,7 +129,7 @@ public class ItemLookup {
      * title from the XML.
      */
     private static ArrayList<String> fetchProductDetails(String requestUrl) throws ItemNotFoundException{
-        ArrayList<String> details = new ArrayList<String>();
+        ArrayList<String> details = new ArrayList<>();
         String title = null;
         try {
             URL url = new URL(requestUrl);
@@ -139,7 +139,7 @@ public class ItemLookup {
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("Title");
             NodeList nodeList2 = doc.getElementsByTagName("MediumImage");
-            details.add(nodeList.item(0).getTextContent());
+            details.add(nodeList.item(0).getTextContent().split(",")[0]);
             details.add(nodeList2.item(0).getFirstChild().getTextContent());
             return details;
         } catch (Exception e) {
