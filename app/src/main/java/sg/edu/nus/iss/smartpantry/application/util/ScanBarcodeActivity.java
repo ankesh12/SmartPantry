@@ -283,6 +283,7 @@ public class ScanBarcodeActivity
             }
             Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
             Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
+            bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
             Bundle b = new Bundle();
             b.putString("PRODUCT_NAME", prodTitle); //Your id
             b.putParcelable("PRODUCT_IMG", bitmap);
