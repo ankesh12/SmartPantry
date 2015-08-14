@@ -26,7 +26,7 @@
         android:layout_toRightOf="@+id/icon"
         android:textSize="17dp"
         android:textStyle="bold"
-        android:textColor="#ffffffff" />"
+        android:textColor="#000000" />"
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,7 +51,8 @@
             android:layout_height="wrap_content"
             android:id="@+id/category"
             android:layout_marginTop="1dip"
-            android:text="Yoooo"/>
+            android:text="Yoooo"
+            android:textColor="#FF0040"/>
 
 
         <!-- Threshold -->
@@ -63,14 +64,16 @@
             android:layout_marginTop="1dip"
             android:text="Thresh : "
             android:textStyle="bold"
-            android:textColor="#ff13ff23" />
+            android:textColor="#FF8000" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/threshold"
             android:layout_marginTop="1dip"
-            android:text="Yoooo"/>
+            android:text="Yoooo"
+            android:textStyle="bold"
+            android:textColor="#0000FF"/>
 
         <!-- Quantity -->
         <TextView
@@ -80,12 +83,13 @@
             android:id="@+id/qtyText"
             android:text="Qty : "
             android:textStyle="bold"
-            android:textColor="#ff13ff23" />
+            android:textColor="#FF8000" />
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/quant"
-            />
+            android:textStyle="bold"
+            android:textColor="#0000FF"/>
     </LinearLayout>
     </RelativeLayout>
 </RelativeLayout>

@@ -1,74 +1,36 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".SPApp">
+    android:layout_height="match_parent" tools:context=".SPApp">
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:weightSum="3"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
-        <!--<LinearLayout-->
-            <!--android:id="@+id/bSearch2"-->
-            <!--android:layout_width="0dp"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:clickable="true"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:layout_weight="3">-->
-            <!--<TextView-->
-                <!--android:id="@+id/tvSearchCaption"-->
-                <!--android:layout_width="fill_parent"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:textSize="24sp"-->
-                <!--android:paddingRight="30dp"-->
-                <!--android:gravity="center"-->
-                <!--android:text="Add Item" />-->
-            <!--<ImageView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_gravity="center_vertical"-->
-                <!--android:layout_marginLeft="5dp"-->
-                <!--android:adjustViewBounds="true"-->
-                <!--android:maxHeight="30dp"-->
-                <!--android:maxWidth="30dp"-->
-                <!--android:scaleType="fitCenter"-->
-                <!--android:src="@mipmap/barcode_icon" />-->
-            <!--<Button-->
-                <!--android:layout_width="0dp"-->
-                <!--android:layout_height="50dp"-->
-                <!--android:id="@+id/addItem_btn"-->
-                <!--android:background="@mipmap/barcode_icon"-->
-                <!--android:layout_weight="1" />-->
-        <!--</LinearLayout>-->
-        <Button
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:id="@+id/addItem_btn"
-            android:background="@mipmap/barcode_icon"
-            android:layout_weight="1" />
+            android:src="@mipmap/barcode_icon"
+            android:layout_weight="1"
+            android:background="#009688"/>
 
-        <Button
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:id="@+id/addItem_cam"
-        android:layout_weight="1"
-        android:background="@mipmap/camera_icon"/>
-
-        <Button
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/addItem_cam"
+            android:layout_weight="1"
+            android:src="@mipmap/camera_icon"
+            android:background="#009688"/>
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
             android:id="@+id/addItem_bt"
             android:layout_weight="1"
-            android:background="@mipmap/bluetooth"/>
+            android:src="@mipmap/bluetooth"
+            android:background="#009688"/>
     </LinearLayout>
 
-    <!--<ExpandableListView-->
-        <!--android:id= "@android:id/list"-->
-        <!--android:layout_below="@+id/linearLayout"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="fill_parent"-->
-        <!--/>-->
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
