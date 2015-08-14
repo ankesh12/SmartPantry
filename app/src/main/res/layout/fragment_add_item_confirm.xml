@@ -2,21 +2,19 @@
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="sg.edu.nus.iss.smartpantry.views.fragments.AddItemConfirmUpd"
-    android:background="#455A64">
+    android:background="#FFFFFF">
 
     <!-- TODO: Update blank fragment layout -->
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Product"
+        android:textSize="18sp"
+        android:text="Product Name"
         android:id="@+id/productText"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
         android:textStyle="bold"
-        android:textColor="#ffffffff" />
+        android:textColor="#0404B4" />
 
     <LinearLayout android:layout_width="fill_parent"
         android:layout_height="wrap_content"
@@ -38,50 +36,42 @@
             android:id="@+id/micButton"
             android:src="@mipmap/microphone"
             android:layout_weight="1"
-            android:background="#455A64" />
+            android:background="#FFFFFF" />
     </LinearLayout>
 
     <LinearLayout android:layout_width="fill_parent"
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:layout_below="@+id/prodNameLayout"
-        android:weightSum="3"
+        android:weightSum="5"
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/prodImage"
-            android:layout_weight="1"/>
+            android:layout_weight="2" />
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="2">
-            android:orientation="vertical">
-            <View
-                android:layout_width="2dp"
-                android:layout_height="80dp"
-                android:id="@+id/vertDivider"
-                android:background="#ff000000"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/linearLayout"
-                android:layout_marginRight="10dp"/>
+            android:layout_weight="3">
+
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:layout_marginTop="5dp">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:text="Quantity  :"
+                    android:text="Quantity"
                     android:id="@+id/productQtyText"
                     android:textStyle="bold"
-                    android:textColor="#ffffffff"
+                    android:textColor="#000000"
                     android:layout_marginTop="14dp"/>
                 <TextView
                     android:layout_width="wrap_content"
@@ -89,17 +79,17 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:layout_alignParentLeft="true"
                     android:layout_alignParentStart="true"
-                    android:text="Expiry      :"
+                    android:text="Expiry"
                     android:id="@+id/productExpDateText"
                     android:textStyle="bold"
                     android:layout_marginTop="22dp"
-                    android:textColor="#ffffffff"/>
+                    android:textColor="#000000" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_height="wrap_content"
                 android:layout_width="0dp"
-                android:layout_weight="1"
+                android:layout_weight="2"
                 android:orientation="vertical">
                 <EditText
                     android:layout_width="match_parent"
@@ -134,29 +124,35 @@
         android:layout_below="@+id/linearLayout"
         android:layout_marginTop="10dp"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Category"
-        android:id="@+id/catText"
         android:layout_below="@+id/linearLayout"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+        android:id="@+id/categoryLayout"
         android:layout_marginTop="30dp"
-        android:textStyle="bold"
-        android:textColor="#ffffffff"/>
+        android:orientation="horizontal"
+        android:weightSum="2">
 
-    <Spinner
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_alignBottom="@+id/catText"
-        android:layout_toRightOf="@+id/catText"
-        android:layout_toEndOf="@+id/catText"
-        android:layout_marginLeft="51dp"
-        android:layout_marginStart="51dp"
-        android:popupBackground="#000000" />
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Category"
+            android:id="@+id/catText"
+            android:layout_margin="5dp"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:textColor="#0404B4" />
+
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner"
+            android:layout_margin="5dp"
+            android:layout_weight="1"
+
+            android:popupBackground="#000000" />
+    </LinearLayout>
     <View
         android:layout_width="fill_parent"
         android:layout_height="1dp"
@@ -164,8 +160,8 @@
         android:background="#ff000000"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/catText"
-        android:layout_marginTop="30dp"/>
+        android:layout_below="@+id/categoryLayout"
+        android:layout_marginTop="10dp" />
 
 
     <LinearLayout android:layout_width="fill_parent"
@@ -176,7 +172,7 @@
         android:orientation="horizontal"
         android:id="@+id/linearLayoutButtons">
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/addButton"
             android:layout_below="@+id/dividerThree"
@@ -184,10 +180,10 @@
             android:layout_toEndOf="@+id/prodDescText"
             android:src="@mipmap/plus_icon"
             android:layout_weight="1"
-            android:background="#455A64" />
+            android:background="#FFFFFF" />
 
         <ImageButton
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:id="@+id/removeButton"
             android:src="@mipmap/cross_icon"
@@ -195,9 +191,6 @@
             android:layout_alignRight="@+id/spinner"
             android:layout_alignEnd="@+id/spinner"
             android:layout_weight="1"
-            android:background="#455A64" />
+            android:background="#FFFFFF" />
     </LinearLayout>
-
-
-
 </RelativeLayout>

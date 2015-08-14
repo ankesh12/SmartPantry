@@ -27,7 +27,7 @@ public class ItemDetails extends ActionBarActivity implements AddItemConfirm.OnF
         addItemConfirm.setArguments(b);
         fragmentTransaction.add(R.id.fragment_container, addItemConfirm, "AddItemFrag");
         fragmentTransaction.commit();
-        setActivityBackgroundColor("#455A64");
+        setActivityBackgroundColor("#FFFFFF");
     }
 
     @Override
