@@ -22,12 +22,6 @@ public class MainController {
         callIntent(intent);
     }
 
-    public void addItemByBTReader(Context context){
-        this.context = context;
-        intent = ControlFactory.getInstance().getItemController().showAddItemByBTReader(context);
-        callIntent(intent);
-    }
-
 
     public void callIntent(Intent intent){
         context.startActivity(intent);
