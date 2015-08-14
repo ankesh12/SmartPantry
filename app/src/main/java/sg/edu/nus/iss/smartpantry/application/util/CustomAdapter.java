@@ -82,7 +82,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
 
         itemName.setText(product.getProductName());
-        category.setText(catDao.getCategoryByName(product.getCategoryName()).getCategoryName());
+        category.setText(product.getCategoryName());
         threshQty.setText(String.valueOf( product.getThreshold()));
         quantity.setText(String.valueOf(product.getQuantity()));
         imageView.setImageBitmap(product.getProdImage());
