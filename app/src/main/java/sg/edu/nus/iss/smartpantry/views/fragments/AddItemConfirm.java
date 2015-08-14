@@ -315,7 +315,6 @@ public class AddItemConfirm extends Fragment {
             @Override
             public void onClick(View v) {
                 d.dismiss();
-//                getActivity().onBackPressed();
             }
         });
         d.show();
