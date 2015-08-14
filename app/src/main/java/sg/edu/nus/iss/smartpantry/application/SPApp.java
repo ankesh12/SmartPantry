@@ -1,28 +1,43 @@
 package sg.edu.nus.iss.smartpantry.application;
 
 import android.app.AlarmManager;
+import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
@@ -52,7 +67,7 @@ public class SPApp extends ActionBarActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_spapp);
-        setActivityBackgroundColor("#3B5998");
+        setActivityBackgroundColor("#FFFFFF");
 
         if (savedInstanceState == null) {
             HomePageFragment homePageFragment= new HomePageFragment();
@@ -90,7 +105,7 @@ public class SPApp extends ActionBarActivity{
         mainController = ControlFactory.getInstance().getMainController();
 
         //Add item functionality
-        Button addItemBtn = (Button) findViewById(R.id.addItem_btn);
+        ImageButton addItemBtn = (ImageButton) findViewById(R.id.addItem_btn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -99,7 +114,7 @@ public class SPApp extends ActionBarActivity{
         });
 
 
-        Button camButton = (Button)findViewById(R.id.addItem_cam);
+        ImageButton camButton = (ImageButton)findViewById(R.id.addItem_cam);
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,11 +123,11 @@ public class SPApp extends ActionBarActivity{
             }
         });
 
-        Button btrButton = (Button)findViewById(R.id.addItem_bt);
+        ImageButton btrButton = (ImageButton)findViewById(R.id.addItem_bt);
         btrButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mainController.addItemByBTReader(SPApp.this);
+                showBTReaderDialog();
             }
         });
     }
@@ -120,6 +135,7 @@ public class SPApp extends ActionBarActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
+            image=Bitmap.createScaledBitmap(image, 150, 150, false);
             Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
             Bundle b = new Bundle();
             b.putString("PRODUCT_NAME", ""); //Your id
@@ -189,6 +205,83 @@ public class SPApp extends ActionBarActivity{
         view.setBackgroundColor(Color.parseColor(color));
     }
 
+    public void showBTReaderDialog() {
+        final Dialog d = new Dialog(SPApp.this);
+        d.setTitle("Barcode Reader Connected");
+        d.setContentView(R.layout.btrdialog);
+        final EditText barcode = (EditText)d.findViewById(R.id.barCodeText);
+        barcode.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+                if ((keyEvent.getAction() == KeyEvent.ACTION_DOWN) &&
+                        (i == KeyEvent.KEYCODE_ENTER)) {
+                    getProductDetailsAndAdd(barcode.getText().toString(), d);
+                    barcode.setEnabled(false);
+                    return true;
+                }
+                return false;
+            }
+        });
+        Button doneBtn = (Button)d.findViewById(R.id.doneBtn);
+        doneBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                d.dismiss();
+            }
+        });
+        d.show();
+    }
+
+    public void getProductDetailsAndAdd(String code, Dialog dialog){
+        final String barcode = code;
+        final Dialog dlg = dialog;
+        new AsyncTask<Void, Void, ArrayList<String>>(){
+            Drawable d;
+            @Override
+            protected ArrayList<String> doInBackground(Void... params) {
+                ArrayList<String> details = null;
+                try {
+                    details = new ItemLookup(getApplicationContext()).GetProductDetails(barcode);
+                    InputStream is = (InputStream)new URL(details.get(1)).getContent();
+                    d = Drawable.createFromStream(is,null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }catch (ItemNotFoundException e) {
+                    details = null;
+                }
+                return details;
+            }
+            @Override
+            protected void onPostExecute(ArrayList<String> s) {
+                if (s==null){
+                    addProduct(null, null, dlg);
+                }else {
+                    System.out.println("PRODUCT XXXXXXXXXXXX" + s.get(0));
+                    addProduct(s.get(0), d, dlg);
+                }
+            }
+        }.execute();
+
+    }
+    private void addProduct(String prodTitle,Drawable image, Dialog dlg) {
+        if(prodTitle==null){
+            Toast.makeText(SPApp.this, "Product Not Found.", Toast.LENGTH_SHORT).show();
+            MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.beep);
+            player.start();
+        }else{
+            Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
+            bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
+            try {
+                ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1);
+                Toast.makeText(SPApp.this, "Product Added", Toast.LENGTH_SHORT).show();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        final EditText barcode = (EditText)dlg.findViewById(R.id.barCodeText);
+        barcode.setEnabled(true);
+        barcode.setText("");
+    }
     /*@Override
     public boolean onContextItemSelected(MenuItem item) {
         ExpandableListView.ExpandableListContextMenuInfo info=
