@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.smartpantry.application;
 
+import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Dialog;
 import android.app.FragmentManager;
@@ -42,9 +43,11 @@ import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
+import sg.edu.nus.iss.smartpantry.views.BluetoothScan;
 import sg.edu.nus.iss.smartpantry.views.ExpiringItems;
 import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
+import sg.edu.nus.iss.smartpantry.views.fragments.CardHomeFragment;
 import sg.edu.nus.iss.smartpantry.views.fragments.HomePageFragment;
 
 //import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
@@ -52,59 +55,36 @@ import sg.edu.nus.iss.smartpantry.views.fragments.HomePageFragment;
 //import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
 
 
-public class SPApp extends ActionBarActivity{
+public class SPApp extends Activity{
+//    private MainController mainController;
+//    List<Product> productList = new ArrayList<Product>();
+//    List<Item> prodItemList = new ArrayList<Item>();
+//    List<List<Item>> itemList = new ArrayList<List<Item>>();
+//    ExpandableListView expListView;
+//    CustomAdapter customAdapter;
+//    private static final int CAMERA_REQUEST = 1888;
+//    int lastExpandedGroupPosition;
+//    //private MobileServiceClient mClient;
+
     private MainController mainController;
-    List<Product> productList = new ArrayList<Product>();
-    List<Item> prodItemList = new ArrayList<Item>();
-    List<List<Item>> itemList = new ArrayList<List<Item>>();
-    ExpandableListView expListView;
-    CustomAdapter customAdapter;
     private static final int CAMERA_REQUEST = 1888;
-    int lastExpandedGroupPosition;
-    //private MobileServiceClient mClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_spapp);
-        setActivityBackgroundColor("#FFFFFF");
+        setContentView(R.layout.activity_bluetooth_scan);
+        //setActivityBackgroundColor("#FFFFFF");
 
         if (savedInstanceState == null) {
-            HomePageFragment homePageFragment= new HomePageFragment();
+            CardHomeFragment cardHomeFragment= new CardHomeFragment();
             FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();;
-            fragmentTransaction.add(R.id.listContainer, homePageFragment, "HomePage");
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.bluescan, cardHomeFragment, "MatDesign");
             fragmentTransaction.commit();
         }
-        //Azure deployment
-//        try {
-//            mClient = new MobileServiceClient(
-//                    "https://isscourse.azure-mobile.net/",
-//                    "krwsNiMRCExqanRaHcVWvocQKdLjbk62",
-//                    this
-//            );
-//        } catch (MalformedURLException e) {
-//            e.printStackTrace();
-//        }
-//        TestTable item = new TestTable();
-//        item.Text = "Awesome item";
-//        mClient.getTable(TestTable.class).insert(item, new TableOperationCallback<TestTable>() {
-//            @Override
-//            public void onCompleted(TestTable entity, Exception exception, ServiceFilterResponse response) {
-//                if (exception == null) {
-//                    // Insert succeeded
-//                } else {
-//                    // Insert failed
-//                }
-//            }
-//        });
+        //Events for the Image Buttons
 
-        //lastExpandedGroupPosition=-1;
-
-        //Get objects for controller
         mainController = ControlFactory.getInstance().getMainController();
-
-        //Add item functionality
         ImageButton addItemBtn = (ImageButton) findViewById(R.id.addItem_btn);
         addItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -136,7 +116,7 @@ public class SPApp extends ActionBarActivity{
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
             Bitmap image = (Bitmap) data.getExtras().get("data");
             image=Bitmap.createScaledBitmap(image, 150, 150, false);
-            Intent intent = new Intent(getApplicationContext(), ItemDetails.class);
+            Intent intent = new Intent(SPApp.this.getApplicationContext(), ItemDetails.class);
             Bundle b = new Bundle();
             b.putString("PRODUCT_NAME", ""); //Your id
             b.putParcelable("PRODUCT_IMG", image);
@@ -178,7 +158,7 @@ public class SPApp extends ActionBarActivity{
         startService(i);
     }
 
-    @Override
+
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -200,10 +180,10 @@ public class SPApp extends ActionBarActivity{
 
         return super.onOptionsItemSelected(item);
     }
-    public void setActivityBackgroundColor(String color) {
+    /*public void setActivityBackgroundColor(String color) {
         View view = this.getWindow().getDecorView();
         view.setBackgroundColor(Color.parseColor(color));
-    }
+    }*/
 
     public void showBTReaderDialog() {
         final Dialog d = new Dialog(SPApp.this);

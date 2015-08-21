@@ -31,8 +31,8 @@ public class SPAppTest extends ActivityInstrumentationTestCase2<SPApp> {
         //Unlock the lock screen
         solo.unlockScreen();
         solo.assertCurrentActivity("Expected SPApp Activity", SPApp.class);
-        expListView=getActivity().getExpandableListView();
-        expListAdapter = expListView.getExpandableListAdapter();
+//        expListView=getActivity().getExpandableListView();
+//        expListAdapter = expListView.getExpandableListAdapter();
     }
 
     @Override

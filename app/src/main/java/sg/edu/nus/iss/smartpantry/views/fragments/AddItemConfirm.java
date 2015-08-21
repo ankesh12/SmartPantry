@@ -37,6 +37,7 @@ import java.util.Locale;
 import sg.edu.nus.iss.smartpantry.Entity.Category;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.RecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
@@ -59,6 +60,7 @@ public class AddItemConfirm extends Fragment {
     static final int DATE_DIALOG_ID = 999;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private OnFragmentInteractionListener mListener;
+    private RecyclerAdapter recyclerAdapter;
 
     public static AddItemConfirm newInstance(String param1, String param2) {
         AddItemConfirm fragment = new AddItemConfirm();
@@ -116,6 +118,7 @@ public class AddItemConfirm extends Fragment {
                         for(int i=0;i < qtyEntered;i++) {
                             ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,0);
                         }
+                        recyclerAdapter.refreshData();
                         getActivity().onBackPressed();
                     }
                 } catch (ParseException e) {

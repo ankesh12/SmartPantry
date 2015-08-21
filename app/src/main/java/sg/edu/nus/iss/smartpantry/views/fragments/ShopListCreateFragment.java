@@ -120,17 +120,17 @@ public class ShopListCreateFragment extends Fragment {
         prodList = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductsNearingExpiry();
         for(Product product: prodList){
             if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
-                productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold()));
+                productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold(),false));
             }
         }
         //Get Below Threshold Product Names
         prodList = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductBelowThreshold();
         for(Product product: prodList){
-            ProductNameList checkProd = new ProductNameList(product.getProductName(),product.getCategoryName(),product.getThreshold());
+            ProductNameList checkProd = new ProductNameList(product.getProductName(),product.getCategoryName(),product.getThreshold(),true);
             if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
                 if (!productList.contains(checkProd)) {
                     System.out.println("Hai be ");
-                    productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold()));
+                    productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold(),true));
                 }
             }
         }
@@ -251,11 +251,14 @@ public class ShopListCreateFragment extends Fragment {
         private boolean checked = false ;
         private String catName;
         private int quantity;
+        private boolean flag = true;
+
         public ProductNameList() {}
-        public ProductNameList( String name , String catName , int quantity) {
+        public ProductNameList( String name , String catName , int quantity, boolean flag) {
             this.name = name ;
             this.catName = catName;
             this.quantity = quantity;
+            this.flag = flag;
         }
 //        public ProductNameList( String name, boolean checked ) {
 //            this.name = name ;
@@ -424,6 +427,15 @@ public class ShopListCreateFragment extends Fragment {
             // Display planet data
             checkBox.setChecked( productNameList.isChecked() );
             textView.setText( productNameList.getName() );
+            TextView flag = (TextView)convertView.findViewById(R.id.alertText);
+            if(productNameList.flag){
+
+                flag.setText("Below Threshold");
+            }
+            else{
+                flag.setText("Expiring");
+            }
+
             editText.setText(String.valueOf(productNameList.getQuantity()));
             editText.addTextChangedListener(new TextWatcher() {
                 @Override

@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.v7.widget.CardView
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_marginTop="10dp"
+        android:layout_width="155dp"
+        android:layout_height="150dp"
+        android:layout_marginLeft="5dp"
+        card_view:cardCornerRadius="8dp"
+        card_view:cardBackgroundColor="#F5F5F5"
+        android:elevation="10dp">
+
+        <RelativeLayout
+            android:id="@+id/card_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:id="@+id/info_image"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="sample_text_image"
+                android:src="@drawable/pen"
+                android:layout_below="@+id/info_text_footer"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="4dp"/>
+
+            <TextView
+            android:id="@+id/info_text_footer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="sample_text_footer"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="false" />
+
+            <TextView
+                android:id="@+id/cardQty_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginLeft="5dp"/>
+
+            <Button
+                android:id="@+id/card_button"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:textColor="@color/material_blue_grey_950"
+                android:background="@drawable/bp1"
+                style="?android:attr/borderlessButtonStyle"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+
+
+</RelativeLayout>
