@@ -1,0 +1,44 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:id="@+id/bluescanAct"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    tools:context="sg.edu.nus.iss.smartpantry.views.BluetoothScan" tools:ignore="MergeRootFrame"
+    android:orientation="vertical"
+    android:background="#ffffff">
+                <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/firstPartA"
+                android:elevation="10dp">
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addItem_btn"
+                    android:src="@mipmap/barcode_icon"
+                    android:layout_weight="1"
+                    android:background="#009688"/>
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addItem_cam"
+                    android:layout_weight="1"
+                    android:src="@mipmap/camera_icon"
+                    android:background="#009688"/>
+
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addItem_bt"
+                    android:layout_weight="1"
+                    android:src="@mipmap/bluetooth"
+                    android:background="#009688"/>
+
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/firstPartA"
+        android:id="@+id/bluescan"/>
+</LinearLayout>
