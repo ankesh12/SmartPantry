@@ -7,6 +7,7 @@ import android.app.Fragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -15,6 +16,7 @@ import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -37,7 +39,6 @@ import java.util.Locale;
 import sg.edu.nus.iss.smartpantry.Entity.Category;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.RecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
@@ -51,7 +52,9 @@ public class AddItemConfirm extends Fragment {
     private TextView tvDisplayDate;
     private DatePicker dpResult;
     private Button btnChangeDate;
-    EditText expDate;
+    EditText expDate,thresholdQty, price, quantity ;
+    Spinner catList;
+    Button addBtn,cancelBtn;
 
     private int year;
     private int month;
@@ -60,7 +63,6 @@ public class AddItemConfirm extends Fragment {
     static final int DATE_DIALOG_ID = 999;
     private final int REQ_CODE_SPEECH_INPUT = 100;
     private OnFragmentInteractionListener mListener;
-    private RecyclerAdapter recyclerAdapter;
 
     public static AddItemConfirm newInstance(String param1, String param2) {
         AddItemConfirm fragment = new AddItemConfirm();
@@ -73,7 +75,6 @@ public class AddItemConfirm extends Fragment {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-
         super.onCreate(savedInstanceState);
     }
 
@@ -89,51 +90,43 @@ public class AddItemConfirm extends Fragment {
         final Bitmap bitmap = (Bitmap)bundle.getParcelable("PRODUCT_IMG");
         Drawable d = new BitmapDrawable(getResources(),bitmap);
         prodImage.setImageDrawable(d);
-        final Spinner catList = (Spinner)view.findViewById(R.id.spinner);
-        loadSpinnerData(view, catList);
-        ImageButton addItemToDB = (ImageButton)view.findViewById(R.id.addButton);
-        final EditText quantity = (EditText)view.findViewById(R.id.prodQty);
-        addItemToDB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
-                if(quantity.getText() == null){
-                    quantity.setText(0);
-                }
-                int qtyEntered =Integer.valueOf(quantity.getText().toString());
-                try {
-                    if(qtyEntered<=0){
-                        Toast.makeText(getActivity().getApplicationContext(),"Quantity cannot be less than 1", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    Date expiryDate = null;
-                    if(!expDate.getText().toString().trim().equals("")) {
-                        expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
-                    }
-                    Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(catList.getSelectedItem().toString(),prodDesc.getText().toString());
-                    if(product==null){
-                        show(qtyEntered,prodDesc.getText().toString(),catList.getSelectedItem().toString(),bitmap,expiryDate);
-                    }else{
 
-                        for(int i=0;i < qtyEntered;i++) {
-                            ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,0);
-                        }
-                        recyclerAdapter.refreshData();
-                        getActivity().onBackPressed();
-                    }
-                } catch (ParseException e) {
-                    e.printStackTrace();
+        addBtn = (Button)view.findViewById(R.id.addButton);
+        cancelBtn = (Button)view.findViewById(R.id.removeButton);
+
+        quantity = (EditText)view.findViewById(R.id.prodQty);
+        thresholdQty = (EditText)view.findViewById(R.id.prodThreshQty);
+
+        price = (EditText)view.findViewById(R.id.prodPrice);
+        expDate = (EditText)view.findViewById(R.id.prodExpDate);
+        catList = (Spinner)view.findViewById(R.id.spinner);
+        loadSpinnerData(view, catList);
+        quantity.setText("1");
+        price.setText("0.0");
+
+        prodDescText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                setThreshold();
+            }
+        });
+
+        catList.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                TextView selectedText = (TextView) adapterView.getChildAt(0);
+                if (selectedText != null) {
+                    selectedText.setTextColor(Color.BLUE);
+                    setThreshold();
                 }
             }
-        });
-        ImageButton removeBtn = (ImageButton)view.findViewById(R.id.removeButton);
-        removeBtn.setOnClickListener(new View.OnClickListener() {
+
             @Override
-            public void onClick(View v) {
-                getActivity().onBackPressed();
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                //do nothing
             }
         });
-        expDate = (EditText)view.findViewById(R.id.prodExpDate);
+
         expDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -156,6 +149,7 @@ public class AddItemConfirm extends Fragment {
                 dpd.show();
             }
         });
+
         ImageButton micButton = (ImageButton)view.findViewById(R.id.micButton);
         micButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -164,11 +158,67 @@ public class AddItemConfirm extends Fragment {
 
             }
         });
+
+        quantity.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setValueFromNumPicker("Quantity", quantity);
+            }
+        });
+
+        thresholdQty.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setValueFromNumPicker("Threshold", thresholdQty);
+            }
+        });
+
+        addBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                EditText prodDesc = (EditText) getActivity().findViewById(R.id.prodDescText);
+                if(prodDesc.getText().toString().equals("")){
+                    Toast.makeText(getActivity().getApplicationContext(),"Product name cannot be blank",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(quantity.getText().toString().equals("")){
+                    Toast.makeText(getActivity().getApplicationContext(),"Quantity cannot be blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(thresholdQty.getText().toString().equals("")){
+                    Toast.makeText(getActivity().getApplicationContext(),"Threshold cannot be blank", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    Date expiryDate = null;
+                    if(!expDate.getText().toString().trim().equals("")) {
+                        expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
+                    }
+                    Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(catList.getSelectedItem().toString(),prodDesc.getText().toString());
+
+                    for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
+                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()));
+                    }
+
+                    getActivity().onBackPressed();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+
         return view;
     }
 
     /**
-     * Showing google speech input dialog
+     * Show google speech input dialog
      * */
     private void promptSpeechInput() {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
@@ -209,8 +259,6 @@ public class AddItemConfirm extends Fragment {
 
     public void loadSpinnerData(View view, Spinner catList){
         CategoryDao categoryDao = DAOFactory.getCategoryDao(getActivity().getApplicationContext());
-//        List<String> lables = new ArrayList<>();
-
         List<Category> refCatList = categoryDao.getAllCategories();
 
         if (refCatList.size() == 0)
@@ -225,12 +273,12 @@ public class AddItemConfirm extends Fragment {
         for(Category category : categoryDao.getAllCategories()){
             lables.add(category.getCategoryName());
         }
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item, lables);
-        dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(getActivity().getApplicationContext(),android.R.layout.simple_spinner_item, lables);
+        dataAdapter.setDropDownViewResource(R.layout.dropdown_layout);
         catList.setAdapter(dataAdapter);
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -288,10 +336,10 @@ public class AddItemConfirm extends Fragment {
         }
     };
 
-    public void show(final int qty, final String productName, final String categoryName, final Bitmap image, final Date expDate) {
-//        final int pick;
+    public void setValueFromNumPicker(String Title,EditText editObj){
+        final EditText editText = editObj;
         final Dialog d = new Dialog(getActivity());
-        d.setTitle("Set Threshold");
+        d.setTitle(Title);
         d.setContentView(R.layout.dialog);
         Button b1 = (Button) d.findViewById(R.id.setBtn);
         Button b2 = (Button) d.findViewById(R.id.cancelBtn);
@@ -302,16 +350,8 @@ public class AddItemConfirm extends Fragment {
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pick = np.getValue();
-                System.out.println("Threshold Value: " + pick);
-                try {
-                    for(int i=0;i<qty;i++)
-                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), categoryName, productName, image, expDate, pick);
-                } catch (ParseException e) {
-                    e.printStackTrace();
-                }
+                editText.setText(String.valueOf(np.getValue()));
                 d.dismiss();
-                getActivity().onBackPressed();
             }
         });
         b2.setOnClickListener(new View.OnClickListener() {
@@ -321,5 +361,14 @@ public class AddItemConfirm extends Fragment {
             }
         });
         d.show();
+    }
+
+    private void setThreshold(){
+        Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(catList.getSelectedItem().toString(),prodDescText.getText().toString());
+        if(product!=null)
+            thresholdQty.setText(String.valueOf(product.getThreshold()));
+        else
+            thresholdQty.setText("");
+
     }
 }
