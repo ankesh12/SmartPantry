@@ -194,7 +194,6 @@ public class AddItemConfirm extends Fragment {
                     if(!expDate.getText().toString().trim().equals("")) {
                         expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
                     }
-                    Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(catList.getSelectedItem().toString(),prodDesc.getText().toString());
 
                     for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
                         ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()));
