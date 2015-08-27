@@ -30,14 +30,19 @@ public class ItemController {
         ItemDao itemDao= DAOFactory.getItemDao(context);
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
         ProductDao prodDao = DAOFactory.getProductDao(context);
-        boolean isExistingProduct = prodDao.isProductExists(categoryName,productName);
+        Product product = prodDao.getProduct(categoryName, productName);
         Random rand = new Random();
-        if(isExistingProduct == false)
+        if(product == null)
         {
-            Product product = new Product(categoryName,productName);
-            product.setThreshold(thresholdQty);
-            product.setProdImage(bitmap);
-            prodDao.addProduct(product);
+            Product newProduct = new Product(categoryName,productName);
+            newProduct.setThreshold(thresholdQty);
+            newProduct.setProdImage(bitmap);
+            prodDao.addProduct(newProduct);
+        }else{
+            if(product.getThreshold()!=thresholdQty) {
+                product.setThreshold(thresholdQty);
+                prodDao.updateProduct(product);
+            }
         }
 
         int itemId = itemDao.generateItemIdForProduct(productName);
