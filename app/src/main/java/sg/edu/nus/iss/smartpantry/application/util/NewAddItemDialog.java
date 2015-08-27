@@ -5,7 +5,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -85,7 +84,7 @@ public class NewAddItemDialog extends Dialog{
                         }
                         ControlFactory.getInstance().getItemController().addItem(parentActivity
                                         .getApplicationContext(), selProd.getCategoryName(), selProd.getProductName(),
-                                selProd.getProdImage(),expiryDate,selProd.getThreshold());
+                                selProd.getProdImage(),expiryDate,selProd.getThreshold(),0);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

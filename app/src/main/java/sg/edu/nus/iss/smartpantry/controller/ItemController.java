@@ -26,7 +26,7 @@ public class ItemController {
         return intent;
     }
 
-    public void addItem(Context context,  String categoryName,String productName, Bitmap bitmap, Date expiryDate, int thresholdQty) throws ParseException {
+    public void addItem(Context context,  String categoryName,String productName, Bitmap bitmap, Date expiryDate, int thresholdQty, double price) throws ParseException {
         ItemDao itemDao= DAOFactory.getItemDao(context);
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
         ProductDao prodDao = DAOFactory.getProductDao(context);
@@ -44,6 +44,7 @@ public class ItemController {
         if(itemId != -1)
         {
                 Item itm = new Item(categoryName,productName, itemId);
+                itm.setPrice(price);
                 if (expiryDate!=null)
                     itm.setExpiryDate(new java.sql.Date(expiryDate.getTime()));
                 itemDao.addItem(itm);

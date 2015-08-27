@@ -84,7 +84,7 @@ public class AddItemDialog extends Dialog {
                         }
                         ControlFactory.getInstance().getItemController().addItem(parentActivity
                                         .getApplicationContext(), selProd.getCategoryName(), selProd.getProductName(),
-                                selProd.getProdImage(),expiryDate,selProd.getThreshold());
+                                selProd.getProdImage(),expiryDate,selProd.getThreshold(),0);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

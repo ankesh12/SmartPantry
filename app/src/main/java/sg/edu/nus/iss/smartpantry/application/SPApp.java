@@ -8,21 +8,19 @@ import android.app.FragmentTransaction;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.support.v7.app.ActionBarActivity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
@@ -32,23 +30,17 @@ import java.net.URL;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
-import sg.edu.nus.iss.smartpantry.Entity.Item;
-import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
-import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
-import sg.edu.nus.iss.smartpantry.views.BluetoothScan;
 import sg.edu.nus.iss.smartpantry.views.ExpiringItems;
 import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
 import sg.edu.nus.iss.smartpantry.views.fragments.CardHomeFragment;
-import sg.edu.nus.iss.smartpantry.views.fragments.HomePageFragment;
 
 //import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
 //import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
@@ -187,7 +179,7 @@ public class SPApp extends Activity{
 
     public void showBTReaderDialog() {
         final Dialog d = new Dialog(SPApp.this);
-        d.setTitle("Barcode Reader Connected");
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(R.layout.btrdialog);
         final EditText barcode = (EditText)d.findViewById(R.id.barCodeText);
         barcode.setOnKeyListener(new View.OnKeyListener() {
@@ -236,7 +228,6 @@ public class SPApp extends Activity{
                 if (s==null){
                     addProduct(null, null, dlg);
                 }else {
-                    System.out.println("PRODUCT XXXXXXXXXXXX" + s.get(0));
                     addProduct(s.get(0), d, dlg);
                 }
             }
@@ -252,7 +243,7 @@ public class SPApp extends Activity{
             Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
             bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
             try {
-                ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1);
+                ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1, 0);
                 Toast.makeText(SPApp.this, "Product Added", Toast.LENGTH_SHORT).show();
             } catch (ParseException e) {
                 e.printStackTrace();
