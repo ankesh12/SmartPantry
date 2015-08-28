@@ -8,7 +8,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,7 +54,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         holder.textView.setText(product.getProductName());
         holder.imageView.setImageBitmap(product.getProdImage());
-        holder.cardProdQty.setText("Qty: " + String.valueOf(product.getQuantity()));
+        holder.cardProdQty.setText(String.valueOf(product.getQuantity()));
         //holder.cardProdQty.setText(product.getCategoryName());
         holder.cardButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,7 +114,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         .create();
 
                 dialogPlus.show();*/
-        }
+            }
 //
         });
     }
@@ -128,14 +127,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public static class ViewHolder extends RecyclerView.ViewHolder{
         protected TextView textView;
         protected ImageView imageView;
+        protected TextView cardProdQtyText;
         protected TextView cardProdQty;
-        protected Button cardButton;
+        protected ImageView cardButton;
         public ViewHolder(View itemView) {
             super(itemView);
-            textView =  (TextView) itemView.findViewById(R.id.info_text_footer);
-            imageView = (ImageView) itemView.findViewById((R.id.info_image));
-            cardProdQty = (TextView) itemView.findViewById(R.id.cardQty_text);
-            cardButton = (Button) itemView.findViewById(R.id.card_button);
+            textView =  (TextView) itemView.findViewById(R.id.Itemname);
+            imageView = (ImageView) itemView.findViewById((R.id.icon));
+            cardProdQtyText = (TextView) itemView.findViewById(R.id.qtyText);
+            cardProdQty = (TextView) itemView.findViewById(R.id.quant);
+            cardButton = (ImageView) itemView.findViewById(R.id.consume);
 
         }
     }
