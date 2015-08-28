@@ -8,8 +8,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,6 +53,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Product product = products.get(position);
+
+
         String productName = product.getProductName();
         if(productName.length() > 15){
             productName = productName.substring(0,15);
@@ -59,18 +63,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.textView.setText(productName);
         holder.imageView.setImageBitmap(product.getProdImage());
         holder.cardProdQty.setText(String.valueOf(product.getQuantity()));
-        //holder.cardProdQty.setText(product.getCategoryName());
-        holder.cardButton.setOnClickListener(new View.OnClickListener() {
+
+        //Click feedback for the card
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Toast.makeText(context.getApplicationContext(),product.getProductName().toString(),Toast.LENGTH_SHORT).show();
+                //Calling the Details Fragment
                 CardDetailFragment cardHomeFragment= new CardDetailFragment();
+                //Creating bundle to pass on the product details to the card detail fragment
                 Bundle args = new Bundle();
                 ArrayList<String> detail = new ArrayList<String>();
                 detail.add(product.getProductName());
                 detail.add(product.getCategoryName());
                 args.putStringArrayList("Details",detail);
-                /*args.putString("Product_Name", product.getProductName());
-                args.putString("Category_Name", product.getCategoryName());*/
+
                 cardHomeFragment.setArguments(args);
                 FragmentManager fragmentManager = context.getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
@@ -78,46 +85,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 fragmentTransaction.replace(R.id.bluescan, cardHomeFragment, "MatDesignCDetail");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
-                /*Toast.makeText(context, product.getProductName().toString(), Toast.LENGTH_SHORT).show();
-//                DialogPlus dialog = DialogPlus.newDialog(context)
-//
-//                        .setContentHolder(new ListHolder())
-//                        .setAdapter(adapter)
-//                        .setExpanded(true)  // This will enable the expand feature, (similar to android L share dialog)
-//                        .create();
-//                dialog.show();
-                ItemDao itemDao = DAOFactory.getItemDao(context.getApplicationContext());
-                items = itemDao.getItemsByProductAndCategoryName(product.getProductName(),product.getCategoryName());
-                String[] dateList = new String[items.size()];
-                int i=0;
-                for(Item item: items){
-                    dateList[i++] = String.valueOf(item.getExpiryDate());
-                    System.out.println("Expiry date: " + String.valueOf(item.getExpiryDate()));
-                }
-                DialogPlus dialogPlus = DialogPlus.newDialog(context)
-                        .setAdapter(new ArrayAdapter<>(context, android.R.layout.simple_list_item_1, dateList))
-                        .setCancelable(true)
-                        .setOnDismissListener(new OnDismissListener() {
-                            @Override
-                            public void onDismiss(DialogPlus dialog) {
+            }
+        });
+        //holder.cardProdQty.setText(product.getCategoryName());
+        //Click feedback for the Add-to-Cart Button
+        holder.cardButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-                            }
-                        })
-                        .setOnCancelListener(new OnCancelListener() {
-                            @Override
-                            public void onCancel(DialogPlus dialog) {
+                Toast.makeText(context.getApplicationContext(), product.getProductName().toString(), Toast.LENGTH_SHORT).show();
 
-                            }
-                        })
-                        .setOnBackPressListener(new OnBackPressListener() {
-                            @Override
-                            public void onBackPressed(DialogPlus dialogPlus) {
-
-                            }
-                        })
-                        .create();
-
-                dialogPlus.show();*/
             }
 //
         });
@@ -133,14 +110,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         protected ImageView imageView;
         protected TextView cardProdQtyText;
         protected TextView cardProdQty;
-        protected ImageView cardButton;
+        //protected ImageView cardButton;
+        protected Button cardButton;
         public ViewHolder(View itemView) {
             super(itemView);
             textView =  (TextView) itemView.findViewById(R.id.Itemname);
             imageView = (ImageView) itemView.findViewById((R.id.icon));
             cardProdQtyText = (TextView) itemView.findViewById(R.id.qtyText);
             cardProdQty = (TextView) itemView.findViewById(R.id.quant);
-            cardButton = (ImageView) itemView.findViewById(R.id.consume);
+            cardButton = (Button) itemView.findViewById(R.id.consume);
 
         }
     }
