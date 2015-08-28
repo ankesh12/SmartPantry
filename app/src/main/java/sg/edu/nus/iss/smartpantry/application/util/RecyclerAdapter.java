@@ -51,8 +51,12 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Product product = products.get(position);
-
-        holder.textView.setText(product.getProductName());
+        String productName = product.getProductName();
+        if(productName.length() > 15){
+            productName = productName.substring(0,15);
+            productName = productName.concat("...");
+        }
+        holder.textView.setText(productName);
         holder.imageView.setImageBitmap(product.getProdImage());
         holder.cardProdQty.setText(String.valueOf(product.getQuantity()));
         //holder.cardProdQty.setText(product.getCategoryName());
