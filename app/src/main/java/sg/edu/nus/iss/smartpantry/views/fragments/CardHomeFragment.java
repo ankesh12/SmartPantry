@@ -78,8 +78,6 @@ public class CardHomeFragment extends Fragment {
         adapter = new RecyclerAdapter(productList,getActivity());
         recyclerView.setAdapter(adapter);
 
-
-
         return view;
     }
 

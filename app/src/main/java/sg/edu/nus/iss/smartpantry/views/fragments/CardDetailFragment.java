@@ -53,7 +53,7 @@ public class CardDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.testing, container, false);
+        View view = inflater.inflate(R.layout.fragment_card_detail, container, false);
         final ListView cardDetails = (ListView) view.findViewById(R.id.cardItemDetails);
         ImageView imageView = (ImageView) view.findViewById(R.id.icon_card);
         prodname = (TextView) view.findViewById(R.id.Itemname_card);

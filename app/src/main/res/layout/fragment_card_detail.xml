@@ -1,90 +1,177 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="sg.edu.nus.iss.smartpantry.views.fragments.CardDetailFragment"
-    android:orientation="horizontal">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <RelativeLayout
-        android:background="#8c9eff"
-        android:id="@+id/imageViewProd"
-        android:layout_width="match_parent"
-        android:layout_height="165dp"
-        android:elevation="20dp">
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/bigImageProd"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/pen"/>
+        <RelativeLayout
+            android:id="@+id/imageViewProd"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_weight="0.6"
 
-        <android.support.design.widget.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/fab"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:src="@drawable/pen"
-            app:layout_anchor="@+id/imageViewProd"
-            app:layout_anchorGravity="bottom|right|end"
-            android:layout_marginBottom="-30dp"
-            android:layout_marginRight="20dp"
-            />
+            android:orientation="horizontal"
+            android:background="#f48fb1">
+            <!-- android:background="@android:color/holo_purple" -->
 
-        <!--<android.support.design.widget.FloatingActionButton-->
-            <!--android:id="@+id/myFAB"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:src="@drawable/pen"-->
-            <!--android:below="@+id/bigImageProd"/>-->
+            <!-- Thumbnail Image -->
+            <ImageView
+                android:id="@+id/icon_card"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="5dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="5dp"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
+                android:src="@mipmap/ic_launcher" />
 
-    </RelativeLayout>
-    <RelativeLayout
-        android:id="@+id/cardDetails"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/imageViewProd"
-        android:layout_marginTop="20dp"
-        >
+            <!-- Item Name -->
+            <TextView
+                android:id="@+id/Itemname_card"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignTop="@+id/icon_card"
+                android:layout_marginTop="20dp"
+                android:layout_toRightOf="@+id/icon_card"
+                android:text="Product"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:textColor="#000000" />"
+            <RelativeLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/Itemname_card"
+                android:layout_toRightOf="@+id/icon_card">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    >
+                    <!-- Category -->
+                    <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/categoryText"-->
+                    <!--android:layout_marginTop="1dip"-->
+                    <!--android:text="Cat : "-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="#ffff281c" />-->
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/text1"
-            android:text="Product Name: "
-            android:textColor="#4a148c"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/category_card"
+                        android:layout_marginTop="1dip"
+                        android:text="Yoooo"
+                        android:textColor="#4A148C"
+                        android:textStyle="bold" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/cardProdName"
-            android:layout_toRightOf="@+id/text1"
-            android:textColor="#4a148c"
-            android:textSize="20dp"
-            android:textStyle="bold"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Item Details"
-            android:layout_below="@+id/text1"
-            android:layout_centerInParent="true"
-            android:textColor="#ff4081"
-            android:textSize="20dp"
-            android:textStyle="bold"
-            android:layout_marginTop="10dp"/>
+                    <!-- Threshold -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/threshText_card"
+                        android:layout_marginTop="1dip"
+                        android:text="Thresh : "
+                        android:textStyle="bold"
+                        android:textColor="#FF8000" />
 
-    </RelativeLayout>
-    <ListView
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/threshold_card"
+                        android:layout_marginTop="1dip"
+                        android:text="Yoooo"
+                        android:textStyle="bold"
+                        android:textColor="#0000FF"/>
+
+                    <!-- Quantity -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:id="@+id/qtyText_card"
+                        android:text="Qty : "
+                        android:textStyle="bold"
+                        android:textColor="#FF8000" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/quant_card"
+                        android:textStyle="bold"
+                        android:textColor="#0000FF"/>
+                </LinearLayout>
+            </RelativeLayout>
+
+            </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/cardDetails"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.4"
+            android:background="#FFFFFF"
+
+            android:orientation="horizontal">
+            <!--android:background="@android:color/holo_orange_light"-->
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/text1"-->
+                <!--android:text="Product Name: "-->
+                <!--android:textColor="#4a148c"-->
+                <!--android:textSize="20dp"-->
+                <!--android:textStyle="bold"/>-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:id="@+id/cardProdName"-->
+                <!--android:layout_toRightOf="@+id/text1"-->
+                <!--android:textColor="#4a148c"-->
+                <!--android:textSize="20dp"-->
+                <!--android:textStyle="bold"/>-->
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Item Details"
+                android:id="@+id/itemDet"
+                android:textColor="#ff4081"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"/>
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/itemDet"
+                android:id="@+id/cardItemDetails"/>
+
+        </RelativeLayout>
+
+
+
+    </LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/cardDetails"
-        android:id="@+id/cardItemDetails">
+        android:layout_margin="16dp"
+        android:clickable="true"
+        android:src="@drawable/ic_add_black_18dp_xxhd"
+        app:layout_anchor="@id/imageViewProd"
+        app:layout_anchorGravity="bottom|right|end"/>
 
-    </ListView>
-
-</RelativeLayout>
+</android.support.design.widget.CoordinatorLayout>
