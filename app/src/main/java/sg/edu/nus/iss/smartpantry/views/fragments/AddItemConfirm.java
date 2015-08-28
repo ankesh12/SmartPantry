@@ -191,6 +191,9 @@ public class AddItemConfirm extends Fragment {
                     Toast.makeText(getActivity().getApplicationContext(),"Threshold cannot be blank", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                if(price.getText().toString().equals("")) {
+                    price.setText("0.0");
+                }
                 try {
                     Date expiryDate = null;
                     if(!expDate.getText().toString().trim().equals("")) {

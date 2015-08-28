@@ -50,7 +50,7 @@ public class ItemLookup {
     /*
      * Your AWS Access Key ID, as taken from the AWS Your Account page.
      */
-   private String AWS_ACCESS_KEY_ID,AWS_SECRET_KEY,ASSOCIATE_TAG,ENDPOINT;
+    private String AWS_ACCESS_KEY_ID,AWS_SECRET_KEY,ASSOCIATE_TAG,ENDPOINT;
 
     public ItemLookup(Context context){
         try {
@@ -98,7 +98,7 @@ public class ItemLookup {
             e.printStackTrace();
             return null;
         }
-        
+
         String requestUrl = null;
         String title = null;
 
@@ -139,7 +139,15 @@ public class ItemLookup {
             doc.getDocumentElement().normalize();
             NodeList nodeList = doc.getElementsByTagName("Title");
             NodeList nodeList2 = doc.getElementsByTagName("MediumImage");
-            details.add(nodeList.item(0).getTextContent().split(",")[0]);
+            String titleVal =nodeList.item(0).getTextContent().split(",")[0];
+            if(titleVal.contains("("))
+            {
+                int index = titleVal.indexOf("(");
+                titleVal=titleVal.substring(0,index);
+            }
+            titleVal=titleVal.split(" - VALUE:")[0];
+            details.add(titleVal);
+            //details.add(nodeList.item(0).getTextContent().split(",")[0]);
             details.add(nodeList2.item(0).getFirstChild().getTextContent());
             return details;
         } catch (Exception e) {
