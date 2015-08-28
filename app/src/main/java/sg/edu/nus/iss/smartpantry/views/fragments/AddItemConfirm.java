@@ -39,6 +39,7 @@ import java.util.Locale;
 import sg.edu.nus.iss.smartpantry.Entity.Category;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.RecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
@@ -55,6 +56,7 @@ public class AddItemConfirm extends Fragment {
     EditText expDate,thresholdQty, price, quantity ;
     Spinner catList;
     Button addBtn,cancelBtn;
+    private RecyclerAdapter recyclerAdapter;
 
     private int year;
     private int month;
@@ -198,7 +200,7 @@ public class AddItemConfirm extends Fragment {
                     for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
                         ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()));
                     }
-
+                    recyclerAdapter.refreshData();
                     getActivity().onBackPressed();
                 } catch (ParseException e) {
                     e.printStackTrace();
