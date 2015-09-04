@@ -27,7 +27,7 @@
                 android:id="@+id/itemNameLayout"
                 android:layout_alignParentTop="true"
                 android:layout_below="@+id/iconLayout"
-                android:layout_weight="9">
+                android:layout_weight="8">
                 <TextView
                     android:id="@+id/prodName"
                     android:layout_width="wrap_content"
@@ -41,7 +41,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:layout_weight="1">
+                android:layout_weight="2">
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/fab_content_size"

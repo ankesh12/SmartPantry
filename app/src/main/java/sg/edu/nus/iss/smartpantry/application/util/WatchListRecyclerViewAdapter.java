@@ -65,8 +65,14 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
             final WatchListProduct WatchListProd = productList.get(position);
             final Product prod = WatchListProd.getProd();
 
+            String productName =prod.getProductName();
+            if(productName.length() > 12){
+                productName = productName.substring(0,12);
+                productName = productName.concat("...");
+            }
+
             holder.vProdImage.setImageBitmap(prod.getProdImage());
-            holder.vProdName.setText(prod.getProductName());
+            holder.vProdName.setText(productName);
             if(prod.getQuantity() <= prod.getThreshold())
             {
                 holder.vQtyLbl.setVisibility(View.VISIBLE);
