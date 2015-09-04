@@ -46,6 +46,7 @@ public class SPApp extends Activity{
 
     private MainController mainController;
     private static final int CAMERA_REQUEST = 1888;
+    private CardHomeFragment cardHomeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,7 @@ public class SPApp extends Activity{
         setContentView(R.layout.activity_bluetooth_scan);
 
         if (savedInstanceState == null) {
-            CardHomeFragment cardHomeFragment= new CardHomeFragment();
+            cardHomeFragment= new CardHomeFragment();
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.bluescan, cardHomeFragment, "MatDesign");
@@ -181,6 +182,7 @@ public class SPApp extends Activity{
             @Override
             public void onClick(View v) {
                 d.dismiss();
+                cardHomeFragment.getAdapter().refreshData();
             }
         });
         d.show();

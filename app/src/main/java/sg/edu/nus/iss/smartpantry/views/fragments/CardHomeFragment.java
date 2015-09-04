@@ -32,6 +32,11 @@ public class CardHomeFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
+
+    public RecyclerAdapter getAdapter() {
+        return adapter;
+    }
+
     private RecyclerAdapter adapter;
     private RecyclerView.LayoutManager layoutManager;
 
