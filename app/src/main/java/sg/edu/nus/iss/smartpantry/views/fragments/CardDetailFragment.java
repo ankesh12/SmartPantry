@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -83,9 +84,26 @@ public class CardDetailFragment extends Fragment {
 
         ItemDao itemDao = DAOFactory.getItemDao(getActivity().getApplicationContext());
         String[] dataArray = new String[]{detail.get(0),detail.get(1)};
-        ArrayList<Item> items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
+        final ArrayList<Item> items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
         //System.out.println("Item Ek number: " + items.get(0).getDop().toString());
-        final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity().getApplicationContext(),R.layout.itemlist, items,product,view);
+        final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity(),R.layout.itemlist, items,product,view);
+        //
+//
+//        cardDetails.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                EditItemDialog editItemDialog = new EditItemDialog(getActivity(),product,cardAdapter);
+//                editItemDialog.show();
+//
+//            }
+//        });
+
+
+
+
+
+
+
 
 
 
@@ -105,7 +123,7 @@ public class CardDetailFragment extends Fragment {
                                    case 0:{NewAddItemDialog itemDialog = new NewAddItemDialog(getActivity(),product,cardAdapter);
                                 itemDialog.show();
                                        break;}
-                                   case 1: {EditItemDialog editItemDialog = new EditItemDialog(getActivity(),product,cardAdapter);
+                                   case 1: {EditItemDialog editItemDialog = new EditItemDialog(getActivity(),items.get(0),cardAdapter);
                                        editItemDialog.show();
                                        Toast.makeText(getActivity().getApplicationContext()," Inside Edit iTems  " +
                                                "successfully", Toast.LENGTH_SHORT).show();}
@@ -121,6 +139,8 @@ public class CardDetailFragment extends Fragment {
         // Inflate the layout for this fragment
         return view;
     }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
 //    public void onButtonPressed(Uri uri) {

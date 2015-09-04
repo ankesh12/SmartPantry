@@ -18,6 +18,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
@@ -28,13 +29,16 @@ import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 public class EditItemDialog extends Dialog{
 
     private Activity parentActivity;
+    private EditText purDate;
+    private EditText expDate;
+    private EditText price;
 
-    private Product selProd;
+    private Item item;
     private CardDetailAdapter adapt;
-    public EditItemDialog(Activity parentActivity,Product prod,CardDetailAdapter adapt) {
+    public EditItemDialog(Activity parentActivity,Item item,CardDetailAdapter adapt) {
         super(parentActivity);
         this.parentActivity=parentActivity;
-        this.selProd=prod;
+        this.item=item;
         this.adapt=adapt;
     }
 
@@ -43,9 +47,18 @@ public class EditItemDialog extends Dialog{
         super.onCreate(savedInstanceState);
         setTitle("Edit Item ");
         setContentView(R.layout.dialog_edit_item);
+        purDate = (EditText) findViewById(R.id.editItemPurDate);
+        expDate = (EditText) findViewById(R.id.editItemExpDate);
+        price = (EditText) findViewById(R.id.priceEditItem);
+
+        purDate.setText(item.getDop().toString());
+        expDate.setText(item.getExpiryDate()== null ? " " : item.getExpiryDate().toString());
+
+        price.setText(String.valueOf(item.getPrice()));
 
 
-        final EditText expDate = (EditText)findViewById(R.id.editItemExpDate);
+        //final EditText expDate = (EditText)findViewById(R.id.editItemExpDate);
+
         expDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,7 +81,7 @@ public class EditItemDialog extends Dialog{
                 dpd.show();
             }
         });
-        final EditText purDate = (EditText)findViewById(R.id.editItemPurDate);
+        //final EditText purDate = (EditText)findViewById(R.id.editItemPurDate);
         purDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
