@@ -1,11 +1,11 @@
 package sg.edu.nus.iss.smartpantry.views;
 
+import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,7 +13,7 @@ import android.view.View;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.views.fragments.AddItemConfirm;
 
-public class ItemDetails extends ActionBarActivity implements AddItemConfirm.OnFragmentInteractionListener{
+public class ItemDetails extends Activity implements AddItemConfirm.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
