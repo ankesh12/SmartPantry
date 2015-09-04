@@ -18,5 +18,5 @@
     <string name="speech_prompt">Speak out the product name</string>
     <string name="speech_not_supported">Device does not support voice recognition</string>
     <string name="title_activity_add_item_by_btreader">AddItemByBTReader</string>
-    <string name="bluetooth_scan_message">Scan your items one by one. It will be added automatically to the inventory if matching product is found. Otherwise you need to enter it manually using the camera icon. Keep this window open while scanning.</string>
+    <string name="bluetooth_scan_message">Please make sure the bluetooth barcode reader is connected to the device and scan your items one by one. It will be added automatically to the inventory if matching product is found. Otherwise you need to enter it manually using the camera icon. Keep this window open while scanning.</string>
 </resources>
