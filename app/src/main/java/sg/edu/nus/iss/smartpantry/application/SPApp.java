@@ -14,6 +14,8 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -86,6 +88,15 @@ public class SPApp extends Activity{
             @Override
             public void onClick(View view) {
                 showBTReaderDialog();
+            }
+        });
+
+        final DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawerLayout);
+        ImageButton options_btn = (ImageButton) findViewById(R.id.options_btn);
+        options_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                drawer.openDrawer(Gravity.LEFT);
             }
         });
     }
