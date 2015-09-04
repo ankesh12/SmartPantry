@@ -87,9 +87,11 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
             }
             if(selStatus != null && selStatus) {
                 WatchListProd.setIsSelected(true);
+                selectedProd.add(WatchListProd);
             }
             else if(selStatus != null && !selStatus) {
                 WatchListProd.setIsSelected(false);
+                selectedProd.remove(WatchListProd);
             }
 
             holder.vChkBox.setChecked(WatchListProd.isSelected());
