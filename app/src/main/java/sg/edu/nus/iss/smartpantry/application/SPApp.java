@@ -42,33 +42,19 @@ import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
 import sg.edu.nus.iss.smartpantry.views.fragments.CardHomeFragment;
 
-//import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-//import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
-//import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
-
-
 public class SPApp extends Activity{
-//    private MainController mainController;
-//    List<Product> productList = new ArrayList<Product>();
-//    List<Item> prodItemList = new ArrayList<Item>();
-//    List<List<Item>> itemList = new ArrayList<List<Item>>();
-//    ExpandableListView expListView;
-//    CustomAdapter customAdapter;
-//    private static final int CAMERA_REQUEST = 1888;
-//    int lastExpandedGroupPosition;
-//    //private MobileServiceClient mClient;
 
     private MainController mainController;
     private static final int CAMERA_REQUEST = 1888;
+    private CardHomeFragment cardHomeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_scan);
-        //setActivityBackgroundColor("#FFFFFF");
 
         if (savedInstanceState == null) {
-            CardHomeFragment cardHomeFragment= new CardHomeFragment();
+            cardHomeFragment= new CardHomeFragment();
             FragmentManager fragmentManager = getFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             fragmentTransaction.add(R.id.bluescan, cardHomeFragment, "MatDesign");
@@ -172,10 +158,7 @@ public class SPApp extends Activity{
 
         return super.onOptionsItemSelected(item);
     }
-    /*public void setActivityBackgroundColor(String color) {
-        View view = this.getWindow().getDecorView();
-        view.setBackgroundColor(Color.parseColor(color));
-    }*/
+
 
     public void showBTReaderDialog() {
         final Dialog d = new Dialog(SPApp.this);
@@ -199,6 +182,7 @@ public class SPApp extends Activity{
             @Override
             public void onClick(View v) {
                 d.dismiss();
+                cardHomeFragment.getAdapter().refreshData();
             }
         });
         d.show();
@@ -237,13 +221,15 @@ public class SPApp extends Activity{
     private void addProduct(String prodTitle,Drawable image, Dialog dlg) {
         if(prodTitle==null){
             Toast.makeText(SPApp.this, "Product Not Found.", Toast.LENGTH_SHORT).show();
-            MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.beep);
+            MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.nfbeep);
             player.start();
         }else{
             Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
             bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
             try {
                 ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1, 0);
+                MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.beep);
+                player.start();
                 Toast.makeText(SPApp.this, "Product Added", Toast.LENGTH_SHORT).show();
             } catch (ParseException e) {
                 e.printStackTrace();
@@ -253,40 +239,4 @@ public class SPApp extends Activity{
         barcode.setEnabled(true);
         barcode.setText("");
     }
-    /*@Override
-    public boolean onContextItemSelected(MenuItem item) {
-        ExpandableListView.ExpandableListContextMenuInfo info=
-                (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
-        int groupPos =ExpandableListView.getPackedPositionGroup(info.packedPosition);
-        int menuItemIndex = item.getItemId();
-        //String[] menuItems = getResources().getStringArray(R.array.menu);
-        //String menuItemName = menuItems[menuItemIndex];
-        Product selProd = (Product)expListView.getExpandableListAdapter().getGroup(groupPos);
-        boolean flag=true;
-
-        switch (menuItemIndex)
-        {
-            case 0: AddItemDialog itmDialog = new AddItemDialog(this,selProd,customAdapter);
-                itmDialog.show();
-            default: flag=false;
-        }
-        return flag;
-
-    }
-
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        if (v.getId()==android.R.id.list) {
-            ExpandableListView.ExpandableListContextMenuInfo info=
-                    (ExpandableListView.ExpandableListContextMenuInfo)menuInfo;
-            int groupPos =ExpandableListView.getPackedPositionGroup(info.packedPosition);
-            Product selProd = (Product)expListView.getExpandableListAdapter().getGroup(groupPos);
-            menu.setHeaderTitle(selProd.getProductName());
-            String[] menuItems = getResources().getStringArray(R.array.menu);
-            for (int i = 0; i<menuItems.length; i++) {
-                menu.add(Menu.NONE, i, i, menuItems[i]);
-            }
-        }
-    }*/
 }
