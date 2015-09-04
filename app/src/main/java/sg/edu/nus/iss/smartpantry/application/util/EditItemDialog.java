@@ -3,25 +3,25 @@ package sg.edu.nus.iss.smartpantry.application.util;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.NumberPicker;
+
 import android.widget.Toast;
 
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
-import sg.edu.nus.iss.smartpantry.Entity.Product;
+
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
+;
+import sg.edu.nus.iss.smartpantry.dao.sqlite.ItemDaoImpl;
 
 /**
  * Created by sambhav on 9/3/15.
@@ -109,20 +109,34 @@ public class EditItemDialog extends Dialog{
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Date expiryDate = null;
+                Date purchaseDate=null;
+               try{
+                if(!expDate.getText().toString().trim().equals("")) {
+                    expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
 
-//                {
-//                    try {
-//                        Date expiryDate = null;
-//                        if(!expDate.getText().toString().trim().equals("")) {
-//                            expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
-//                        }
-//                        ControlFactory.getInstance().getItemController().addItem(parentActivity
-//                                        .getApplicationContext(), selProd.getCategoryName(), selProd.getProductName(),
-//                                selProd.getProdImage(),expiryDate,selProd.getThreshold(),0);
-//                    } catch (ParseException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
+                                        }}
+               catch(Exception e ){}
+
+                try{
+                    if(!purDate.getText().toString().trim().equals("")) {
+                        purchaseDate = new SimpleDateFormat("dd-MM-yyyy").parse(purDate.getText().toString());
+
+                    }}
+                catch(Exception e ){}
+
+
+
+                item.setDop(new java.sql.Date(purchaseDate.getTime()));
+                item.setExpiryDate(new java.sql.Date(expiryDate.getTime()));
+                item.setPrice(Double.valueOf(price.getText().toString()));
+                ItemDaoImpl impl= new ItemDaoImpl(getContext());
+                impl.updateItem(item);
+
+
+
+
+
                 adapt.refreshData();
                 Toast.makeText(parentActivity.getApplicationContext(), " Item edited Successfully", Toast.LENGTH_SHORT).show();
                 dismiss();
