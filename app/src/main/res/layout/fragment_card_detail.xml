@@ -1,116 +1,146 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <LinearLayout android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="#f48fb1">
 
-        <RelativeLayout
-            android:id="@+id/imageViewProd"
+        <!-- android:background="@android:color/holo_purple" -->
+
+        <!-- Thumbnail Image -->
+        <android.support.v7.widget.CardView
+            android:id="@+id/card_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:layout_weight="0.6"
+            android:layout_height="155dp"
+            card_view:cardCornerRadius="4dp"
+            android:elevation="10dp"
+            android:layout_margin="2dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/imageViewProd"
+                android:weightSum="5">
+                <!--<RelativeLayout-->
+                <!--android:id="@+id/imageViewProd"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="match_parent"-->
+                <!--android:orientation="horizontal"-->
+                <!--android:layout_weight="2">-->
 
-            android:orientation="horizontal"
-            android:background="#f48fb1">
-            <!-- android:background="@android:color/holo_purple" -->
+                <ImageView
+                    android:id="@+id/icon_card"
+                    android:layout_width="200dp"
+                    android:layout_height="140dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_weight="2"
+                    android:layout_marginLeft="2dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_alignParentLeft="true"
+                    android:src="@mipmap/ic_launcher"/>
 
-            <!-- Thumbnail Image -->
-            <ImageView
-                android:id="@+id/icon_card"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginBottom="5dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:layout_marginTop="5dp"
-                android:layout_alignParentLeft="true"
-                android:paddingLeft="?android:attr/expandableListPreferredItemPaddingLeft"
-                android:src="@mipmap/ic_launcher" />
+                <!-- Item Name -->
 
-            <!-- Item Name -->
-            <TextView
-                android:id="@+id/Itemname_card"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/icon_card"
-                android:layout_marginTop="20dp"
-                android:layout_toRightOf="@+id/icon_card"
-                android:text="Product"
-                android:textSize="17dp"
-                android:textStyle="bold"
-                android:textColor="#000000" />"
-            <RelativeLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/Itemname_card"
-                android:layout_toRightOf="@+id/icon_card">
-                <LinearLayout
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    >
-                    <!-- Category -->
-                    <!--<TextView-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:id="@+id/categoryText"-->
-                    <!--android:layout_marginTop="1dip"-->
-                    <!--android:text="Cat : "-->
-                    <!--android:textStyle="bold"-->
-                    <!--android:textColor="#ffff281c" />-->
+                    android:layout_height="match_parent"
+                    android:layout_toRightOf="@+id/icon_card"
+                    android:layout_alignParentBottom="true"
+                    android:layout_weight="3">
 
-                    <TextView
+                    <ImageButton
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/category_card"
-                        android:layout_marginTop="1dip"
-                        android:text="Yoooo"
-                        android:textColor="#4A148C"
-                        android:textStyle="bold" />
+                        android:id="@+id/menu_launcher"
+                        android:layout_alignParentTop="true"
+                        android:layout_alignParentRight="true"
+                        android:background="#FFFFFF"
+                        android:src="@drawable/ic_dots_vertical"/>
 
-
-                    <!-- Threshold -->
                     <TextView
+                        android:id="@+id/Itemname_card"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginTop="25dp"
+                        android:text="Product"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        android:textColor="#000000"
+                        android:layout_centerHorizontal="true"
+                        />"
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_marginBottom="35dp"
                         android:layout_marginLeft="10dp"
-                        android:id="@+id/threshText_card"
-                        android:layout_marginTop="1dip"
-                        android:text="Thresh : "
-                        android:textStyle="bold"
-                        android:textColor="#FF8000" />
+                        >
+                        <!-- Category -->
+                        <!--<TextView-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:id="@+id/categoryText"-->
+                        <!--android:layout_marginTop="1dip"-->
+                        <!--android:text="Cat : "-->
+                        <!--android:textStyle="bold"-->
+                        <!--android:textColor="#ffff281c" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/threshold_card"
-                        android:layout_marginTop="1dip"
-                        android:text="Yoooo"
-                        android:textStyle="bold"
-                        android:textColor="#0000FF"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/category_card"
+                            android:layout_marginTop="1dip"
+                            android:text="Yoooo"
+                            android:textColor="#000000"
+                            android:textStyle="bold" />
 
-                    <!-- Quantity -->
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:id="@+id/qtyText_card"
-                        android:text="Qty : "
-                        android:textStyle="bold"
-                        android:textColor="#FF8000" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/quant_card"
-                        android:textStyle="bold"
-                        android:textColor="#0000FF"/>
-                </LinearLayout>
-            </RelativeLayout>
 
-            </RelativeLayout>
+                        <!-- Threshold -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/threshText_card"
+                            android:layout_marginTop="1dip"
+                            android:text="Thresh : "
+                            android:textStyle="bold"
+                            android:textColor="#000000" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/threshold_card"
+                            android:layout_marginTop="1dip"
+                            android:text="Yoooo"
+                            android:textStyle="bold"
+                            android:textColor="#0000FF"/>
+
+                        <!-- Quantity -->
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="10dp"
+                            android:id="@+id/qtyText_card"
+                            android:text="Qty : "
+                            android:textStyle="bold"
+                            android:textColor="#000000" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/quant_card"
+                            android:textStyle="bold"
+                            android:textColor="#0000FF"/>
+                    </LinearLayout>
+
+                </RelativeLayout>
+                <!--</RelativeLayout>-->
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
 
         <RelativeLayout
             android:id="@+id/cardDetails"
@@ -122,22 +152,22 @@
             android:orientation="horizontal">
             <!--android:background="@android:color/holo_orange_light"-->
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/text1"-->
-                <!--android:text="Product Name: "-->
-                <!--android:textColor="#4a148c"-->
-                <!--android:textSize="20dp"-->
-                <!--android:textStyle="bold"/>-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/text1"-->
+            <!--android:text="Product Name: "-->
+            <!--android:textColor="#4a148c"-->
+            <!--android:textSize="20dp"-->
+            <!--android:textStyle="bold"/>-->
 
             <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:id="@+id/cardProdName"-->
-                <!--android:layout_toRightOf="@+id/text1"-->
-                <!--android:textColor="#4a148c"-->
-                <!--android:textSize="20dp"-->
-                <!--android:textStyle="bold"/>-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/cardProdName"-->
+            <!--android:layout_toRightOf="@+id/text1"-->
+            <!--android:textColor="#4a148c"-->
+            <!--android:textSize="20dp"-->
+            <!--android:textStyle="bold"/>-->
 
             <TextView
                 android:layout_width="wrap_content"
@@ -170,7 +200,8 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:clickable="true"
-        android:src="@drawable/ic_add_black_18dp_xxhd"
+        android:src="@drawable/bp1"
+        android:elevation="40dp"
         app:layout_anchor="@id/imageViewProd"
         app:layout_anchorGravity="bottom|right|end"/>
 

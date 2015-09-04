@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="#ffffffff"
-    android:paddingLeft="?android:attr/expandableListPreferredChildPaddingLeft">
+    android:background="#ffffffff">
 
     <!-- Date Of Purchase -->
     <TextView
@@ -46,3 +45,4 @@
         android:layout_alignParentRight="true"
         android:src="@mipmap/delete" />
 </RelativeLayout>
+

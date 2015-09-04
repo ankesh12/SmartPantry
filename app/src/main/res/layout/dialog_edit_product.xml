@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="8"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:id="@+id/prodNameLayout"
+        android:layout_below="@+id/imageLayout">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/DescText"
+            android:textIsSelectable="false"
+            android:singleLine="true"
+            android:layout_weight="7"
+            android:hint="Product Name"
+            android:clickable="false"
+            android:editable="false"
+            android:paddingLeft="10dp"
+            android:background="@drawable/back"/>
+
+        <!--<ImageButton-->
+        <!--android:layout_width="0dp"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:id="@+id/micButton"-->
+        <!--android:src="@mipmap/microphone"-->
+        <!--android:layout_weight="1"-->
+        <!--android:background="#FFFFFF" />-->
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/prodNameLayout"
+        android:id="@+id/catLayout"
+        android:weightSum="2"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="Category : "
+            android:id="@+id/catText"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:textColor="#009688" />
+        <Spinner
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:clickable="false"
+            android:textSize="20sp"
+            android:id="@+id/spinner1"/>
+    </LinearLayout>
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_below="@+id/catLayout"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="2"
+        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/catLayout"
+        android:id="@+id/itmDetLayout">
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Threshold"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="1"
+                android:textColor="#AD1457" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:id="@+id/productThreshQty"
+                android:focusable="false"
+                android:layout_margin="5dp"
+                android:paddingLeft="10dp"
+                android:background="@drawable/back"/>
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout android:layout_width="match_parent"
+        android:layout_margin="5dp"
+        android:layout_marginTop="5dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/itmDetLayout"
+        android:weightSum="2"
+        android:orientation="horizontal"
+        android:id="@+id/ButtonLinearLayout">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/confirmButton"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="CONFIRM"
+            android:textSize="18sp"
+            android:background="@drawable/addbutton" />
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/rejectButton"
+            android:layout_weight="1"
+            android:layout_margin="5dp"
+            android:text="CANCEL"
+            android:textSize="18sp"
+            android:background="@drawable/cancelbutton" />
+    </LinearLayout>
+
+</RelativeLayout>

@@ -30,8 +30,6 @@
 
     <string-array name="menu">
         <item>Add Items</item>
-        <item>Edit Details</item>
-        <item>Delete Product</item>
     </string-array>
 
 </resources>

@@ -58,6 +58,14 @@ public class Product {
         this.barCode = barCode;
     }
 
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
     @Override
     public int hashCode() {
         return getProductName().hashCode() + getCategoryName().hashCode();

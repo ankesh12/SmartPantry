@@ -8,10 +8,29 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/headerLayout"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:background="#009688">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Product Details"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:textColor="#000000" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:weightSum="1"
         android:orientation="horizontal"
         android:id="@+id/imageLayout"
-        android:background="#009688">
+        android:layout_below="@+id/headerLayout"
+        android:layout_marginTop="2dp"
+        android:background="#F48FB1">
         <ImageView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -193,7 +212,7 @@
                 android:paddingLeft="10dp"
                 android:layout_weight="1"
                 android:background="@drawable/back"/>
-            </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
     <LinearLayout android:layout_width="match_parent"
         android:layout_margin="5dp"
