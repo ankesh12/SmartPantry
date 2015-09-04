@@ -93,7 +93,7 @@ public class CardDetailFragment extends Fragment {
         final ArrayList<Item> itemsToDelete = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
 
         //System.out.println("Item Ek number: " + items.get(0).getDop().toString());
-        final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity().getApplicationContext(),R.layout.itemlist, items,product,view);
+        final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity(),R.layout.itemlist, items,product,view);
         final CardDetailFragment frag =this;
         //ImageButton
         imageButton.setOnClickListener(new View.OnClickListener() {

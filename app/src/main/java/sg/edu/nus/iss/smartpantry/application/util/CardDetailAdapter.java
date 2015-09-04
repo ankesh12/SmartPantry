@@ -1,5 +1,6 @@
 package sg.edu.nus.iss.smartpantry.application.util;
 
+import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +29,15 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
     private String category;
     //private String[] items;
     private Context context;
+    private Activity actContext;
     private View view;
     private Product product;
 
-    public CardDetailAdapter(Context context, int resource, ArrayList<Item> items, Product product, View view) {
+    public CardDetailAdapter(Activity context, int resource, ArrayList<Item> items, Product product, View view) {
         super(context, resource);
+        this.actContext=context;
         this.items = items;
-        this.context = context;
+        this.context = context.getApplicationContext();
         this.product = product;
         this.view = view;
     }
@@ -52,6 +55,21 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
             LayoutInflater itemInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = itemInflater.inflate(R.layout.itemlist, null);
         }
+        final CardDetailAdapter currAdapter =this;
+        final Item passItem = items.get(position);
+        System.out.println("#####################################");
+        System.out.println("Card Adapter");
+        System.out.println("price: "+String.valueOf(passItem.getPrice()));
+        System.out.println("expDate: "+String.valueOf(passItem.getExpiryDate()));
+        System.out.println("dop: "+String.valueOf(passItem.getDop()));
+
+        convertView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EditItemDialog editItemDialog = new EditItemDialog(actContext,passItem,currAdapter);
+                editItemDialog.show();
+            }
+        });
         TextView dop = (TextView)convertView.findViewById(R.id.dop);
         TextView expiryDate = (TextView)convertView.findViewById(R.id.expiryDate);
         TextView price = (TextView)convertView.findViewById(R.id.price);
@@ -62,6 +80,9 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
         System.out.println("Date Of Purchase: " + items.get(position).getDop());
         System.out.println("DateOfPurchase: " + items.get(position).getDop());
 
+
+
+
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -69,10 +90,7 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
                 ItemDao itemDao = DAOFactory.getItemDao(context);
                 itemDao.deleteItem(items.get(position));
                 Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
-//
-//                itemList.get(groupPosition).remove(childPosition);
-//                if (itemList.get(groupPosition).isEmpty())
-//                    itemList.set(groupPosition,null);
+
                 refreshData();
             }
         });
