@@ -7,10 +7,13 @@ import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -23,6 +26,7 @@ import sg.edu.nus.iss.smartpantry.application.util.NewAddItemDialog;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.views.Dialog.EditProductDialog;
 
 
 public class CardDetailFragment extends Fragment {
@@ -32,6 +36,7 @@ public class CardDetailFragment extends Fragment {
     TextView categ;
     TextView qtycard;
     TextView thresh;
+    ImageButton imageButton;
 
 
     // TODO: Rename and change types and number of parameters
@@ -56,6 +61,7 @@ public class CardDetailFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_card_detail, container, false);
         final ListView cardDetails = (ListView) view.findViewById(R.id.cardItemDetails);
         ImageView imageView = (ImageView) view.findViewById(R.id.icon_card);
+        imageButton = (ImageButton) view.findViewById(R.id.menu_launcher);
         prodname = (TextView) view.findViewById(R.id.Itemname_card);
         categ = (TextView) view.findViewById(R.id.category_card);
         qtycard = (TextView) view.findViewById(R.id.quant_card);
@@ -85,7 +91,26 @@ public class CardDetailFragment extends Fragment {
         //System.out.println("Item Ek number: " + items.get(0).getDop().toString());
         final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity().getApplicationContext(),R.layout.itemlist, items,product,view);
 
-
+        //ImageButton
+        imageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(),imageButton);
+                popup.getMenuInflater().inflate(R.menu.popup_menu,popup.getMenu());
+                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                    @Override
+                    public boolean onMenuItemClick(MenuItem item) {
+                        if(item.getTitle().equals("Edit Product")){
+                            EditProductDialog itemDialog = new EditProductDialog(getActivity(),product);
+                            itemDialog.show();
+                        }
+                        //Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                        return false;
+                    }
+                });
+                popup.show();
+            }
+        });
 
         //OnCLickListener for FAB
         myFab.setOnClickListener(new View.OnClickListener() {
