@@ -272,6 +272,16 @@ public class AddItemConfirm extends Fragment {
             categoryDao.addCategory(c);
             c.setCategoryName("BOOKS");
             categoryDao.addCategory(c);
+            c.setCategoryName("GROC");
+            categoryDao.addCategory(c);
+            c.setCategoryName("MEDS");
+            categoryDao.addCategory(c);
+            c.setCategoryName("TOOL");
+            categoryDao.addCategory(c);
+            c.setCategoryName("TOIL");
+            categoryDao.addCategory(c);
+            c.setCategoryName("ELEC");
+            categoryDao.addCategory(c);
         }
 
         for(Category category : categoryDao.getAllCategories()){
