@@ -18,6 +18,8 @@
             android:singleLine="true"
             android:layout_weight="7"
             android:hint="Product Name"
+            android:clickable="false"
+            android:editable="false"
             android:paddingLeft="10dp"
             android:background="@drawable/back"/>
 
@@ -51,6 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:clickable="false"
             android:textSize="20sp"
             android:id="@+id/spinner1"/>
     </LinearLayout>
