@@ -7,25 +7,41 @@
     android:layout_height="match_parent"
     card_view:cardCornerRadius="4dp"
     android:elevation="5dp"
-    android:layout_margin="5dp">
+    android:layout_margin="5dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true">
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical" android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#FFFFFA"
-        android:touchscreenBlocksFocus="true">
+        android:background="#FFFFFA">
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
             android:id="@+id/iconLayout"
             android:weightSum="10">
             <LinearLayout
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/itemNameLayout"
+                android:layout_alignParentTop="true"
+                android:layout_below="@+id/iconLayout"
+                android:layout_weight="9">
+                <TextView
+                    android:id="@+id/prodName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="17dp"
+                    android:text="Post it sticky"
+                    android:textStyle="bold"
+                    android:textColor="#040404"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:gravity="right"
-                android:layout_weight="2">
+                android:layout_weight="1">
                 <CheckBox
                     android:layout_width="wrap_content"
                     android:layout_height="@dimen/fab_content_size"
@@ -33,54 +49,39 @@
                     android:gravity="right"/>
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/itemNameLayout"
-            android:layout_marginTop="5dp"
             android:layout_below="@+id/iconLayout"
-            android:layout_centerHorizontal="true">
-            <TextView
-                android:id="@+id/prodName"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textSize="17dp"
-                android:text="Post it sticky"
-                android:textStyle="bold"
-                android:textColor="#040404" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/itemNameLayout"
             android:layout_centerHorizontal="true"
             android:id="@+id/imageViewLayout">
             <ImageView
                 android:id="@+id/prodImage"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="150dp"
+                android:layout_height="130dp"
                 android:layout_margin="5dp"
                 android:src="@mipmap/ic_launcher" />
         </LinearLayout>
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/imageViewLayout"
             android:weightSum="5"
-            android:layout_alignParentBottom="true">>
+            android:layout_alignParentBottom="true">
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="bottom"
-                android:layout_weight="3">
+                android:layout_alignParentBottom="true"
+                android:layout_weight="4">
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="10dp"
                     android:id="@+id/qtyText"
                     android:text="Qty : "
                     android:textStyle="bold"
-                    android:textColor="#AD1457"/>
+                    android:textColor="#ffab38"/>
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -90,12 +91,13 @@
                     android:textStyle="bold"/>
             </LinearLayout>
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="2"
                 android:layout_gravity="bottom"
-                android:gravity="right"
-                android:layout_marginRight="5dp">
+                android:layout_marginRight="2dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:layout_weight="1">
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -104,6 +106,6 @@
                     android:textStyle="bold"
                     android:gravity="right" />
             </LinearLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>
