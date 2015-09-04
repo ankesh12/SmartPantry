@@ -119,8 +119,9 @@ public class CardDetailFragment extends Fragment {
 //                                        itemDao.deleteItem(delItem);
 //                                    }
                                     productDao.deleteProduct(product);
-                                    getActivity().onBackPressed();
                                     Toast.makeText(getActivity(), "Deleted Product", Toast.LENGTH_SHORT).show();
+                                    getActivity().onBackPressed();
+
                                 }
                             });
                             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -145,18 +146,19 @@ public class CardDetailFragment extends Fragment {
             @Override
             public void onClick(View v) {
 //
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("Options");
-                        builder.setItems(R.array.menu, new DialogInterface.OnClickListener() {
-
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                NewAddItemDialog itemDialog = new NewAddItemDialog(getActivity(),product,cardAdapter);
-                                itemDialog.show();
-                            }
-                        });
-                AlertDialog alert = builder.create();
-                        alert.show();
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                        builder.setTitle("Options");
+//                        builder.setItems(R.array.menu, new DialogInterface.OnClickListener() {
+//
+//                            @Override
+//                            public void onClick(DialogInterface dialog, int which) {
+//
+//                            }
+//                        });
+//                AlertDialog alert = builder.create();
+//                        alert.show();
+                NewAddItemDialog itemDialog = new NewAddItemDialog(getActivity(),product,cardAdapter);
+                itemDialog.show();
             }
         });
         cardDetails.setAdapter(cardAdapter);
