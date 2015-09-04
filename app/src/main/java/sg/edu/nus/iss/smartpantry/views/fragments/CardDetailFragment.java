@@ -71,7 +71,7 @@ public class CardDetailFragment extends Fragment {
         ArrayList<String> detail = b.getStringArrayList("Details");
         final String productName = detail.get(0);
         //System.out.println("ProductName: " + productName);
-        ProductDao productDao = DAOFactory.getProductDao(getActivity().getApplicationContext());
+        final ProductDao productDao = DAOFactory.getProductDao(getActivity().getApplicationContext());
 
         String category = detail.get(1);
         System.out.println("CategoryName: " + detail.get(1));
@@ -85,9 +85,11 @@ public class CardDetailFragment extends Fragment {
         //FLoating Action Button
         myFab = (FloatingActionButton) view.findViewById(R.id.fab);
 
-        ItemDao itemDao = DAOFactory.getItemDao(getActivity().getApplicationContext());
+        final ItemDao itemDao = DAOFactory.getItemDao(getActivity().getApplicationContext());
         String[] dataArray = new String[]{detail.get(0),detail.get(1)};
-        ArrayList<Item> items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
+        final ArrayList<Item> items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
+        ArrayList<Item> itemsToDelete = new ArrayList<>();
+        itemsToDelete = items;
         //System.out.println("Item Ek number: " + items.get(0).getDop().toString());
         final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity().getApplicationContext(),R.layout.itemlist, items,product,view);
 
@@ -103,6 +105,29 @@ public class CardDetailFragment extends Fragment {
                         if(item.getTitle().equals("Edit Product")){
                             EditProductDialog itemDialog = new EditProductDialog(getActivity(),product);
                             itemDialog.show();
+                        }
+                        if(item.getTitle().equals("Delete Product")){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setTitle("Confirm Delete");
+                            builder.setMessage("Deleting Product would delete the items for the Product as well. Would you like to Delete?");
+                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    for (Item delItem : items) {
+                                        itemDao.deleteItem(delItem);
+                                    }
+                                    productDao.deleteProduct(product);
+                                    getActivity().onBackPressed();
+                                }
+                            });
+                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                }
+                            });
+                            builder.show();
+
                         }
                         //Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
                         return false;
