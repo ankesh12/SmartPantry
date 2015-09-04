@@ -180,13 +180,14 @@
                 android:textStyle="bold"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"/>
+                android:layout_marginTop="25dp"/>
 
             <ListView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/itemDet"
-                android:id="@+id/cardItemDetails"/>
+                android:id="@+id/cardItemDetails"
+                android:layout_marginTop="10dp"/>
 
         </RelativeLayout>
 
@@ -198,7 +199,7 @@
         android:id="@+id/fab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="14dp"
         android:clickable="true"
         android:src="@drawable/ic_add_black_18dp_xhd"
         android:elevation="40dp"
