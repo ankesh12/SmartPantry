@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,8 +91,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.cardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                Toast.makeText(context.getApplicationContext(), product.getProductName().toString(), Toast.LENGTH_SHORT).show();
+                DAOFactory.getShopLitstDao(context.getApplicationContext()).addProductToShopList("ShopList",product,1,false);
+                //Toast.makeText(context.getApplicationContext(), product.getProductName().toString(), Toast.LENGTH_SHORT).show();
 
             }
 //
