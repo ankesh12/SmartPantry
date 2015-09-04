@@ -1,0 +1,162 @@
+package sg.edu.nus.iss.smartpantry.views.fragments;
+
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageButton;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+
+import sg.edu.nus.iss.smartpantry.Entity.Product;
+import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
+import sg.edu.nus.iss.smartpantry.Entity.WatchListProduct;
+import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.WatchListProductComparator;
+import sg.edu.nus.iss.smartpantry.application.util.WatchListRecyclerViewAdapter;
+import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+
+/**
+ * Created by A0134630R on 8/27/2015.
+ */
+public class WatchListFragment extends Fragment {
+    List<Product> productList = new ArrayList<Product>();
+    RecyclerView mRecyclerView;
+    WatchListRecyclerViewAdapter mAdapter;
+    private boolean chkBoxVisible;
+    private int addToCartBtnId;
+    private String btnLabel;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.chkBoxVisible=getArguments().getBoolean("chkBxVisible", false);
+        this.addToCartBtnId=getArguments().getInt("addToCartBtnId", R.mipmap.cart_icon);
+        this.btnLabel=null;
+    }
+
+    public static WatchListFragment newInstance(boolean chkBoxVisible,int addToCartBtnId) {
+        WatchListFragment fragment = new WatchListFragment();
+        Bundle args = new Bundle();
+        args.putBoolean("chkBxVisible", chkBoxVisible);
+        args.putInt("addToCartBtnId", addToCartBtnId);
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+//    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_watchlist_container, container, false);
+        //View view = inflater.inflate(R.layout.fragment_home_page, container, false);
+        //lastExpandedGroupPosition=-1;
+        mRecyclerView = (RecyclerView)view.findViewById(R.id.watchlist_recycler_view);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), 2));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(),chkBoxVisible,null,view);
+        mRecyclerView.setAdapter(mAdapter);
+
+        final ImageButton backBtn = (ImageButton)view.findViewById(R.id.back_btn);
+        backBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
+        final Button selectAllBtn = (Button)view.findViewById(R.id.selectAll_Btn);
+        if(addToCartBtnId == R.mipmap.cart_icon) {
+            selectAllBtn.setText(null);
+            btnLabel=null;
+        }
+        else if(addToCartBtnId == R.mipmap.done_icon) {
+            selectAllBtn.setText("Select All");
+            btnLabel="Select All";
+        }
+        selectAllBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (btnLabel != null && selectAllBtn.getText().toString().equals("Select All")) {
+                    btnLabel = "Deselect All";
+                    mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(), chkBoxVisible, true,view);
+                    mRecyclerView.setAdapter(mAdapter);
+                } else if (btnLabel != null && selectAllBtn.getText().toString().equals("Deselect All")) {
+                    btnLabel = "Select All";
+                    mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(), chkBoxVisible, false,view);
+                    mRecyclerView.setAdapter(mAdapter);
+                }
+                selectAllBtn.setText(btnLabel);
+                mAdapter.notifyDataSetChanged();
+            }
+        });
+        final ImageButton addToCart = (ImageButton)view.findViewById(R.id.addToCart);
+        addToCart.setImageResource(addToCartBtnId);
+        addToCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (addToCartBtnId == R.mipmap.cart_icon) {
+                    selectAllBtn.setText("Select All");
+                    addToCart.setImageResource(R.mipmap.done_icon);
+                    addToCartBtnId = R.mipmap.done_icon;
+                    WatchListFragment watchListFragment = WatchListFragment.newInstance(true, addToCartBtnId);
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.shop_container, watchListFragment, "WatchListWithCheckBox");
+                    //fragmentTransaction.addToBackStack("WatchListWithCheckBox");
+                    fragmentTransaction.commit();
+                } else if (addToCartBtnId == R.mipmap.done_icon) {
+                    selectAllBtn.setText(null);
+                    addToCart.setImageResource(R.mipmap.cart_icon);
+                    addToCartBtnId = R.mipmap.cart_icon;
+
+                    //Add to shopping list logic
+                    for(WatchListProduct wprod: mAdapter.getSelectedList())
+                        DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).addProductToShopList("ShopList",wprod.getProd(),1,false);
+                    mAdapter.notifyDataSetChanged();
+
+                    ShopListFragment shopListFragment= new ShopListFragment();
+                    FragmentManager fragmentManager = getFragmentManager();
+                    FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.replace(R.id.shop_container, shopListFragment);
+                    //fragmentTransaction.addToBackStack("WatchListWithoutCheckBox");
+                    fragmentTransaction.commit();
+                }
+            }
+        });
+        return view;
+    }
+
+    public List<WatchListProduct> getWatchProdList()
+    {
+        ProductDao prodDao = DAOFactory.getProductDao(getActivity().getApplicationContext());
+        List<Product> thresholdList = prodDao.getProductsNearingThreshold();
+        List<Product> expiryList = prodDao.getProductsNearingExpiry();
+        productList.addAll(thresholdList);
+        productList.addAll(expiryList);
+        productList=new ArrayList<Product>(new HashSet<Product>(productList));
+        ArrayList<WatchListProduct> watchProdList= new ArrayList<WatchListProduct>();
+        for(Product p: productList)
+            watchProdList.add(new WatchListProduct(p));
+        ArrayList<WatchListProduct> watchProdShopList= new ArrayList<WatchListProduct>();
+        for(ShoppingProduct p: DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList"))
+            watchProdShopList.add(new WatchListProduct(p.getProduct()));
+        HashSet<WatchListProduct> watchProdHash =  new HashSet<WatchListProduct>(watchProdList);
+        HashSet<WatchListProduct> watchProdShopHash =  new HashSet<WatchListProduct>(watchProdShopList);
+        watchProdHash.removeAll(watchProdShopHash);
+        watchProdList = new ArrayList<WatchListProduct>(watchProdHash);
+        Collections.sort(watchProdList, new WatchListProductComparator());
+        return  watchProdList;
+    }
+}

@@ -1,0 +1,49 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="sg.edu.nus.iss.smartpantry.views.fragments.CardHomeFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="8"
+        android:id="@+id/buttonLayout">
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:src="@mipmap/back_icon"
+            android:background="#009688"
+            android:id="@+id/back_btn"/>
+
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/selectAll_Btn"
+            android:layout_weight="4"
+            android:text="Select All"
+            android:textStyle="bold"
+            android:background="#009688"
+            style="?android:attr/borderlessButtonStyle"/>
+
+
+        <ImageButton
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:src="@mipmap/cart_icon"
+            android:id="@+id/addToCart"
+            android:background="#009688"/>
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:layout_below="@+id/buttonLayout">
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/watchlist_recycler_view"
+            android:scrollbars="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+    </LinearLayout>
+</RelativeLayout>

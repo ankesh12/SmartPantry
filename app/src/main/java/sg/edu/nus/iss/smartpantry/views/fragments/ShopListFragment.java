@@ -51,7 +51,7 @@ public class ShopListFragment extends Fragment {
         for(ShoppingProduct pro: shoppingList){
             System.out.println("From the DB:" + pro.getProduct().getProductName() );
         }
-        System.out.println("Display:" + shoppingList.get(0).getProduct().getProductName());
+        //System.out.println("Display:" + shoppingList.get(0).getProduct().getProductName());
         listAdapter = new ProductArrayAdapter(getActivity().getApplicationContext(),shoppingList);
         listView.setAdapter(listAdapter);
         return view;
