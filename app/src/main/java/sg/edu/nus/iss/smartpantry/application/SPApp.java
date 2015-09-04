@@ -6,6 +6,7 @@ import android.app.Dialog;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -14,14 +15,26 @@ import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.support.v4.widget.DrawerLayout;
+
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -33,7 +46,9 @@ import java.util.Calendar;
 
 import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.R;
+
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
+import sg.edu.nus.iss.smartpantry.application.util.MyCustomAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
@@ -42,9 +57,7 @@ import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
 import sg.edu.nus.iss.smartpantry.views.fragments.CardHomeFragment;
 
-//import com.microsoft.windowsazure.mobileservices.MobileServiceClient;
-//import com.microsoft.windowsazure.mobileservices.http.ServiceFilterResponse;
-//import com.microsoft.windowsazure.mobileservices.table.TableOperationCallback;
+
 
 
 public class SPApp extends Activity{
@@ -58,11 +71,22 @@ public class SPApp extends Activity{
 //    int lastExpandedGroupPosition;
 //    //private MobileServiceClient mClient;
 
+
+//    private ListView mDrawerList;
+//    private ArrayAdapter<String> mAdapter;
+
+
     private MainController mainController;
     private static final int CAMERA_REQUEST = 1888;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bluetooth_scan);
         //setActivityBackgroundColor("#FFFFFF");
@@ -85,7 +109,18 @@ public class SPApp extends Activity{
             }
         });
 
+///////////////////////////////////////////////////////////////////
+        ArrayList<String> list = new ArrayList<>();
+        ArrayList<Integer> img=new ArrayList<>();
+        list.add("");
 
+        MyCustomAdapter adapter = new MyCustomAdapter(list,img, this);
+        ListView lView = (ListView)findViewById(R.id.navList);
+        lView.setAdapter(adapter);
+
+
+
+//////////////////////////////////////////////////////////////////
         ImageButton camButton = (ImageButton)findViewById(R.id.addItem_cam);
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +137,17 @@ public class SPApp extends Activity{
                 showBTReaderDialog();
             }
         });
+
+
+
+
+
+
+
+
+
+
+
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -253,40 +299,9 @@ public class SPApp extends Activity{
         barcode.setEnabled(true);
         barcode.setText("");
     }
-    /*@Override
-    public boolean onContextItemSelected(MenuItem item) {
-        ExpandableListView.ExpandableListContextMenuInfo info=
-                (ExpandableListView.ExpandableListContextMenuInfo)item.getMenuInfo();
-        int groupPos =ExpandableListView.getPackedPositionGroup(info.packedPosition);
-        int menuItemIndex = item.getItemId();
-        //String[] menuItems = getResources().getStringArray(R.array.menu);
-        //String menuItemName = menuItems[menuItemIndex];
-        Product selProd = (Product)expListView.getExpandableListAdapter().getGroup(groupPos);
-        boolean flag=true;
 
-        switch (menuItemIndex)
-        {
-            case 0: AddItemDialog itmDialog = new AddItemDialog(this,selProd,customAdapter);
-                itmDialog.show();
-            default: flag=false;
-        }
-        return flag;
 
-    }
 
-    @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
-        super.onCreateContextMenu(menu, v, menuInfo);
-        if (v.getId()==android.R.id.list) {
-            ExpandableListView.ExpandableListContextMenuInfo info=
-                    (ExpandableListView.ExpandableListContextMenuInfo)menuInfo;
-            int groupPos =ExpandableListView.getPackedPositionGroup(info.packedPosition);
-            Product selProd = (Product)expListView.getExpandableListAdapter().getGroup(groupPos);
-            menu.setHeaderTitle(selProd.getProductName());
-            String[] menuItems = getResources().getStringArray(R.array.menu);
-            for (int i = 0; i<menuItems.length; i++) {
-                menu.add(Menu.NONE, i, i, menuItems[i]);
-            }
-        }
-    }*/
+
+
 }

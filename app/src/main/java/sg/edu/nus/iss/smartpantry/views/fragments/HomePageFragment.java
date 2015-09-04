@@ -19,6 +19,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.AddItemDialog;
 import sg.edu.nus.iss.smartpantry.application.util.CustomAdapter;
+import sg.edu.nus.iss.smartpantry.application.util.EditItemDialog;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
 
 
@@ -84,6 +85,7 @@ public class HomePageFragment extends Fragment {
         {
             case 0: AddItemDialog itmDialog = new AddItemDialog(getActivity(),selProd,customAdapter);
                 itmDialog.show();
+
             default: flag=false;
         }
         return flag;

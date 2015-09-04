@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -19,6 +20,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.CardDetailAdapter;
+import sg.edu.nus.iss.smartpantry.application.util.EditItemDialog;
 import sg.edu.nus.iss.smartpantry.application.util.NewAddItemDialog;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.ItemDao;
@@ -98,8 +100,16 @@ public class CardDetailFragment extends Fragment {
 
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                NewAddItemDialog itemDialog = new NewAddItemDialog(getActivity(),product,cardAdapter);
+
+                               switch (which) {
+                                   case 0:{NewAddItemDialog itemDialog = new NewAddItemDialog(getActivity(),product,cardAdapter);
                                 itemDialog.show();
+                                       break;}
+                                   case 1: {EditItemDialog editItemDialog = new EditItemDialog(getActivity(),product,cardAdapter);
+                                       editItemDialog.show();
+                                       Toast.makeText(getActivity().getApplicationContext()," Inside Edit iTems  " +
+                                               "successfully", Toast.LENGTH_SHORT).show();}
+                               }
                             }
                         });
                 AlertDialog alert = builder.create();
