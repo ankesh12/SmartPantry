@@ -20,6 +20,7 @@ import java.util.List;
 import sg.edu.nus.iss.smartpantry.Entity.Category;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.CardDetailAdapter;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
@@ -36,13 +37,19 @@ public class EditProductDialog extends Dialog {
     Button rejectButton;
     Spinner catList;
     Context context;
+    private CardDetailAdapter adapt;
+    //CardDetailFragment frag;
+    View frag;
     List<String> lables = new ArrayList<>();
 
-    public EditProductDialog(Context context,Product prod) {
+    public EditProductDialog(Context context,Product prod, CardDetailAdapter adapt, View frag) {
 
         super(context);
         this.context = context;
         this.prod = prod;
+        this.adapt = adapt;
+        this.frag = frag;
+        //this.view = view;
     }
 
     @Override
@@ -85,12 +92,21 @@ public class EditProductDialog extends Dialog {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String prodDName = prod.getProductName();
+                String catName = prod.getCategoryName();
                 prod.setProductName(prodName.getText().toString());
+
                 Toast.makeText(context,prodName.getText().toString(),Toast.LENGTH_SHORT).show();
                 prod.setCategoryName(catList.getSelectedItem().toString());
                 prod.setThreshold(Integer.valueOf(prodThreshQty.getText().toString()));
                 ProductDao productDao = DAOFactory.getProductDao(context);
                 productDao.updateProduct(prod);
+                adapt.refreshData();
+                //frag.refreshData(prodDName,catName);
+                TextView thresh = (TextView) frag.findViewById(R.id.threshold_card);
+                TextView prodname = (TextView) frag.findViewById(R.id.Itemname_card);
+                prodname.setText(prodName.getText().toString());
+                thresh.setText(prodThreshQty.getText().toString());
                 dismiss();
             }
         });

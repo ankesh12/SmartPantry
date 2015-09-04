@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,7 @@ public class CardDetailFragment extends Fragment {
     TextView qtycard;
     TextView thresh;
     ImageButton imageButton;
+    View view;
 
 
     // TODO: Rename and change types and number of parameters
@@ -58,7 +60,7 @@ public class CardDetailFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_card_detail, container, false);
+        view = inflater.inflate(R.layout.fragment_card_detail, container, false);
         final ListView cardDetails = (ListView) view.findViewById(R.id.cardItemDetails);
         ImageView imageView = (ImageView) view.findViewById(R.id.icon_card);
         imageButton = (ImageButton) view.findViewById(R.id.menu_launcher);
@@ -88,11 +90,11 @@ public class CardDetailFragment extends Fragment {
         final ItemDao itemDao = DAOFactory.getItemDao(getActivity().getApplicationContext());
         String[] dataArray = new String[]{detail.get(0),detail.get(1)};
         final ArrayList<Item> items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
-        ArrayList<Item> itemsToDelete = new ArrayList<>();
-        itemsToDelete = items;
+        final ArrayList<Item> itemsToDelete = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
+
         //System.out.println("Item Ek number: " + items.get(0).getDop().toString());
         final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity().getApplicationContext(),R.layout.itemlist, items,product,view);
-
+        final CardDetailFragment frag =this;
         //ImageButton
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -103,7 +105,7 @@ public class CardDetailFragment extends Fragment {
                     @Override
                     public boolean onMenuItemClick(MenuItem item) {
                         if(item.getTitle().equals("Edit Product")){
-                            EditProductDialog itemDialog = new EditProductDialog(getActivity(),product);
+                            EditProductDialog itemDialog = new EditProductDialog(getActivity(),product,cardAdapter,view);
                             itemDialog.show();
                         }
                         if(item.getTitle().equals("Delete Product")){
@@ -113,11 +115,12 @@ public class CardDetailFragment extends Fragment {
                             builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    for (Item delItem : items) {
-                                        itemDao.deleteItem(delItem);
-                                    }
+//                                    for (Item delItem : itemsToDelete) {
+//                                        itemDao.deleteItem(delItem);
+//                                    }
                                     productDao.deleteProduct(product);
                                     getActivity().onBackPressed();
+                                    Toast.makeText(getActivity(), "Deleted Product", Toast.LENGTH_SHORT).show();
                                 }
                             });
                             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -201,4 +204,10 @@ public class CardDetailFragment extends Fragment {
 //        public void onFragmentInteraction(Uri uri);
 //    }
 
+    public void refreshData(String prodName, String catName){
+        thresh = (TextView) view.findViewById(R.id.threshold_card);
+        Product prod = DAOFactory.getProductDao(getActivity()).getProduct(prodName,catName);
+        thresh.setText(String.valueOf(prod.getThreshold()));
+
+    }
 }
