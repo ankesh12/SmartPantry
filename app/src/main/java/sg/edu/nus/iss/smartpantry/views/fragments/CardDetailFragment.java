@@ -119,8 +119,9 @@ public class CardDetailFragment extends Fragment {
 //                                        itemDao.deleteItem(delItem);
 //                                    }
                                     productDao.deleteProduct(product);
-                                    getActivity().onBackPressed();
                                     Toast.makeText(getActivity(), "Deleted Product", Toast.LENGTH_SHORT).show();
+                                    getActivity().onBackPressed();
+
                                 }
                             });
                             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
