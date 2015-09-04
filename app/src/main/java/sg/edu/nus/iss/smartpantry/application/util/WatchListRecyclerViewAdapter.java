@@ -96,14 +96,14 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
                         if (holder.vChkBox.isChecked()) {
                             holder.vChkBox.setChecked(false);
                             selectedProd.remove(WatchListProd);
-                            if(selectedProd.size() ==0 && selAllBtn.getText().toString().equals("Select All"))
-                                selAllBtn.setText("Deselect All");
+                            if(selectedProd.size() ==0 && selAllBtn.getText().toString().equals("Deselect All"))
+                                selAllBtn.setText("Select All");
                         }
                         else {
                             holder.vChkBox.setChecked(true);
                             selectedProd.add(WatchListProd);
-                            if(selectedProd.size() ==getItemCount() && selAllBtn.getText().toString().equals("Deselect All"))
-                                selAllBtn.setText("Select All");
+                            if(selectedProd.size() ==getItemCount() && selAllBtn.getText().toString().equals("Select All"))
+                                selAllBtn.setText("Deselect All");
                         }
                     }
                 });

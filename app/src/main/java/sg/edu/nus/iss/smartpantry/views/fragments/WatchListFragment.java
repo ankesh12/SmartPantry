@@ -117,9 +117,6 @@ public class WatchListFragment extends Fragment {
                     //fragmentTransaction.addToBackStack("WatchListWithCheckBox");
                     fragmentTransaction.commit();
                 } else if (addToCartBtnId == R.mipmap.done_icon) {
-                    selectAllBtn.setText(null);
-                    addToCart.setImageResource(R.mipmap.cart_icon);
-                    addToCartBtnId = R.mipmap.cart_icon;
 
                     //Add to shopping list logic
                     for(WatchListProduct wprod: mAdapter.getSelectedList())
