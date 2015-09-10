@@ -5,6 +5,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -55,7 +56,7 @@ public class EditProductDialog extends Dialog {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Edit Product Details");
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_edit_product);
         prodName = (EditText) findViewById(R.id.DescText);
         prodThreshQty = (EditText) findViewById(R.id.productThreshQty);
@@ -123,7 +124,7 @@ public class EditProductDialog extends Dialog {
     public void setValueFromNumPicker(String Title,EditText editObj){
         final EditText editText = editObj;
         final Dialog d = new Dialog(context);
-        d.setTitle(Title);
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(R.layout.dialog);
         Button b1 = (Button) d.findViewById(R.id.setBtn);
         Button b2 = (Button) d.findViewById(R.id.cancelBtn);

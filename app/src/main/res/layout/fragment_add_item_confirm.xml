@@ -48,16 +48,29 @@
         android:layout_margin="10dp"
         android:id="@+id/productNameLayout"
         android:layout_below="@+id/imageLayout">
-        <EditText
+        <LinearLayout
             android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:id="@+id/prodDescText"
-            android:textIsSelectable="false"
-            android:singleLine="true"
+            android:layout_height="wrap_content"
             android:layout_weight="7"
-            android:hint="Product Name"
-            android:paddingLeft="10dp"
-            android:background="@drawable/back"/>
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="12sp"
+                android:text="Product Name"
+                android:textStyle="bold"
+                android:layout_marginLeft="5dp"
+                android:textColor="#AD1457" />
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="fill_parent"
+                android:id="@+id/prodDescText"
+                android:textIsSelectable="false"
+                android:singleLine="true"
+                android:paddingLeft="10dp"
+                android:background="@drawable/back"/>
+        </LinearLayout>
+
 
         <ImageButton
             android:layout_width="0dp"
