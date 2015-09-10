@@ -63,9 +63,9 @@ public class SPApp extends Activity{
     } ;
 
     Integer[] imageId = {
-            R.drawable.home,
-            R.drawable.eye,
-            R.drawable.cart
+            R.mipmap.home_drawer,
+            R.mipmap.watchlist_drawer,
+            R.mipmap.shop_cart_drawer
 
     };
 
