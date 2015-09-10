@@ -4,135 +4,133 @@
     android:layout_height="match_parent"
     android:background="#ffffff">
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/expDateLayout"
+        android:id="@+id/headerLayout"
         android:orientation="horizontal"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:weightSum="1">
+        android:weightSum="1"
+        android:background="#009688">
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Purchased on :"
+            android:textSize="20sp"
+            android:text="Edit Item"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:textColor="#000000" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/purchDateLayout"
+        android:orientation="horizontal"
+        android:layout_margin="10dp"
+        android:layout_below="@id/headerLayout"
+        android:weightSum="3">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Purchased on "
             android:id="@+id/textItemPurchaseDate"
             android:textStyle="bold"
             android:textColor="#ff000000"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp"
-            />
+            android:layout_weight="1"/>
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editItemPurDate"
             android:focusable="false"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="29dp"
-            android:layout_marginLeft="30dp" />
+            android:layout_weight="2"/>
     </LinearLayout>
 
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout3"
+        android:id="@+id/expDateLayout"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_below="@+id/expDateLayout"
-        android:layout_alignRight="@+id/expDateLayout"
-        android:layout_alignEnd="@+id/expDateLayout"
-        android:layout_alignLeft="@+id/expDateLayout"
-        android:layout_alignStart="@+id/expDateLayout">
+        android:weightSum="3"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/purchDateLayout">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Expiry      :"
+            android:text="Expiry"
             android:id="@+id/textItemExpiryDate"
             android:textStyle="bold"
             android:textColor="#ff000000"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp" />
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"/>
 
         <EditText
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:inputType="date"
             android:ems="10"
             android:id="@+id/editItemExpDate"
             android:focusable="false"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginTop="29dp"
-            android:layout_marginLeft="50dp"
-            android:layout_weight="0.71" />
+            android:layout_marginTop="20dp"
+            android:layout_weight="2" />
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Confirm"
-        android:id="@+id/confirmEditButton"
-        android:layout_marginTop="103dp"
-        android:background="@drawable/addbutton"
-        android:layout_below="@+id/linearLayout4"
-        android:layout_alignLeft="@+id/linearLayout4"
-        android:layout_alignStart="@+id/linearLayout4"
-        android:textSize="15dp"
-        android:width="120dp" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Cancel "
-        android:id="@+id/cancelEditButton"
-        android:background="@drawable/cancelbutton"
-        android:layout_alignTop="@+id/confirmEditButton"
-        android:layout_alignRight="@+id/priceEditItem"
-        android:layout_alignEnd="@+id/priceEditItem"
-        android:textSize="15dp"
-        android:width="120dp" />
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout4"
+        android:id="@+id/priceLayout"
         android:orientation="horizontal"
-        android:weightSum="1"
-        android:layout_below="@+id/linearLayout3"
-        android:layout_alignLeft="@+id/linearLayout3"
-        android:layout_alignStart="@+id/linearLayout3">
+        android:weightSum="3"
+        android:layout_margin="10dp"
+        android:layout_below="@+id/expDateLayout">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:text="Price :"
+            android:text="Price "
             android:id="@+id/textView"
             android:textStyle="bold"
             android:textColor="#ff000000"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_marginTop="30dp" />
-
+            android:layout_marginTop="20dp"
+            android:layout_weight="1"/>
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/priceEditItem"
+            android:layout_marginTop="20dp"
+            android:layout_weight="2"/>
     </LinearLayout>
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:inputType="numberDecimal"
-        android:ems="10"
-        android:id="@+id/priceEditItem"
-        android:layout_weight="1.35"
-        android:layout_alignBottom="@+id/linearLayout4"
-        android:layout_alignRight="@+id/linearLayout3"
-        android:layout_alignEnd="@+id/linearLayout3"
-        android:layout_toRightOf="@+id/linearLayout4"
-        android:layout_toEndOf="@+id/linearLayout4" />
+        android:id="@+id/buttonLayout"
+        android:layout_below="@id/priceLayout"
+        android:weightSum="2"
+        android:layout_margin="10dp">
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Confirm"
+        android:id="@+id/confirmEditButton"
+        android:layout_margin="5dp"
+        android:background="@drawable/addbutton"
+        android:layout_weight="1"/>
+
+    <Button
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Cancel"
+        android:id="@+id/cancelEditButton"
+        android:background="@drawable/cancelbutton"
+        android:layout_margin="5dp"
+        android:textSize="15dp"
+        android:layout_weight="1"/>
+    </LinearLayout>
 </RelativeLayout>
