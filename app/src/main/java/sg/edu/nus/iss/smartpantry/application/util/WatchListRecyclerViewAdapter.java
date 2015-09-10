@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -96,7 +97,7 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
 
             holder.vChkBox.setChecked(WatchListProd.isSelected());
             final Button selAllBtn = (Button)actionStrip.findViewById(R.id.selectAll_Btn);
-            final ImageView done_icon = (ImageView)actionStrip.findViewById(R.id.addToCart);
+            final ImageButton done_icon = (ImageButton)actionStrip.findViewById(R.id.addToCart);
             if (selectedProd.size() == 0 && selAllBtn.getText().toString().equals("Deselect All")) {
                 selAllBtn.setText("Select All");
                 done_icon.setImageResource(0);
