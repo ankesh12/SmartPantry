@@ -19,7 +19,6 @@ import java.util.HashSet;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Product;
-import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.Entity.WatchListProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.WatchListProductComparator;
@@ -155,15 +154,11 @@ public class WatchListFragment extends Fragment {
         productList.addAll(expiryList);
         productList=new ArrayList<Product>(new HashSet<Product>(productList));
         ArrayList<WatchListProduct> watchProdList= new ArrayList<WatchListProduct>();
-        for(Product p: productList)
-            watchProdList.add(new WatchListProduct(p));
-        ArrayList<WatchListProduct> watchProdShopList= new ArrayList<WatchListProduct>();
-        for(ShoppingProduct p: DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList"))
-            watchProdShopList.add(new WatchListProduct(p.getProduct()));
-        HashSet<WatchListProduct> watchProdHash =  new HashSet<WatchListProduct>(watchProdList);
-        HashSet<WatchListProduct> watchProdShopHash =  new HashSet<WatchListProduct>(watchProdShopList);
-        watchProdHash.removeAll(watchProdShopHash);
-        watchProdList = new ArrayList<WatchListProduct>(watchProdHash);
+        for(Product p: productList) {
+            WatchListProduct currProd = new WatchListProduct(p);
+            currProd.setIsPresentInShoppingList(DAOFactory.getShopLitstDao(getActivity()).isProductInShopList("ShopList",p));
+            watchProdList.add(currProd);
+        }
         Collections.sort(watchProdList, new WatchListProductComparator());
         return  watchProdList;
     }

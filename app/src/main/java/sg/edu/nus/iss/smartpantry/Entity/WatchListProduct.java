@@ -6,11 +6,21 @@ package sg.edu.nus.iss.smartpantry.Entity;
 public class WatchListProduct extends Product{
     private Product prod;
     private boolean isSelected;
+    private boolean isPresentInShoppingList;
+
+    public boolean isPresentInShoppingList() {
+        return isPresentInShoppingList;
+    }
+
+    public void setIsPresentInShoppingList(boolean isPresentInShoppingList) {
+        this.isPresentInShoppingList = isPresentInShoppingList;
+    }
 
     public WatchListProduct(Product prod){
         super(prod.getCategoryName(),prod.getProductName());
         this.prod=prod;
         this.isSelected=false;
+        this.isPresentInShoppingList= false;
     }
 
     public boolean isSelected() {

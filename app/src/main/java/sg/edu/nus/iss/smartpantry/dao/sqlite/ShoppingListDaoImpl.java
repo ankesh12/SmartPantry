@@ -186,4 +186,18 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
         // return product list
         return productList;
     }
+
+    @Override
+    public boolean isProductInShopList(String shopListName,Product product) {
+        // Select All Query
+        String selectShopItemQuery = "SELECT * FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+"='"+shopListName+"' AND "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" = '"+product.getProductName()+"' AND "+dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME+" = '"+product.getCategoryName()+"'";
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectShopItemQuery, null);
+        cursor.moveToFirst();
+        if (cursor.getCount() == 0)
+            return false;
+        else
+            return  true;
+    }
 }

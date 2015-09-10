@@ -3,6 +3,10 @@ package sg.edu.nus.iss.smartpantry.application.util;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.res.Resources;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,7 +56,7 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
 
     @Override
     public MainScreenViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.
+       View itemView = LayoutInflater.
                 from(parent.getContext()).
                 inflate(rowLayout, parent, false);
         return new MainScreenViewHolder(itemView);
@@ -66,13 +70,29 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
             final WatchListProduct WatchListProd = productList.get(position);
             final Product prod = WatchListProd.getProd();
 
+            holder.vProdImage.setImageDrawable(mContext.getResources().getDrawable(R.drawable.layer));
+            if(WatchListProd.isPresentInShoppingList())
+            {
+
+                Resources r = mContext.getResources();
+                Drawable[] layers = new Drawable[2];
+                layers[0] = new BitmapDrawable(mContext.getResources(),prod.getProdImage());
+                layers[1] = r.getDrawable(R.mipmap.added_to_cart);
+                layers[0].setAlpha(75);
+                layers[1].setAlpha(255);
+                LayerDrawable layerDrawable = new LayerDrawable(layers);
+                holder.vProdImage.setImageDrawable(layerDrawable);
+                //holder.itemView.setAlpha((float) 0.5);
+                holder.itemView.invalidate();
+            }else
+                holder.vProdImage.setImageBitmap(prod.getProdImage());
             String productName =prod.getProductName();
             if(productName.length() > 12){
                 productName = productName.substring(0,12);
                 productName = productName.concat("...");
             }
 
-            holder.vProdImage.setImageBitmap(prod.getProdImage());
+
             holder.vProdName.setText(productName);
             if(prod.getQuantity() <= prod.getThreshold())
             {
@@ -201,7 +221,7 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
             vQty = (TextView)itemView.findViewById(R.id.quantVal);
             vExpiryNotify = (TextView) itemView.findViewById(R.id.expiryNotify);
             vChkBox = (CheckBox) itemView.findViewById(R.id.isSel);
-            this.itemView=itemView;
+            this.itemView = itemView;
         }
     }
 }

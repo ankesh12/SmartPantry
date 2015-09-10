@@ -14,4 +14,5 @@ public interface ShoppingListDao {
     public boolean deleteProductFromShopList(String shopListName,Product product);
     public List<ShoppingProduct> getYetToBuyProductsInShopLists();
     public List<ShoppingProduct> getProductsByShopListName(String shopListName);
+    public boolean isProductInShopList(String shopListName,Product product);
 }
