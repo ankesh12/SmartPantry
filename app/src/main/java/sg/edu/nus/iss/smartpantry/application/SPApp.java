@@ -21,9 +21,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -36,6 +38,7 @@ import java.util.Calendar;
 import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
+import sg.edu.nus.iss.smartpantry.application.util.CustomDrawerListAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
@@ -49,6 +52,26 @@ public class SPApp extends Activity{
     private MainController mainController;
     private static final int CAMERA_REQUEST = 1888;
     private CardHomeFragment cardHomeFragment;
+
+    //implementing the code for drawerList
+
+    ListView list;
+    String[] drawerTextItems = {
+           "Home",
+            "Watch List",
+            "Shopping Cart"
+    } ;
+
+    Integer[] imageId = {
+            R.drawable.home,
+            R.drawable.eye,
+            R.drawable.cart
+
+    };
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,7 +122,48 @@ public class SPApp extends Activity{
                 drawer.openDrawer(Gravity.LEFT);
             }
         });
+
+
+
+        ////////////////////////////////////////////////////////////
+        CustomDrawerListAdapter drawerListAdapter = new CustomDrawerListAdapter(SPApp.this, drawerTextItems, imageId);
+        list=(ListView)findViewById(R.id.navList);
+        list.setAdapter(drawerListAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+               if(position==0){
+                   Intent intent =  new Intent(getApplicationContext(), SPApp.class);
+                   startActivity(intent);
+
+               }
+                else if(position==1)
+               {
+                   Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                   intent.putExtra("fragment","WatchList");
+                   startActivity(intent);
+               }
+                else if(position==2)
+               {
+                   Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                   intent.putExtra("fragment","shopList");
+                   startActivity(intent);
+
+               }
+            }
+        });
+
     }
+
+
+
+
+
+
+
+
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
