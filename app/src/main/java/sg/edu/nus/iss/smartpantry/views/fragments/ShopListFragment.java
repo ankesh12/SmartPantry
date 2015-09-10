@@ -9,6 +9,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageButton;
 
 import java.util.ArrayList;
 
@@ -24,6 +26,8 @@ public class ShopListFragment extends Fragment {
     private RecyclerView.LayoutManager layoutManager;
     private ShopListRecyclerAdapter adapter;
     ArrayList<ShoppingProduct> shopProds;
+    Button changeable;
+    ImageButton del_btn;
 
     private ArrayAdapter<ShoppingProduct> listAdapter;
     public static ShopListFragment newInstance(String param1, String param2) {
@@ -49,6 +53,9 @@ public class ShopListFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_list, container, false);
         shopProds = (ArrayList)DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList");
+        changeable = (Button) view.findViewById(R.id.complete_btn);
+        del_btn = (ImageButton) view.findViewById(R.id.del_launcher);
+        changeable.setText("Shopping List");
 
         recyclerViewShop = (RecyclerView) view.findViewById(R.id.shoplist_recycler_view);
         recyclerViewShop.setHasFixedSize(true);
@@ -56,6 +63,14 @@ public class ShopListFragment extends Fragment {
         recyclerViewShop.setLayoutManager(layoutManager);
         adapter = new ShopListRecyclerAdapter(shopProds,getActivity());
         recyclerViewShop.setAdapter(adapter);
+
+        del_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
         return view;
     }
 

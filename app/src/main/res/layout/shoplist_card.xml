@@ -99,6 +99,12 @@
                     android:background="@drawable/back"
                     android:textColor="#0000FF"/>
             </LinearLayout>
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentRight="true"
+                android:src="@mipmap/del_image"/>
         </RelativeLayout>
 
     </LinearLayout>
