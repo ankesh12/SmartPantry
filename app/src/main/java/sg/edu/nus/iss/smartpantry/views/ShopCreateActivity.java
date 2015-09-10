@@ -5,11 +5,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.SPApp;
+import sg.edu.nus.iss.smartpantry.views.fragments.ShopListFragment;
 import sg.edu.nus.iss.smartpantry.views.fragments.WatchListFragment;
 
 public class ShopCreateActivity extends Activity {
@@ -29,14 +31,44 @@ public class ShopCreateActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_shop_create);
+
+        Bundle extras = getIntent().getExtras();
+        String fragName = extras.getString("fragment");
+        System.out.println(fragName);
+
         if (savedInstanceState == null) {
-            WatchListFragment watchListFragment= WatchListFragment.newInstance(false,R.mipmap.cart_icon);
-            FragmentManager fragmentManager = getFragmentManager();
-            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.add(R.id.shop_container, watchListFragment,"WatchListWithoutCheckBox");
-            //fragmentTransaction.addToBackStack("WatchListWithoutCheckBox");
-            fragmentTransaction.commit();
+            if(fragName.equals("WatchList"))
+            {
+                WatchListFragment watchListFragment= WatchListFragment.newInstance(false,R.mipmap.cart_icon);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.shop_container, watchListFragment,"WatchListWithoutCheckBox");
+                //fragmentTransaction.addToBackStack("WatchListWithoutCheckBox");
+                fragmentTransaction.commit();
+            }
+            else if (fragName.equals("shopList"))
+            {
+                ShopListFragment shopListFragment= new ShopListFragment();
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.replace(R.id.shop_container, shopListFragment);
+                //fragmentTransaction.addToBackStack("WatchListWithoutCheckBox");
+                fragmentTransaction.commit();
+
+            }
         }
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 

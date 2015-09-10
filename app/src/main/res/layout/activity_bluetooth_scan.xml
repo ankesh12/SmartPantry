@@ -120,13 +120,17 @@
         </RelativeLayout>
 
         <!-- List of Actions (pages) -->
+
         <ListView
             android:id="@+id/navList"
             android:layout_width="280dp"
             android:layout_height="match_parent"
             android:layout_below="@+id/profileBox"
             android:choiceMode="singleChoice"
-            android:background="#ffffffff" />
+            android:background="#ffffffff">
+
+
+        </ListView>
 
     </RelativeLayout>
 

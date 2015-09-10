@@ -6,6 +6,7 @@ import android.app.Dialog;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -44,6 +45,7 @@ public class EditItemDialog extends Dialog{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setTitle("Edit Item ");
         setContentView(R.layout.dialog_edit_item);

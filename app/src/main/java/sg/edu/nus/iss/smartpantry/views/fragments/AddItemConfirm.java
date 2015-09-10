@@ -16,6 +16,7 @@ import android.speech.RecognizerIntent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -353,8 +354,12 @@ public class AddItemConfirm extends Fragment {
     public void setValueFromNumPicker(String Title,EditText editObj){
         final EditText editText = editObj;
         final Dialog d = new Dialog(getActivity());
-        d.setTitle(Title);
+        d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(R.layout.dialog);
+        if(Title.equals("Quantity")){
+            TextView header = (TextView)d.findViewById(R.id.header);
+            header.setText("Quantity");
+        }
         Button b1 = (Button) d.findViewById(R.id.setBtn);
         Button b2 = (Button) d.findViewById(R.id.cancelBtn);
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
