@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/shop_card_view"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    card_view:cardCornerRadius="4dp"
+    android:elevation="5dp"
+    android:layout_margin="3dp"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:weightSum="5"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/shop_card_image"
+            android:layout_width="150dp"
+            android:layout_height="130dp"
+            android:layout_margin="5dp"
+            android:src="@mipmap/ic_launcher" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_toRightOf="@+id/shop_card_image"
+            android:layout_weight="5">
+
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Product"
+                android:id="@+id/shopList_prodname"
+                android:layout_marginTop="15dp"
+                android:textSize="25dp"
+                android:textStyle="bold"
+                android:layout_centerHorizontal="true"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="35dp"
+                android:layout_marginLeft="10dp"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/shoplist_category"
+                    android:layout_marginTop="1dip"
+                    android:text="Yoooo"
+                    android:textColor="#000000"
+                    android:textStyle="bold" />
+
+
+                <!-- Threshold -->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_marginLeft="10dp"-->
+                    <!--android:id="@+id/shoplist_threshtext"-->
+                    <!--android:layout_marginTop="1dip"-->
+                    <!--android:text="Thresh : "-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="#000000" />-->
+
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/shoplist_thresh_value"-->
+                    <!--android:layout_marginTop="1dip"-->
+                    <!--android:text="Yoooo"-->
+                    <!--android:textStyle="bold"-->
+                    <!--android:textColor="#0000FF"/>-->
+
+                <!-- Quantity -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:id="@+id/qtyText_card"
+                    android:text="Qty : "
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/shoplist_qty_value"
+                    android:textStyle="bold"
+                    android:focusable="false"
+                    android:layout_margin="5dp"
+                    android:paddingLeft="10dp"
+                    android:background="@drawable/back"
+                    android:textColor="#0000FF"/>
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>
