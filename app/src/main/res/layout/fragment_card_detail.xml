@@ -59,7 +59,8 @@
                         android:layout_alignParentTop="true"
                         android:layout_alignParentRight="true"
                         android:background="#FFFFFF"
-                        android:src="@drawable/ic_dots_vertical"/>
+                        android:src="@drawable/ic_dots_vertical"
+                        android:cropToPadding="true" />
 
                     <TextView
                         android:id="@+id/Itemname_card"
