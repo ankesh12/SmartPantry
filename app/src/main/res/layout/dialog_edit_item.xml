@@ -27,12 +27,19 @@
         android:orientation="horizontal"
         android:layout_margin="10dp"
         android:layout_below="@id/headerLayout"
-        android:weightSum="3">
+        android:weightSum="10">
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Purchased on "
             android:id="@+id/textItemPurchaseDate"
+            android:textStyle="bold"
+            android:textColor="#ff000000"
+            android:layout_weight="4"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=": "
             android:textStyle="bold"
             android:textColor="#ff000000"
             android:layout_weight="1"/>
@@ -44,7 +51,7 @@
             android:ems="10"
             android:id="@+id/editItemPurDate"
             android:focusable="false"
-            android:layout_weight="2"/>
+            android:layout_weight="5"/>
     </LinearLayout>
 
 
@@ -53,7 +60,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/expDateLayout"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="10"
         android:layout_margin="10dp"
         android:layout_below="@+id/purchDateLayout">
 
@@ -65,6 +72,14 @@
             android:textStyle="bold"
             android:textColor="#ff000000"
             android:layout_marginTop="20dp"
+            android:layout_weight="4"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=": "
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textColor="#ff000000"
             android:layout_weight="1"/>
 
         <EditText
@@ -75,7 +90,7 @@
             android:id="@+id/editItemExpDate"
             android:focusable="false"
             android:layout_marginTop="20dp"
-            android:layout_weight="2" />
+            android:layout_weight="5" />
     </LinearLayout>
 
     <LinearLayout
@@ -83,7 +98,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/priceLayout"
         android:orientation="horizontal"
-        android:weightSum="3"
+        android:weightSum="10"
         android:layout_margin="10dp"
         android:layout_below="@+id/expDateLayout">
 
@@ -95,6 +110,14 @@
             android:textStyle="bold"
             android:textColor="#ff000000"
             android:layout_marginTop="20dp"
+            android:layout_weight="4"/>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text=": "
+            android:textStyle="bold"
+            android:layout_marginTop="20dp"
+            android:textColor="#ff000000"
             android:layout_weight="1"/>
         <EditText
             android:layout_width="0dp"
@@ -103,7 +126,7 @@
             android:ems="10"
             android:id="@+id/priceEditItem"
             android:layout_marginTop="20dp"
-            android:layout_weight="2"/>
+            android:layout_weight="5"/>
     </LinearLayout>
 
     <LinearLayout
