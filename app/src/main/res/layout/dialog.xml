@@ -2,9 +2,28 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent" >
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/headerLayout"
+        android:orientation="horizontal"
+        android:weightSum="1"
+        android:background="#009688">
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="Threshold"
+            android:textStyle="bold"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:id="@+id/header"
+            android:textColor="#000000" />
+    </LinearLayout>
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/numpicklayout"
+        android:layout_below="@+id/headerLayout"
         android:layout_centerHorizontal="true">
         <NumberPicker
             android:id="@+id/numberPicker1"
@@ -19,6 +38,14 @@
         android:layout_below="@+id/numpicklayout"
         android:layout_centerHorizontal="true"
         android:weightSum="2">
+        <Button
+            android:id="@+id/setBtn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Done"
+            android:background="@drawable/addbutton" />
 
         <Button
             android:id="@+id/cancelBtn"
@@ -27,16 +54,7 @@
             android:layout_height="wrap_content"
             android:layout_margin = "15dp"
             android:text="Cancel"
-            android:background="#009688"/>
-
-        <Button
-            android:id="@+id/setBtn"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:layout_margin="15dp"
-            android:text="Done"
-            android:background="#009688"/>
+            android:background="@drawable/cancelbutton"/>
     </LinearLayout>
 
 </RelativeLayout>

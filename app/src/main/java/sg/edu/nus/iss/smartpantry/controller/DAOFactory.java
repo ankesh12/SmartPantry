@@ -27,28 +27,24 @@ public class DAOFactory {
     }
 
     public static ItemDao getItemDao(Context mContext){
-        System.out.println("inside");
         if(itemDao==null){
             itemDao = new ItemDaoImpl(mContext);
         }
         return itemDao;
     }
     public static CategoryDao getCategoryDao(Context mContext){
-        System.out.println("inside");
         if(categoryDao==null){
             categoryDao = new CategoryDaoImpl(mContext);
         }
         return categoryDao;
     }
     public static ProductDao getProductDao(Context mContext){
-        System.out.println("inside");
         if(productDao==null){
             productDao = new ProductDaoImpl(mContext);
         }
         return productDao;
     }
     public static ShoppingListDao getShopLitstDao(Context mContext){
-        System.out.println("inside");
         if(shoppingListDao==null){
             shoppingListDao = new ShoppingListDaoImpl(mContext);
         }
