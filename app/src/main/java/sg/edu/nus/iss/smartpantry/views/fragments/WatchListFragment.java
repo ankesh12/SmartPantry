@@ -78,24 +78,17 @@ public class WatchListFragment extends Fragment {
             }
         });
         final Button selectAllBtn = (Button)view.findViewById(R.id.selectAll_Btn);
-        if(addToCartBtnId == R.mipmap.cart_icon) {
-            selectAllBtn.setText(null);
-            btnLabel=null;
-        }
-        else if(addToCartBtnId == R.mipmap.done_icon) {
-            selectAllBtn.setText("Select All");
-            btnLabel="Select All";
-        }
+
         selectAllBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (btnLabel != null && selectAllBtn.getText().toString().equals("Select All")) {
                     btnLabel = "Deselect All";
-                    mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(), chkBoxVisible, true,view);
+                    mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(), chkBoxVisible, true, view);
                     mRecyclerView.setAdapter(mAdapter);
                 } else if (btnLabel != null && selectAllBtn.getText().toString().equals("Deselect All")) {
                     btnLabel = "Select All";
-                    mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(), chkBoxVisible, false,view);
+                    mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(), chkBoxVisible, false, view);
                     mRecyclerView.setAdapter(mAdapter);
                 }
                 selectAllBtn.setText(btnLabel);
@@ -103,13 +96,25 @@ public class WatchListFragment extends Fragment {
             }
         });
         final ImageButton addToCart = (ImageButton)view.findViewById(R.id.addToCart);
+        if(addToCartBtnId == R.mipmap.cart_icon) {
+            selectAllBtn.setText(null);
+            btnLabel=null;
+            addToCart.setImageResource(addToCartBtnId);
+        }
+        else if(addToCartBtnId == R.mipmap.done_icon) {
+            selectAllBtn.setText("Select All");
+            btnLabel="Select All";
+            //addToCart.setImageDrawable(null);
+            addToCart.setImageResource(0);
+        }
+
         addToCart.setImageResource(addToCartBtnId);
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (addToCartBtnId == R.mipmap.cart_icon) {
                     selectAllBtn.setText("Select All");
-                    addToCart.setImageResource(R.mipmap.done_icon);
+                    addToCart.setImageResource(0);
                     addToCartBtnId = R.mipmap.done_icon;
                     WatchListFragment watchListFragment = WatchListFragment.newInstance(true, addToCartBtnId);
                     FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();

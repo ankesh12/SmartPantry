@@ -96,6 +96,12 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
 
             holder.vChkBox.setChecked(WatchListProd.isSelected());
             final Button selAllBtn = (Button)actionStrip.findViewById(R.id.selectAll_Btn);
+            final ImageView done_icon = (ImageView)actionStrip.findViewById(R.id.addToCart);
+            if (selectedProd.size() == 0 && selAllBtn.getText().toString().equals("Deselect All")) {
+                selAllBtn.setText("Select All");
+                done_icon.setImageResource(0);
+                done_icon.setEnabled(false);
+            }
             if(this.chkBxVisible) {
                 holder.vChkBox.setVisibility(View.VISIBLE);
                 holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -104,13 +110,18 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
                         if (holder.vChkBox.isChecked()) {
                             holder.vChkBox.setChecked(false);
                             selectedProd.remove(WatchListProd);
-                            if(selectedProd.size() ==0 && selAllBtn.getText().toString().equals("Deselect All"))
+                            if (selectedProd.size() == 0 && selAllBtn.getText().toString().equals("Deselect All")) {
                                 selAllBtn.setText("Select All");
-                        }
-                        else {
+                                //done_icon.setImageDrawable(null);
+                                done_icon.setImageResource(0);
+                                done_icon.setEnabled(false);
+                            }
+                        } else {
+                            done_icon.setImageResource(R.mipmap.done_icon);
+                            done_icon.setEnabled(true);
                             holder.vChkBox.setChecked(true);
                             selectedProd.add(WatchListProd);
-                            if(selectedProd.size() ==getItemCount() && selAllBtn.getText().toString().equals("Select All"))
+                            if (selectedProd.size() == getItemCount() && selAllBtn.getText().toString().equals("Select All"))
                                 selAllBtn.setText("Deselect All");
                         }
                     }
@@ -157,7 +168,7 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
             else
             {
 
-                holder.vExpiryNotify.setText(String.valueOf(expiryDays)+" days left");
+                holder.vExpiryNotify.setText(String.valueOf(expiryDays) + " days left");
                 holder.vExpiryNotify.setVisibility(View.VISIBLE);
             }
 
