@@ -5,9 +5,10 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.NumberPicker;
 import android.widget.Toast;
 
@@ -39,7 +40,7 @@ public class NewAddItemDialog extends Dialog{
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("Add Items by Quantity");
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.dialog_add_item);
         numPicker = (NumberPicker)findViewById(R.id.AddItmNumPicker);
         numPicker.setMinValue(1);
@@ -71,7 +72,7 @@ public class NewAddItemDialog extends Dialog{
             }
         });
 
-        ImageButton addItemToDB = (ImageButton)findViewById(R.id.AddItmAddBtn);
+        Button addItemToDB = (Button)findViewById(R.id.AddItmAddBtn);
         addItemToDB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -95,7 +96,7 @@ public class NewAddItemDialog extends Dialog{
                 dismiss();
             }
         });
-        ImageButton removeBtn = (ImageButton)findViewById(R.id.AddItmCancelBtn);
+        Button removeBtn = (Button)findViewById(R.id.AddItmCancelBtn);
         removeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
