@@ -3,14 +3,20 @@ package sg.edu.nus.iss.smartpantry.views;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.SPApp;
+import sg.edu.nus.iss.smartpantry.application.util.CustomDrawerListAdapter;
 import sg.edu.nus.iss.smartpantry.views.fragments.ShopListFragment;
 import sg.edu.nus.iss.smartpantry.views.fragments.WatchListFragment;
 
@@ -30,7 +36,27 @@ public class ShopCreateActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_shop_create);
+     setContentView(R.layout.activity_shop_create);
+
+
+
+
+        ListView list;
+        String[] drawerTextItems = {
+                "Home",
+                "Watch List",
+                "Shopping Cart"
+        } ;
+
+        Integer[] imageId = {
+                R.drawable.home,
+                R.drawable.eye,
+                R.drawable.cart
+
+        };
+
+
+
 
         Bundle extras = getIntent().getExtras();
         String fragName = extras.getString("fragment");
@@ -59,6 +85,35 @@ public class ShopCreateActivity extends Activity {
         }
 
 
+        //////////////////////////////////////////////////////////
+        CustomDrawerListAdapter drawerListAdapter = new CustomDrawerListAdapter(ShopCreateActivity.this, drawerTextItems, imageId);
+        list=(ListView)findViewById(R.id.shopNavList);
+        list.setAdapter(drawerListAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if(position==0){
+                    Intent intent =  new Intent(getApplicationContext(), SPApp.class);
+                    startActivity(intent);
+
+                }
+                else if(position==1)
+                {
+                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                    intent.putExtra("fragment","WatchList");
+                    startActivity(intent);
+                }
+                else if(position==2)
+                {
+                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                    intent.putExtra("fragment","shopList");
+                    startActivity(intent);
+
+                }
+            }
+        });
 
 
 
@@ -68,6 +123,7 @@ public class ShopCreateActivity extends Activity {
 
 
 
+///////////////////////////////////////////////////
 
     }
 

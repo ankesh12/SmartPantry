@@ -52,7 +52,7 @@ public class SPApp extends Activity{
     private MainController mainController;
     private static final int CAMERA_REQUEST = 1888;
     private CardHomeFragment cardHomeFragment;
-
+    protected DrawerLayout mDrawer;
     //implementing the code for drawerList
 
     ListView list;
@@ -143,6 +143,7 @@ public class SPApp extends Activity{
                {
                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
                    intent.putExtra("fragment","WatchList");
+                   drawer.closeDrawer(Gravity.LEFT);
                    startActivity(intent);
                }
                 else if(position==2)
