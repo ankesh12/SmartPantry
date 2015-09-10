@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -58,10 +57,6 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             }
 
         });
-        Toast.makeText(context, holder.cardProdQty.getText().toString(), Toast.LENGTH_SHORT).show();
-        //DAOFactory.getShopLitstDao(context).updateProductInShopList("ShopList", product, Integer.parseInt(holder.cardProdQty.getText().toString()), false);
-
-
     }
 
     @Override
@@ -72,7 +67,6 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
     public static class ViewHolder1 extends RecyclerView.ViewHolder{
         protected TextView textView;
         protected ImageView imageView;
-        protected TextView cardThreshQty;
         protected EditText cardProdQty;
         protected TextView cardCategory;
         //protected ImageView cardButton;
@@ -81,7 +75,6 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             super(itemView);
             textView =  (TextView) itemView.findViewById(R.id.shopList_prodname);
             imageView = (ImageView) itemView.findViewById((R.id.shop_card_image));
-            //cardThreshQty = (TextView) itemView.findViewById(R.id.shoplist_thresh_value);
             cardProdQty = (EditText) itemView.findViewById(R.id.shoplist_qty_value);
             cardCategory = (TextView) itemView.findViewById(R.id.shoplist_category);
             //cardButton = (Button) itemView.findViewById(R.id.consume);
