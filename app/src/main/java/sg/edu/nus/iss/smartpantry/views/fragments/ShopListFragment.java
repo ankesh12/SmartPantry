@@ -29,6 +29,7 @@ public class ShopListFragment extends Fragment {
     ArrayList<ShoppingProduct> shopProds;
     Button changeable;
     ImageButton del_btn;
+    private ImageButton shop_bck_btn;
 
     private ArrayAdapter<ShoppingProduct> listAdapter;
     public static ShopListFragment newInstance(String param1, String param2) {
@@ -56,6 +57,7 @@ public class ShopListFragment extends Fragment {
         shopProds = (ArrayList)DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList");
         changeable = (Button) view.findViewById(R.id.complete_btn);
         del_btn = (ImageButton) view.findViewById(R.id.del_launcher);
+        shop_bck_btn = (ImageButton) view.findViewById(R.id.shopList_back_btn);
         changeable.setText("Shopping List");
 
         recyclerViewShop = (RecyclerView) view.findViewById(R.id.shoplist_recycler_view);
@@ -64,6 +66,13 @@ public class ShopListFragment extends Fragment {
         recyclerViewShop.setLayoutManager(layoutManager);
         adapter = new ShopListRecyclerAdapter(shopProds,getActivity(),false);
         recyclerViewShop.setAdapter(adapter);
+
+        shop_bck_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getActivity().onBackPressed();
+            }
+        });
 
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
