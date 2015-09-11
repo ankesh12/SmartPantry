@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -86,6 +87,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
         protected EditText cardProdQty;
         protected TextView cardCategory;
         protected ImageButton delBtn;
+        protected CheckBox chckBox;
         //protected Button cardButton;
         public ViewHolder1(View itemView) {
             super(itemView);
@@ -94,6 +96,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             cardProdQty = (EditText) itemView.findViewById(R.id.shoplist_qty_value);
             cardCategory = (TextView) itemView.findViewById(R.id.shoplist_category);
             delBtn = (ImageButton) itemView.findViewById(R.id.shop_del_btn);
+            chckBox = (CheckBox) itemView.findViewById(R.id.shopped_chck);
 
         }
     }
