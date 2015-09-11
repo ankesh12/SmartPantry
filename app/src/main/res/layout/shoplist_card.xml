@@ -102,9 +102,10 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:id="@+id/shop_del_btn"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
-                android:src="@mipmap/del_image"/>
+                android:src="@mipmap/delete"/>
         </RelativeLayout>
 
     </LinearLayout>

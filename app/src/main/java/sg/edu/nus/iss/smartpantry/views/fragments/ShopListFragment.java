@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -61,13 +62,27 @@ public class ShopListFragment extends Fragment {
         recyclerViewShop.setHasFixedSize(true);
         layoutManager = new LinearLayoutManager(getActivity());
         recyclerViewShop.setLayoutManager(layoutManager);
-        adapter = new ShopListRecyclerAdapter(shopProds,getActivity());
+        adapter = new ShopListRecyclerAdapter(shopProds,getActivity(),false);
         recyclerViewShop.setAdapter(adapter);
 
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                adapter = new ShopListRecyclerAdapter(shopProds, getActivity(), true);
+                recyclerViewShop.setAdapter(adapter);
+                changeable.setText("Done");
+            }
+        });
 
+        changeable.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(changeable.getText().toString().equals("Done")) {
+                    shopProds = (ArrayList) DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList");
+                    adapter = new ShopListRecyclerAdapter(shopProds, getActivity(), false);
+                    recyclerViewShop.setAdapter(adapter);
+                    changeable.setText("Shopping List");
+                }
             }
         });
 

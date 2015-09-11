@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
@@ -27,10 +28,12 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
 
     ArrayList<ShoppingProduct> shopProducts;
     Activity context;
+    Boolean delBtnClicked;
 
-    public ShopListRecyclerAdapter(ArrayList<ShoppingProduct> shopProducts, Activity context) {
+    public ShopListRecyclerAdapter(ArrayList<ShoppingProduct> shopProducts, Activity context, boolean delBtnClicked) {
         this.shopProducts = shopProducts;
         this.context = context;
+        this.delBtnClicked = delBtnClicked;
     }
 
     @Override
@@ -48,6 +51,19 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
         holder.imageView.setImageBitmap(product.getProdImage());
         holder.textView.setText(product.getProductName().toString());
         holder.cardCategory.setText(product.getCategoryName().toString());
+        if(delBtnClicked){
+            holder.delBtn.setVisibility(View.VISIBLE);
+            holder.delBtn.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    DAOFactory.getShopLitstDao(context).deleteProductFromShopList("ShopList",product);
+                    refreshData();
+                }
+            });
+        }
+        else{
+            holder.delBtn.setVisibility(View.INVISIBLE);
+        }
         holder.cardProdQty.setText(String.valueOf(shopProduct.getShopQty()));
         holder.cardProdQty.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,15 +85,15 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
         protected ImageView imageView;
         protected EditText cardProdQty;
         protected TextView cardCategory;
-        //protected ImageView cardButton;
-        protected Button cardButton;
+        protected ImageButton delBtn;
+        //protected Button cardButton;
         public ViewHolder1(View itemView) {
             super(itemView);
             textView =  (TextView) itemView.findViewById(R.id.shopList_prodname);
             imageView = (ImageView) itemView.findViewById((R.id.shop_card_image));
             cardProdQty = (EditText) itemView.findViewById(R.id.shoplist_qty_value);
             cardCategory = (TextView) itemView.findViewById(R.id.shoplist_category);
-            //cardButton = (Button) itemView.findViewById(R.id.consume);
+            delBtn = (ImageButton) itemView.findViewById(R.id.shop_del_btn);
 
         }
     }
@@ -118,4 +134,12 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
     public void updateData(ShoppingProduct shopProd, int newQty){
         DAOFactory.getShopLitstDao(context).updateProductInShopList("ShopList", shopProd.getProduct(), newQty, false);
     }
+
+    public void refreshData(){
+
+        shopProducts= (ArrayList)DAOFactory.getShopLitstDao(context.getApplicationContext()).getProductsByShopListName("ShopList");
+        ShopListRecyclerAdapter.this.notifyDataSetChanged();
+
+    }
+
 }
