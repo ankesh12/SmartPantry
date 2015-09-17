@@ -66,8 +66,8 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
             values.put(dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME, product.getProductName());
             values.put(dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME, product.getCategoryName());
             values.put(dbHelper.COL_SHOPPING_LIST_QTY, quantity);
-            if(isPurchased != true)
-                isPurchased=false;
+            /*if(isPurchased != true)
+                isPurchased=false;*/
             values.put(dbHelper.COL_SHOPPING_LIST_IS_PURCHASED, isPurchased);
 
             db.update(dbHelper.TABLE_SHOPPING_LIST, values, dbHelper.COL_SHOPPING_LIST_NAME + " = '" + shopListName + "' AND " + dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME + " = '" + product.getProductName() + "' AND " + dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME + " = '" + product.getCategoryName() + "'", null);
@@ -113,7 +113,16 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                 String prodName=shopCursor.getString(1);
                 String categoryName=shopCursor.getString(2);
                 int shopQty =(Integer.parseInt(shopCursor.getString(3)));
-                Boolean isPurchased =(Boolean.parseBoolean(shopCursor.getString(4)));
+                //Boolean isPurchased =(Boolean.parseBoolean(shopCursor.getString(4)));
+                Boolean isPurchased;
+                int boolValue = (shopCursor.getInt(4));
+                System.out.println("Value for boolean " + boolValue);
+                if(boolValue == 1){
+                    isPurchased = true;
+                }
+                else{
+                    isPurchased = false;
+                }
 
                 String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+categoryName+"'";
                 Cursor cursor = db.rawQuery(selectProdQuery, null);
@@ -158,7 +167,15 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                 String prodName=shopCursor.getString(1);
                 String categoryName=shopCursor.getString(2);
                 int shopQty =(Integer.parseInt(shopCursor.getString(3)));
-                Boolean isPurchased =(Boolean.parseBoolean(shopCursor.getString(4)));
+                Boolean isPurchased;
+                int boolValue = (shopCursor.getInt(4));
+                System.out.println("Value for boolean " + boolValue);
+                if(boolValue == 1){
+                    isPurchased = true;
+                }
+                else{
+                    isPurchased = false;
+                }
 
                 String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+categoryName+"'";
                 Cursor cursor = db.rawQuery(selectProdQuery, null);
