@@ -76,6 +76,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             holder.imageView.setImageDrawable(layerDrawable);
             //holder.itemView.setAlpha((float) 0.5);
             holder.itemView.invalidate();
+
         }
 
         holder.chckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -118,8 +119,9 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
         holder.cardProdQty.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                setValueFromNumPicker(shopProduct,"Quantity", holder.cardProdQty);
-
+                if(!shopProduct.getIsPurchased()) {
+                    setValueFromNumPicker(shopProduct, "Quantity", holder.cardProdQty);
+                }
             }
 
         });
