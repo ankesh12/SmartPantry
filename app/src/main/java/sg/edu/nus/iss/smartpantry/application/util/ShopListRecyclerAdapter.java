@@ -3,15 +3,11 @@ package sg.edu.nus.iss.smartpantry.application.util;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.res.Resources;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.LayerDrawable;
 import android.support.v7.widget.RecyclerView;
-import android.text.SpannableString;
-import android.text.Spanned;
-import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +20,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -41,11 +36,13 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
     ArrayList<ShoppingProduct> shopProducts;
     Activity context;
     Boolean delBtnClicked;
+    String shop_list_name;
 
     public ShopListRecyclerAdapter(ArrayList<ShoppingProduct> shopProducts, Activity context, boolean delBtnClicked) {
         this.shopProducts = shopProducts;
         this.context = context;
         this.delBtnClicked = delBtnClicked;
+        this.shop_list_name= new XMLUtil().getElementText("SHOP_LIST_NAME", context.getResources().openRawResource(R.raw.app_settings));
     }
 
     @Override
@@ -109,7 +106,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             holder.delBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DAOFactory.getShopLitstDao(context).deleteProductFromShopList("ShopList",product);
+                    DAOFactory.getShopLitstDao(context).deleteProductFromShopList(shop_list_name,product);
                     refreshData();
                 }
             });
@@ -187,12 +184,12 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
     }
 
     public void updateData(ShoppingProduct shopProd, int newQty, boolean isPurchased){
-        DAOFactory.getShopLitstDao(context).updateProductInShopList("ShopList", shopProd.getProduct(), newQty, isPurchased);
+        DAOFactory.getShopLitstDao(context).updateProductInShopList(shop_list_name, shopProd.getProduct(), newQty, isPurchased);
     }
 
     public void refreshData(){
 
-        shopProducts= (ArrayList)DAOFactory.getShopLitstDao(context.getApplicationContext()).getProductsByShopListName("ShopList");
+        shopProducts= (ArrayList)DAOFactory.getShopLitstDao(context.getApplicationContext()).getProductsByShopListName(shop_list_name);
         ShopListRecyclerAdapter.this.notifyDataSetChanged();
 
     }

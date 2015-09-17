@@ -23,6 +23,7 @@ import sg.edu.nus.iss.smartpantry.Entity.WatchListProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.WatchListProductComparator;
 import sg.edu.nus.iss.smartpantry.application.util.WatchListRecyclerViewAdapter;
+import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 
@@ -36,6 +37,7 @@ public class WatchListFragment extends Fragment {
     private boolean chkBoxVisible;
     private int addToCartBtnId;
     private String btnLabel;
+    private String shop_list_name;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -58,6 +60,7 @@ public class WatchListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
+        shop_list_name=new XMLUtil().getElementText("SHOP_LIST_NAME", getActivity().getResources().openRawResource(R.raw.app_settings));
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_watchlist_container, container, false);
         //View view = inflater.inflate(R.layout.fragment_home_page, container, false);
@@ -130,7 +133,7 @@ public class WatchListFragment extends Fragment {
 
                     //Add to shopping list logic
                     for(WatchListProduct wprod: mAdapter.getSelectedList())
-                        DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).addProductToShopList("ShopList",wprod.getProd(),1,false);
+                        DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).addProductToShopList(shop_list_name,wprod.getProd(),1,false);
                     mAdapter.notifyDataSetChanged();
 
                     ShopListFragment shopListFragment= new ShopListFragment();
@@ -156,7 +159,7 @@ public class WatchListFragment extends Fragment {
         ArrayList<WatchListProduct> watchProdList= new ArrayList<WatchListProduct>();
         for(Product p: productList) {
             WatchListProduct currProd = new WatchListProduct(p);
-            currProd.setIsPresentInShoppingList(DAOFactory.getShopLitstDao(getActivity()).isProductInShopList("ShopList",p));
+            currProd.setIsPresentInShoppingList(DAOFactory.getShopLitstDao(getActivity()).isProductInShopList(shop_list_name,p));
             watchProdList.add(currProd);
         }
         Collections.sort(watchProdList, new WatchListProductComparator());

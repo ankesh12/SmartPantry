@@ -91,7 +91,8 @@ public class NotificationService extends Service {
                         //System.out.println("Difference" + diff);
                         int diff = (int) ((expiryDate.getTime() - df.parse(formattedDate).getTime())/ (1000 * 60 * 60 * 24));
                         System.out.println("Days: " + diff);
-                        if(diff <=7){
+                        int num_days_diff= Integer.parseInt(new XMLUtil().getElementText("NOTIFICATION_NUM_DAYS_DIFF",getApplicationContext().getResources().openRawResource(R.raw.app_settings)));
+                        if(diff <=num_days_diff){
 
                              resultItem.add(item);
                         }

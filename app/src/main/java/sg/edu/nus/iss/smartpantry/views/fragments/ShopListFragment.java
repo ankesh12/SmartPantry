@@ -11,13 +11,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.ShopListRecyclerAdapter;
+import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 
 
@@ -30,6 +30,7 @@ public class ShopListFragment extends Fragment {
     Button changeable;
     ImageButton del_btn;
     private ImageButton shop_bck_btn;
+    private String shop_list_name;
 
     private ArrayAdapter<ShoppingProduct> listAdapter;
     public static ShopListFragment newInstance(String param1, String param2) {
@@ -52,9 +53,11 @@ public class ShopListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        this.shop_list_name= new XMLUtil().getElementText("SHOP_LIST_NAME", getActivity().getResources().openRawResource(R.raw.app_settings));
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_shop_list, container, false);
-        shopProds = (ArrayList)DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList");
+        shopProds = (ArrayList)DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName(shop_list_name);
         changeable = (Button) view.findViewById(R.id.complete_btn);
         del_btn = (ImageButton) view.findViewById(R.id.del_launcher);
         shop_bck_btn = (ImageButton) view.findViewById(R.id.shopList_back_btn);
@@ -77,7 +80,7 @@ public class ShopListFragment extends Fragment {
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shopProds = (ArrayList)DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList");
+                shopProds = (ArrayList)DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName(shop_list_name);
                 adapter = new ShopListRecyclerAdapter(shopProds, getActivity(), true);
                 recyclerViewShop.setAdapter(adapter);
                 changeable.setText("Done");
@@ -88,7 +91,7 @@ public class ShopListFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(changeable.getText().toString().equals("Done")) {
-                    shopProds = (ArrayList) DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList");
+                    shopProds = (ArrayList) DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName(shop_list_name);
                     adapter = new ShopListRecyclerAdapter(shopProds, getActivity(), false);
                     recyclerViewShop.setAdapter(adapter);
                     changeable.setText("Shopping List");
