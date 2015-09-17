@@ -63,41 +63,19 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
         holder.imageView.setImageBitmap(product.getProdImage());
         holder.textView.setText(product.getProductName().toString());
         //holder.cardCategory.setText(product.getCategoryName().toString());
+        Resources r = context.getResources();
+        Drawable[] layers = new Drawable[2];
+        layers[0] = new BitmapDrawable(context.getResources(),product.getProdImage());
+
+        layers[1] = r.getDrawable(R.mipmap.purchase_icon);
+        layers[0].setAlpha(100);
+        layers[1].setAlpha(125);
+        final LayerDrawable layerDrawable = new LayerDrawable(layers);
 
         if(shopProduct.getIsPurchased()){
             holder.chckBox.setChecked(true);
             holder.textView.setPaintFlags(holder.textView.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
-           /* holder.itemView.setDrawingCacheEnabled(true);
-            holder.itemView.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-            holder.itemView.layout(0, 0, holder.itemView.getMeasuredWidth(), holder.itemView.getMeasuredHeight());
 
-            holder.itemView.buildDrawingCache(true);
-            Bitmap bmap = Bitmap.createBitmap(holder.itemView.getDrawingCache());
-            holder.itemView.setDrawingCacheEnabled(false);
-            Drawable d = new BitmapDrawable(bmap);
-            Resources r = context.getResources();
-            Drawable[] layers = new Drawable[2];
-            layers[0] = d;//new BitmapDrawable(context.getResources(),prod.getProdImage());
-            layers[1] = r.getDrawable(R.mipmap.added_to_cart);
-            layers[0].setAlpha(75);
-            layers[1].setAlpha(255);
-            LayerDrawable layerDrawable = new LayerDrawable(layers);
-            holder.itemView.setBackground(layerDrawable);
-            //holder.itemView.setAlpha((float) 0.5);
-            holder.itemView.invalidate();*/
-
-            Resources r = context.getResources();
-            Drawable[] layers = new Drawable[2];
-            layers[0] = new BitmapDrawable(context.getResources(),product.getProdImage());
-            Drawable dr = r.getDrawable(R.mipmap.bought_icon);
-            Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
-            Drawable d = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
-
-            layers[1] = r.getDrawable(R.mipmap.bought_icon);
-            layers[0].setAlpha(100);
-            layers[1].setAlpha(150);
-            LayerDrawable layerDrawable = new LayerDrawable(layers);
             holder.imageView.setImageDrawable(layerDrawable);
             //holder.itemView.setAlpha((float) 0.5);
             holder.itemView.invalidate();
@@ -107,18 +85,6 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(isChecked){
-                    //Toast.makeText(context, product.getProductName() + " Checked", Toast.LENGTH_SHORT).show();
-                    Resources r = context.getResources();
-                    Drawable[] layers = new Drawable[2];
-                    layers[0] = new BitmapDrawable(context.getResources(),product.getProdImage());
-                    Drawable dr = r.getDrawable(R.mipmap.bought_icon);
-                    Bitmap bitmap = ((BitmapDrawable) dr).getBitmap();
-                    Drawable d = new BitmapDrawable(context.getResources(), Bitmap.createScaledBitmap(bitmap, 100, 100, true));
-
-                    layers[1] = r.getDrawable(R.mipmap.bought_icon);
-                    layers[0].setAlpha(100);
-                    layers[1].setAlpha(150);
-                    LayerDrawable layerDrawable = new LayerDrawable(layers);
                     holder.imageView.setImageDrawable(layerDrawable);
                     //holder.itemView.setAlpha((float) 0.5);
                     holder.itemView.invalidate();
