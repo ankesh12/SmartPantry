@@ -101,7 +101,7 @@ public class CategoryDaoImpl implements CategoryDao {
         if (cursor.moveToFirst()) {
             do {
                 Category category = new Category();
-                category.setCategoryName(cursor.getString(0));
+                category.setCategoryName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_CAT_NAME)));
                 // Adding category to list
                 categoryList.add(category);
             } while (cursor.moveToNext());
@@ -111,8 +111,8 @@ public class CategoryDaoImpl implements CategoryDao {
         return categoryList;
     }
 
-   //Get category object by CategoryName
-   @Override
+    //Get category object by CategoryName
+    @Override
     public Category getCategoryByName(String categoryName){
         String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_NAME + " = '" + categoryName + "'";
 
@@ -125,7 +125,7 @@ public class CategoryDaoImpl implements CategoryDao {
         }
 
         Category category = new Category();
-        category.setCategoryName(cursor.getString(0));
+        category.setCategoryName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_CAT_NAME)));
         return category;
     }
 

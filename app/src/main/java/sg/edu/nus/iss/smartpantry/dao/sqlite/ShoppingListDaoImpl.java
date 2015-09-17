@@ -109,13 +109,13 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
         // looping through all rows and adding to list
         if (shopCursor.moveToFirst()) {
             do {
-                String shopListNameVal=shopCursor.getString(0);
-                String prodName=shopCursor.getString(1);
-                String categoryName=shopCursor.getString(2);
-                int shopQty =(Integer.parseInt(shopCursor.getString(3)));
+                String shopListNameVal=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_NAME));
+                String prodName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME));
+                String categoryName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME));
+                int shopQty =(Integer.parseInt(shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_QTY))));
                 //Boolean isPurchased =(Boolean.parseBoolean(shopCursor.getString(4)));
                 Boolean isPurchased;
-                int boolValue = (shopCursor.getInt(4));
+                int boolValue = (shopCursor.getInt(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_IS_PURCHASED)));
                 System.out.println("Value for boolean " + boolValue);
                 if(boolValue == 1){
                     isPurchased = true;
@@ -128,18 +128,18 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                 Cursor cursor = db.rawQuery(selectProdQuery, null);
                 if (cursor.moveToFirst())
                 {
-                    Product product = new Product(cursor.getString(1),cursor.getString(0));
-                    product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                    product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                    if (cursor.getBlob(4) != null)
+                    Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                    product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_QTY))));
+                    product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                    if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
                     {
-                        byte[] blobVal = cursor.getBlob(4);
+                        byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                         Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                         product.setProdImage(bmp);
                     }
 
-                    if (cursor.getString(5) != null)
-                        product.setBarCode(cursor.getString(5));
+                    if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                        product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
                     // Adding product to list
                     productList.add(new ShoppingProduct(product,shopQty,isPurchased));
@@ -163,12 +163,12 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
         // looping through all rows and adding to list
         if (shopCursor.moveToFirst()) {
             do {
-                String shopListNameVal=shopCursor.getString(0);
-                String prodName=shopCursor.getString(1);
-                String categoryName=shopCursor.getString(2);
-                int shopQty =(Integer.parseInt(shopCursor.getString(3)));
+                String shopListNameVal=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_NAME));
+                String prodName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME));
+                String categoryName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME));
+                int shopQty =(Integer.parseInt(shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_QTY))));
                 Boolean isPurchased;
-                int boolValue = (shopCursor.getInt(4));
+                int boolValue = (shopCursor.getInt(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_IS_PURCHASED)));
                 System.out.println("Value for boolean " + boolValue);
                 if(boolValue == 1){
                     isPurchased = true;
@@ -181,18 +181,18 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                 Cursor cursor = db.rawQuery(selectProdQuery, null);
                 if (cursor.moveToFirst())
                 {
-                    Product product = new Product(cursor.getString(1),cursor.getString(0));
-                    product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                    product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                    if (cursor.getBlob(4) != null)
+                    Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                    product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+                    product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                    if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
                     {
-                        byte[] blobVal = cursor.getBlob(4);
+                        byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                         Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                         product.setProdImage(bmp);
                     }
 
-                    if (cursor.getString(5) != null)
-                        product.setBarCode(cursor.getString(5));
+                    if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                        product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
                     // Adding product to list
                     productList.add(new ShoppingProduct(product,shopQty,isPurchased));

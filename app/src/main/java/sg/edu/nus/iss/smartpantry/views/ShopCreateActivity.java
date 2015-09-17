@@ -3,11 +3,8 @@ package sg.edu.nus.iss.smartpantry.views;
 import android.app.Activity;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -49,10 +46,9 @@ public class ShopCreateActivity extends Activity {
         } ;
 
         Integer[] imageId = {
-                R.drawable.home,
-                R.drawable.eye,
-                R.drawable.cart
-
+                R.mipmap.home_drawer,
+                R.mipmap.watchlist_drawer,
+                R.mipmap.shop_cart_drawer
         };
 
 

@@ -128,18 +128,18 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1),cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null)
+                Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+                product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
                 {
-                    byte[] blobVal = cursor.getBlob(4);
+                    byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
 
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                    product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
                 // Adding product to list
                 productList.add(product);
@@ -163,18 +163,18 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1),cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null)
+                Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+                product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
                 {
-                    byte[] blobVal = cursor.getBlob(4);
+                    byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
 
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                    product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
                 // Adding product to list
                 productList.add(product);
             } while (cursor.moveToNext());
@@ -196,18 +196,18 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1),cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null)
+                Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+                product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
                 {
-                    byte[] blobVal = cursor.getBlob(4);
+                    byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
 
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                    product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
                 // Adding product to list
                 productList.add(product);
             } while (cursor.moveToNext());
@@ -240,18 +240,18 @@ public class ProductDaoImpl implements ProductDao {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
         if (cursor.moveToFirst()) {
-            Product product = new Product(cursor.getString(1),cursor.getString(0));
-            product.setQuantity(Integer.parseInt(cursor.getString(2)));
-            product.setThreshold(Integer.parseInt(cursor.getString(3)));
-            if (cursor.getBlob(4) != null)
+            Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+            product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+            product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+            if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
             {
-                byte[] blobVal = cursor.getBlob(4);
+                byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                 Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                 product.setProdImage(bmp);
             }
 
-            if (cursor.getString(5) != null)
-                product.setBarCode(cursor.getString(5));
+            if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
             // return product
             return product;
@@ -271,17 +271,17 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1), cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null) {
-                    byte[] blobVal = cursor.getBlob(4);
+                Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+                product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null) {
+                    byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
 
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                    product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
                 // Adding product to list
                 productList.add(product);
@@ -307,17 +307,17 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1), cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null) {
-                    byte[] blobVal = cursor.getBlob(4);
+                Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+                product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null) {
+                    byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
 
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                    product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
                 // Adding product to list
                 productList.add(product);
@@ -338,18 +338,18 @@ public class ProductDaoImpl implements ProductDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Product product = new Product(cursor.getString(1),cursor.getString(0));
-                product.setQuantity(Integer.parseInt(cursor.getString(2)));
-                product.setThreshold(Integer.parseInt(cursor.getString(3)));
-                if (cursor.getBlob(4) != null)
+                Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
+                product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
+                if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
                 {
-                    byte[] blobVal = cursor.getBlob(4);
+                    byte[] blobVal = cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE));
                     Bitmap bmp = BitmapFactory.decodeByteArray(blobVal, 0, blobVal.length);
                     product.setProdImage(bmp);
                 }
 
-                if (cursor.getString(5) != null)
-                    product.setBarCode(cursor.getString(5));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
+                    product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
                 // Adding product to list
                 if (product.getQuantity() <= product.getThreshold()){
