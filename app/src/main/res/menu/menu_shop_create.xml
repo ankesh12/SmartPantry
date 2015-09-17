@@ -1,9 +1,0 @@
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="sg.edu.nus.iss.smartpantry.views.ShopCreateActivity">
-    <item android:id="@+id/home" android:title="@string/action_home"
-        android:orderInCategory="100" app:showAsAction="never" />
-    <item android:id="@+id/action_expiring_items" android:title="@string/action_expiring_item"
-        android:orderInCategory="100" app:showAsAction="never" />
-</menu>
