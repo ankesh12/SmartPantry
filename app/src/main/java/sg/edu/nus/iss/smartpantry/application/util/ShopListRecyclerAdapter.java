@@ -3,6 +3,9 @@ package sg.edu.nus.iss.smartpantry.application.util;
 import android.app.Activity;
 import android.app.Dialog;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.StrikethroughSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,7 +60,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
 
         if(shopProduct.getIsPurchased()){
             holder.chckBox.setChecked(true);
-            Toast.makeText(context, " True", Toast.LENGTH_SHORT).show();
+            //holder.textView
         }
 
         holder.chckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
