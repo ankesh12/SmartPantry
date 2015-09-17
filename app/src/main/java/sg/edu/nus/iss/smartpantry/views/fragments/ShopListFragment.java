@@ -77,6 +77,7 @@ public class ShopListFragment extends Fragment {
         del_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                shopProds = (ArrayList)DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getProductsByShopListName("ShopList");
                 adapter = new ShopListRecyclerAdapter(shopProds, getActivity(), true);
                 recyclerViewShop.setAdapter(adapter);
                 changeable.setText("Done");

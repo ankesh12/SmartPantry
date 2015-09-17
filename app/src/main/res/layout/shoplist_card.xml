@@ -37,7 +37,7 @@
                 android:typeface="serif"
                 android:text="Product"
                 android:id="@+id/shopList_prodname"
-                android:layout_marginTop="15dp"
+                android:layout_marginTop="12dp"
                 android:textSize="25dp"
                 android:textStyle="bold"
                 android:layout_centerHorizontal="true"
@@ -51,14 +51,14 @@
                 android:layout_marginLeft="10dp"
                 android:id="@+id/linearLayout3">
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/shoplist_category"
-                    android:layout_marginTop="1dip"
-                    android:text="Yoooo"
-                    android:textColor="#000000"
-                    android:textStyle="bold" />
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:id="@+id/shoplist_category"-->
+                    <!--android:layout_marginTop="1dip"-->
+                    <!--android:text="Yoooo"-->
+                    <!--android:textColor="#000000"-->
+                    <!--android:textStyle="bold" />-->
 
 
                 <!-- Threshold -->
@@ -87,11 +87,11 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:id="@+id/qtyText_card"
-                    android:text="Qty : "
+                    android:text="Quantity : "
                     android:textStyle="bold"
                     android:textColor="#000000" />
                 <EditText
-                    android:layout_width="match_parent"
+                    android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/shoplist_qty_value"
                     android:textStyle="bold"
@@ -99,6 +99,7 @@
                     android:layout_margin="5dp"
                     android:paddingLeft="10dp"
                     android:background="@drawable/back"
+                    android:maxLength="2"
                     android:textColor="#0000FF"/>
             </LinearLayout>
             <ImageButton

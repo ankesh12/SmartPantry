@@ -9,11 +9,13 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -51,7 +53,33 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
         final Product product = shopProduct.getProduct();
         holder.imageView.setImageBitmap(product.getProdImage());
         holder.textView.setText(product.getProductName().toString());
-        holder.cardCategory.setText(product.getCategoryName().toString());
+        //holder.cardCategory.setText(product.getCategoryName().toString());
+
+        if(shopProduct.getIsPurchased()){
+            holder.chckBox.setChecked(true);
+            Toast.makeText(context, " True", Toast.LENGTH_SHORT).show();
+        }
+
+        holder.chckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Toast.makeText(context, product.getProductName() + " Checked", Toast.LENGTH_SHORT).show();
+                    //boolean result = DAOFactory.getShopLitstDao(context.getApplicationContext()).updateProductInShopList("ShopList",product,shopProduct.getShopQty(),true);
+                    updateData(shopProduct,shopProduct.getShopQty(),true);
+                    shopProduct.setIsPurchased(true);
+                    //refreshData();
+                }
+                else{
+                    Toast.makeText(context, "UnChecked", Toast.LENGTH_SHORT).show();
+                    //boolean result = DAOFactory.getShopLitstDao(context.getApplicationContext()).updateProductInShopList("ShopList",product,shopProduct.getShopQty(),false);
+                    updateData(shopProduct,shopProduct.getShopQty(),false);
+                    shopProduct.setIsPurchased(false);
+                    //refreshData();
+                }
+            }
+        });
+
         if(delBtnClicked){
             holder.delBtn.setVisibility(View.VISIBLE);
             holder.delBtn.setOnClickListener(new View.OnClickListener() {
@@ -94,7 +122,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             textView =  (TextView) itemView.findViewById(R.id.shopList_prodname);
             imageView = (ImageView) itemView.findViewById((R.id.shop_card_image));
             cardProdQty = (EditText) itemView.findViewById(R.id.shoplist_qty_value);
-            cardCategory = (TextView) itemView.findViewById(R.id.shoplist_category);
+            //cardCategory = (TextView) itemView.findViewById(R.id.shoplist_category);
             delBtn = (ImageButton) itemView.findViewById(R.id.shop_del_btn);
             chckBox = (CheckBox) itemView.findViewById(R.id.shopped_chck);
 
@@ -120,7 +148,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             public void onClick(View v) {
                 editText.setText(String.valueOf(np.getValue()));
                 d.dismiss();
-                updateData(prod, np.getValue());
+                updateData(prod, np.getValue(),prod.getIsPurchased());
 
             }
         });
@@ -134,8 +162,8 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
 
     }
 
-    public void updateData(ShoppingProduct shopProd, int newQty){
-        DAOFactory.getShopLitstDao(context).updateProductInShopList("ShopList", shopProd.getProduct(), newQty, false);
+    public void updateData(ShoppingProduct shopProd, int newQty, boolean isPurchased){
+        DAOFactory.getShopLitstDao(context).updateProductInShopList("ShopList", shopProd.getProduct(), newQty, isPurchased);
     }
 
     public void refreshData(){
