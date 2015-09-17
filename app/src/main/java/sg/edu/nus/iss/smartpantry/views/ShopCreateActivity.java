@@ -80,8 +80,6 @@ public class ShopCreateActivity extends Activity {
             }
         }
 
-
-        //////////////////////////////////////////////////////////
         CustomDrawerListAdapter drawerListAdapter = new CustomDrawerListAdapter(ShopCreateActivity.this, drawerTextItems, imageId);
         list=(ListView)findViewById(R.id.shopNavList);
         list.setAdapter(drawerListAdapter);
@@ -111,23 +109,12 @@ public class ShopCreateActivity extends Activity {
             }
         });
 
-
-
-
-
-
-
-
-
-///////////////////////////////////////////////////
-
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_shop_create, menu);
         return true;
     }
 
@@ -136,17 +123,7 @@ public class ShopCreateActivity extends Activity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.home) {
-            Intent intent =  new Intent(getApplicationContext(), SPApp.class);
-            startActivity(intent);
-        }
-        else if(id == R.id.action_expiring_items){
-            Intent intent =  new Intent(getApplicationContext(), ExpiringItems.class);
-            startActivity(intent);
-        }
         return super.onOptionsItemSelected(item);
     }
 }
