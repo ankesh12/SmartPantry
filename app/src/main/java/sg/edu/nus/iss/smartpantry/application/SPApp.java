@@ -43,7 +43,6 @@ import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
-import sg.edu.nus.iss.smartpantry.views.ExpiringItems;
 import sg.edu.nus.iss.smartpantry.views.ItemDetails;
 import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
 import sg.edu.nus.iss.smartpantry.views.fragments.CardHomeFragment;
@@ -183,8 +182,6 @@ public class SPApp extends Activity{
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_spapp, menu);
-
         return true;
     }
 
@@ -224,14 +221,6 @@ public class SPApp extends Activity{
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
-        }
-        if(id == R.id.action_watch_list){
-            Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
-            startActivity(intent);
-        }
-        else if(id == R.id.action_expiring_items){
-            Intent intent =  new Intent(getApplicationContext(), ExpiringItems.class);
-            startActivity(intent);
         }
 
         return super.onOptionsItemSelected(item);
