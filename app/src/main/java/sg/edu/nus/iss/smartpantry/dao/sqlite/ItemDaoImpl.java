@@ -20,10 +20,12 @@ import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
 public class ItemDaoImpl implements ItemDao {
 
     private SqliteHelper dbHelper;
+    private Context mContext;
 
     public ItemDaoImpl(Context context)
     {
         dbHelper = new SqliteHelper(context);
+        mContext=context;
     }
 
     @Override
@@ -83,8 +85,8 @@ public class ItemDaoImpl implements ItemDao {
 
             // updating row
             db.update(dbHelper.TABLE_ITEM, values, dbHelper.COL_ITEM_ID + " = '" + item.getItemId
-                    ()+"' and "+dbHelper.COL_ITEM_PRODUCT_NAME + " = '" + item.getProductName()
-                    +"' AND "+dbHelper.COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'",
+                            ()+"' and "+dbHelper.COL_ITEM_PRODUCT_NAME + " = '" + item.getProductName()
+                            +"' AND "+dbHelper.COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'",
                     null);
             db.close();
             return true;
@@ -141,12 +143,12 @@ public class ItemDaoImpl implements ItemDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item(cursor.getString(2),cursor.getString(1),Integer.parseInt
-                        (cursor.getString(0)));
-                if (cursor.getString(3) != null)
-                    item.setExpiryDate(Date.valueOf(cursor.getString(3)));
-                item.setPrice(Double.parseDouble(cursor.getString(4)));
-                item.setDop(Date.valueOf(cursor.getString(5)));
+                Item item = new Item(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_NAME)),Integer.parseInt
+                        (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_ID))));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE)) != null)
+                    item.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE))));
+                item.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRICE))));
+                item.setDop(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_DOP))));
                 // Adding item to list
                 itemList.add(item);
             } while (cursor.moveToNext());
@@ -170,12 +172,12 @@ public class ItemDaoImpl implements ItemDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item(cursor.getString(2),cursor.getString(1),Integer.parseInt
-                        (cursor.getString(0)));
-                if (cursor.getString(3) != null)
-                    item.setExpiryDate(Date.valueOf(cursor.getString(3)));
-                item.setPrice(Double.parseDouble(cursor.getString(4)));
-                item.setDop(Date.valueOf(cursor.getString(5)));
+                Item item = new Item(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_NAME)),Integer.parseInt
+                        (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_ID))));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE)) != null)
+                    item.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE))));
+                item.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRICE))));
+                item.setDop(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_DOP))));
                 // Adding item to list
                 itemList.add(item);
             } while (cursor.moveToNext());
@@ -194,12 +196,13 @@ public class ItemDaoImpl implements ItemDao {
 
             String testQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+ dbHelper
                     .COL_ITEM_PRODUCT_NAME + " = '"+ productName +"'";
-            String selectQuery = "SELECT  MAX("+dbHelper.COL_ITEM_ID+") FROM " + dbHelper
+            String selectQuery = "SELECT  MAX("+dbHelper.COL_ITEM_ID+") As MaxId FROM " + dbHelper
                     .TABLE_ITEM + " WHERE "+ dbHelper.COL_ITEM_PRODUCT_NAME + " = '"+ productName
                     +"'";
 
             Cursor cursor = db.rawQuery(testQuery, null);
             cursor.moveToFirst();
+            int ctr=cursor.getCount();
             if (cursor.getCount() == 0) {
                 db.close();
                 return 1;
@@ -207,7 +210,7 @@ public class ItemDaoImpl implements ItemDao {
             else {
                 cursor = db.rawQuery(selectQuery, null);
                 cursor.moveToFirst();
-                int id = cursor.getInt(0) + 1;
+                int id = cursor.getInt(cursor.getColumnIndex("MaxId")) + 1;
                 db.close();
                 return id;
             }
@@ -236,12 +239,12 @@ public class ItemDaoImpl implements ItemDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item(cursor.getString(2),cursor.getString(1),Integer.parseInt
-                        (cursor.getString(0)));
-                if (cursor.getString(3) != null)
-                    item.setExpiryDate(Date.valueOf(cursor.getString(3)));
-                item.setPrice(Double.parseDouble(cursor.getString(4)));
-                item.setDop(Date.valueOf(cursor.getString(5)));
+                Item item = new Item(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_NAME)),Integer.parseInt
+                        (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_ID))));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE)) != null)
+                    item.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE))));
+                item.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRICE))));
+                item.setDop(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_DOP))));
                 // Adding item to list
                 itemList.add(item);
             } while (cursor.moveToNext());

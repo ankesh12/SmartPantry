@@ -92,7 +92,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.cardButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DAOFactory.getShopLitstDao(context.getApplicationContext()).addProductToShopList("ShopList",product,1,false);
+                String shop_list_name= new XMLUtil().getElementText("SHOP_LIST_NAME", context.getResources().openRawResource(R.raw.app_settings));
+                DAOFactory.getShopLitstDao(context.getApplicationContext()).addProductToShopList(shop_list_name,product,1,false);
                 Toast.makeText(context,product.getProductName() + " added to cart!",Toast.LENGTH_SHORT).show();
                 //Toast.makeText(context.getApplicationContext(), product.getProductName().toString(), Toast.LENGTH_SHORT).show();
 

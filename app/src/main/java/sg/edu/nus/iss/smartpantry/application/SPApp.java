@@ -40,6 +40,7 @@ import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
 import sg.edu.nus.iss.smartpantry.application.util.CustomDrawerListAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
+import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
 import sg.edu.nus.iss.smartpantry.views.ExpiringItems;
@@ -202,8 +203,9 @@ public class SPApp extends Activity{
         am.cancel(pi);
 
 
+        int hrs= Integer.parseInt(new XMLUtil().getElementText("NOTIFICATION_TIME_HRS",SPApp.this.getResources().openRawResource(R.raw.app_settings)));
         // by my own convention, minutes <= 0 means notifications are disabled
-        if (c.getTime().getHours() >= 14 ) {
+        if (c.getTime().getHours() >= hrs) {
             int minutes = 60*24*60;
             am.setInexactRepeating(AlarmManager.ELAPSED_REALTIME_WAKEUP,
                     SystemClock.elapsedRealtime() + 30*1000,
