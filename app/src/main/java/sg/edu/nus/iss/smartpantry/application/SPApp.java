@@ -151,6 +151,7 @@ public class SPApp extends Activity{
                {
                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
                    intent.putExtra("fragment","shopList");
+                   drawer.closeDrawer(Gravity.LEFT);
                    startActivity(intent);
 
                }
