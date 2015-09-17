@@ -91,7 +91,7 @@
                     android:textStyle="bold"
                     android:textColor="#000000" />
                 <EditText
-                    android:layout_width="50dp"
+                    android:layout_width="45dp"
                     android:layout_height="wrap_content"
                     android:id="@+id/shoplist_qty_value"
                     android:textStyle="bold"
@@ -106,6 +106,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:id="@+id/shop_del_btn"
+                android:background="#FFFFFF"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentRight="true"
                 android:src="@mipmap/delete"/>
