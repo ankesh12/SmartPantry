@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.application.util;
+package sg.edu.nus.iss.smartpantry.adapters;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -18,6 +18,7 @@ import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 import sg.edu.nus.iss.smartpantry.views.fragments.CardDetailFragment;

@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.application.util;
+package sg.edu.nus.iss.smartpantry.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;

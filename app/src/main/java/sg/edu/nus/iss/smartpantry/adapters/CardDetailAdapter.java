@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.application.util;
+package sg.edu.nus.iss.smartpantry.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,6 +18,7 @@ import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.views.Dialog.EditItemDialog;
 
 /**
  * Created by ankesh on 8/16/15.

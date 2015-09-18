@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.application.util;
+package sg.edu.nus.iss.smartpantry.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,9 +22,9 @@ import sg.edu.nus.iss.smartpantry.dao.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 
 /**
- * Created by A0134493A on 15/5/2015.
+ * Created by A0134435L on 6/4/2015.
  */
-public class CustomAdapter extends BaseExpandableListAdapter {
+public class ExpItemsAdapter extends BaseExpandableListAdapter {
     @Override
     public int getGroupCount() {
         return productList.size();
@@ -73,21 +73,25 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         }
 
         TextView itemName = (TextView)convertView.findViewById(R.id.Itemname);
-        TextView category = (TextView)convertView.findViewById(R.id.category);
         TextView threshQty = (TextView)convertView.findViewById(R.id.threshold);
-        TextView quantity = (TextView)convertView.findViewById(R.id.quant);
+        TextView category = (TextView)convertView.findViewById(R.id.category);
         ImageView imageView = (ImageView)convertView.findViewById(R.id.icon);
-
+        TextView qtytext = (TextView)convertView.findViewById(R.id.qtyText);
+        TextView threshText = (TextView)convertView.findViewById(R.id.threshText);
+        TextView quantity = (TextView)convertView.findViewById(R.id.quant);
         Product product = productList.get(groupPosition);
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
+        qtytext.setText("Exp Qty : ");
+        threshQty.setVisibility(View.INVISIBLE);
+        threshText.setVisibility(View.INVISIBLE);
 
-        itemName.setText(product.getProductName());
-        category.setText(product.getCategoryName());
         threshQty.setText(String.valueOf( product.getThreshold()));
-        quantity.setText(String.valueOf(product.getQuantity()));
+        itemName.setText(product.getProductName());
+        category.setText(catDao.getCategoryByName(product.getCategoryName()).getCategoryName());
         imageView.setImageBitmap(product.getProdImage());
-
+        quantity.setText(String.valueOf(DAOFactory.getItemDao(context).getItemsNearingExpiryByProduct(product).size()));
         return convertView;
+
     }
 
     @Override
@@ -101,7 +105,6 @@ public class CustomAdapter extends BaseExpandableListAdapter {
 
         TextView dop = (TextView)convertView.findViewById(R.id.dop);
         TextView expiryDate = (TextView)convertView.findViewById(R.id.expiryDate);
-        TextView price = (TextView)convertView.findViewById(R.id.price);
         ImageView deleteItem =(ImageView) convertView.findViewById(R.id.deleteIcon);
 
         final Item selItem = itemList.get(groupPosition).get(childPosition);
@@ -120,18 +123,12 @@ public class CustomAdapter extends BaseExpandableListAdapter {
             }
         });
 
-
         dop.setText("Date Of Purchase: "+selItem.getDop());
 
         if(selItem.getExpiryDate() == null)
             expiryDate.setText(null);
         else
             expiryDate.setText("Expiry Date: "+selItem.getExpiryDate().toString());
-
-        if(selItem.getPrice() == 0)
-            price.setText(null);
-        else
-            price.setText("Price: "+String.valueOf(selItem.getPrice()));
 
         return convertView;
     }
@@ -148,7 +145,7 @@ public class CustomAdapter extends BaseExpandableListAdapter {
     Context context;
     int lastExpandedGroupPosition;
 
-    public CustomAdapter(Activity activity, List<Product> products,List<List<Item>> items, Context context){
+    public ExpItemsAdapter(Activity activity, List<Product> products,List<List<Item>> items, Context context){
         this.activity = activity;
         productList = products;
         itemList=items;
@@ -161,20 +158,19 @@ public class CustomAdapter extends BaseExpandableListAdapter {
         ProductDao productDao = DAOFactory.getProductDao(context);
         ItemDao itemDao = DAOFactory.getItemDao(context);
         productList = new ArrayList<Product>();
-        productList = productDao.getAllProducts();
+        productList = productDao.getProductsNearingExpiry();
         itemList = new ArrayList<List<Item>>();
         for(Product p:productList)
         {
             List<Item> prodItemList = new ArrayList<Item>();
-            prodItemList= itemDao.getItemsByProductAndCategoryName(p.getCategoryName(),p
-                    .getProductName());
+            prodItemList= itemDao.getItemsNearingExpiryByProduct(p);
             if(prodItemList.size() == 0)
                 itemList.add(null);
             else
                 itemList.add(prodItemList);
 
         }
-        CustomAdapter.this.notifyDataSetChanged();
+        ExpItemsAdapter.this.notifyDataSetChanged();
     }
 
 }

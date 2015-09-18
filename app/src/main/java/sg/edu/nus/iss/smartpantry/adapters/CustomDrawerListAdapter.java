@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.application.util;
+package sg.edu.nus.iss.smartpantry.adapters;
 
 /**
  * Created by sambhav on 9/10/15.
