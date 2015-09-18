@@ -26,7 +26,7 @@ public class ItemController {
         return intent;
     }
 
-    public void addItem(Context context,  String categoryName,String productName, Bitmap bitmap, Date expiryDate, int thresholdQty, double price) throws ParseException {
+    public void addItem(Context context,  String categoryName,String productName, Bitmap bitmap, Date expiryDate, int thresholdQty, double price, int quantity) throws ParseException {
         ItemDao itemDao= DAOFactory.getItemDao(context);
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
         ProductDao prodDao = DAOFactory.getProductDao(context);
@@ -44,18 +44,17 @@ public class ItemController {
                 prodDao.updateProduct(product);
             }
         }
-
-        int itemId = itemDao.generateItemIdForProduct(productName);
-        if(itemId != -1)
-        {
-                Item itm = new Item(categoryName,productName, itemId);
+        for(int i=0;i<quantity;i++) {
+            int itemId = itemDao.generateItemIdForProduct(productName);
+            if (itemId != -1) {
+                Item itm = new Item(categoryName, productName, itemId);
                 itm.setPrice(price);
-                if (expiryDate!=null)
+                if (expiryDate != null)
                     itm.setExpiryDate(new java.sql.Date(expiryDate.getTime()));
                 itemDao.addItem(itm);
-        }
-        else {
-            Toast.makeText(context, "Error in generating the Item ID!!!!", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(context, "Error in generating the Item ID!!!!", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 }
