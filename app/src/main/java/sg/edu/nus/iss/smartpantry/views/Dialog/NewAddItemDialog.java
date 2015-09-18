@@ -21,6 +21,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.adapters.CardDetailAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
+import sg.edu.nus.iss.smartpantry.dto.ItemDetailDTO;
 
 /**
  * Created by ankesh on 8/20/15.
@@ -31,6 +32,7 @@ public class NewAddItemDialog extends Dialog{
     private NumberPicker numPicker;
     private Product selProd;
     private CardDetailAdapter adapt;
+    private ItemDetailDTO itemDetailDTO;
     public NewAddItemDialog(Activity parentActivity,Product prod,CardDetailAdapter adapt) {
         super(parentActivity);
         this.parentActivity=parentActivity;
@@ -84,9 +86,13 @@ public class NewAddItemDialog extends Dialog{
                         if(!expDate.getText().toString().trim().equals("")) {
                             expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
                         }
-                        ControlFactory.getInstance().getItemController().addItem(parentActivity
-                                        .getApplicationContext(), selProd.getCategoryName(), selProd.getProductName(),
+                        itemDetailDTO = new ItemDetailDTO(selProd.getCategoryName(), selProd.getProductName(),
                                 selProd.getProdImage(),expiryDate,selProd.getThreshold(),0, qtyEntered);
+                        /*ControlFactory.getInstance().getItemController().addItem(parentActivity
+                                        .getApplicationContext(), selProd.getCategoryName(), selProd.getProductName(),
+                                selProd.getProdImage(),expiryDate,selProd.getThreshold(),0, qtyEntered);*/
+                        ControlFactory.getInstance().getItemController().addItem(parentActivity.getApplicationContext(),
+                                itemDetailDTO);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }

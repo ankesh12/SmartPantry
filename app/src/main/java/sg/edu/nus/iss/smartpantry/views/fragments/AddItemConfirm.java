@@ -44,6 +44,7 @@ import sg.edu.nus.iss.smartpantry.adapters.RecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dto.ItemDetailDTO;
 
 
 public class AddItemConfirm extends Fragment {
@@ -54,6 +55,7 @@ public class AddItemConfirm extends Fragment {
     private TextView tvDisplayDate;
     private DatePicker dpResult;
     private Button btnChangeDate;
+    private ItemDetailDTO itemDetailDTO;
     EditText expDate,thresholdQty, price, quantity ;
     Spinner catList;
     Button addBtn,cancelBtn;
@@ -202,10 +204,12 @@ public class AddItemConfirm extends Fragment {
                     }
 
 //                    for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
-                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()),Integer.valueOf(quantity.getText().toString()));
+                    itemDetailDTO = new ItemDetailDTO(catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()),Integer.valueOf(quantity.getText().toString()));
+                    //ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()),Integer.valueOf(quantity.getText().toString()));
+                    ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(),itemDetailDTO);
 //                    }
-                    //recyclerAdapter.refreshData();
-                    getActivity().onBackPressed();
+                            //recyclerAdapter.refreshData();
+                            getActivity().onBackPressed();
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }

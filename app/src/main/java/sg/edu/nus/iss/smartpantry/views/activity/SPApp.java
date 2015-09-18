@@ -39,6 +39,7 @@ import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
 import sg.edu.nus.iss.smartpantry.adapters.CustomDrawerListAdapter;
+import sg.edu.nus.iss.smartpantry.dto.ItemDetailDTO;
 import sg.edu.nus.iss.smartpantry.service.NotificationService;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
@@ -51,6 +52,7 @@ public class SPApp extends Activity{
     private static final int CAMERA_REQUEST = 1888;
     private CardHomeFragment cardHomeFragment;
     protected DrawerLayout mDrawer;
+    private ItemDetailDTO itemDetails;
     //implementing the code for drawerList
 
     ListView list;
@@ -294,11 +296,13 @@ public class SPApp extends Activity{
             Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
             bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
             try {
-                ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1, 0, 1);
+                itemDetails = new ItemDetailDTO("MISC", prodTitle, bitmap, null, 1, 0, 1);
+                //ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1, 0, 1);
+                ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), itemDetails);
                 MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.beep);
                 player.start();
                 Toast.makeText(SPApp.this, "Product Added", Toast.LENGTH_SHORT).show();
-            } catch (ParseException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
