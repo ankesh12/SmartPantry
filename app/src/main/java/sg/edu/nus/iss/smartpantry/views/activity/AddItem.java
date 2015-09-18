@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.views;
+package sg.edu.nus.iss.smartpantry.views.activity;
 
 import android.content.Intent;
 import android.graphics.Color;

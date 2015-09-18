@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.application;
+package sg.edu.nus.iss.smartpantry.views.activity;
 
 import android.app.Activity;
 import android.app.AlarmManager;
@@ -38,13 +38,11 @@ import java.util.Calendar;
 import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
-import sg.edu.nus.iss.smartpantry.application.util.CustomDrawerListAdapter;
-import sg.edu.nus.iss.smartpantry.application.util.NotificationService;
+import sg.edu.nus.iss.smartpantry.adapters.CustomDrawerListAdapter;
+import sg.edu.nus.iss.smartpantry.service.NotificationService;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
-import sg.edu.nus.iss.smartpantry.views.ItemDetails;
-import sg.edu.nus.iss.smartpantry.views.ShopCreateActivity;
 import sg.edu.nus.iss.smartpantry.views.fragments.CardHomeFragment;
 
 public class SPApp extends Activity{

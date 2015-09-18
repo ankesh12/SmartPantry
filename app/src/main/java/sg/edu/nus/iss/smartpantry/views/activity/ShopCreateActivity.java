@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.views;
+package sg.edu.nus.iss.smartpantry.views.activity;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -12,8 +12,7 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.SPApp;
-import sg.edu.nus.iss.smartpantry.application.util.CustomDrawerListAdapter;
+import sg.edu.nus.iss.smartpantry.adapters.CustomDrawerListAdapter;
 import sg.edu.nus.iss.smartpantry.views.fragments.ShopListFragment;
 import sg.edu.nus.iss.smartpantry.views.fragments.WatchListFragment;
 

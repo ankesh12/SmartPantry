@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.views;
+package sg.edu.nus.iss.smartpantry.views.activity;
 
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -11,7 +11,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.SPApp;
 import sg.edu.nus.iss.smartpantry.views.fragments.ExpiringItemFragment;
 
 public class ExpiringItems extends ActionBarActivity {
