@@ -40,7 +40,7 @@ import java.util.Locale;
 import sg.edu.nus.iss.smartpantry.Entity.Category;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.RecyclerAdapter;
+import sg.edu.nus.iss.smartpantry.adapters.RecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.CategoryDao;

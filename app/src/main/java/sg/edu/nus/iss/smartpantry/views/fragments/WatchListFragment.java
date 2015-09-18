@@ -22,7 +22,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.Entity.WatchListProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.WatchListProductComparator;
-import sg.edu.nus.iss.smartpantry.application.util.WatchListRecyclerViewAdapter;
+import sg.edu.nus.iss.smartpantry.adapters.WatchListRecyclerViewAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.ProductDao;

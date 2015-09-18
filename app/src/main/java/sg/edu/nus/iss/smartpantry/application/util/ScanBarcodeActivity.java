@@ -34,7 +34,7 @@ import java.util.List;
 import sg.edu.nus.iss.smartpantry.CustomException.ItemNotFoundException;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.network.ItemLookup;
-import sg.edu.nus.iss.smartpantry.views.ItemDetails;
+import sg.edu.nus.iss.smartpantry.views.activity.ItemDetails;
 
 /**
  * Example for a full-screen barcode scanning activity using the Scandit

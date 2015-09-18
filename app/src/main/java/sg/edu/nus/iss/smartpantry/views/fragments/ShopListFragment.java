@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.ShopListRecyclerAdapter;
+import sg.edu.nus.iss.smartpantry.adapters.ShopListRecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
 

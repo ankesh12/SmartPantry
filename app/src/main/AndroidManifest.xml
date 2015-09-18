@@ -22,7 +22,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name=".application.SPApp"
+            android:name=".views.activity.SPApp"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,21 +31,21 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".views.AddItem"
+            android:name=".views.activity.AddItem"
             android:label="@string/title_activity_sphome" >
         </activity>
         <activity
             android:name=".application.util.ScanBarcodeActivity"
             android:label="ScanBarcodeActivity" />
         <activity
-            android:name=".views.ItemDetails"
+            android:name=".views.activity.ItemDetails"
             android:label="@string/title_activity_item_details" >
         </activity>
         <activity
-            android:name=".views.ShopCreateActivity"
+            android:name=".views.activity.ShopCreateActivity"
             android:label="@string/title_activity_shop_create" />
         <activity
-            android:name=".views.ExpiringItems"
+            android:name=".views.activity.ExpiringItems"
             android:label="@string/title_activity_expiring_list" />
 
         <activity
@@ -59,7 +59,7 @@
         </activity>
 
         <service
-            android:name=".application.util.NotificationService"
+            android:name=".service.NotificationService"
             android:enabled="true"
             android:exported="true"
             android:launchMode="singleTask" >
