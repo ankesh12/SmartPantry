@@ -21,7 +21,7 @@ import sg.edu.nus.iss.smartpantry.dto.ItemDetailDTO;
 /**
  * Created by A0134493A on 7/5/2015.
  */
-public class ItemController {
+public class  ItemController {
 
     public Intent showAddItem(Context context){
         Intent intent = new Intent(context,ScanBarcode.class);
