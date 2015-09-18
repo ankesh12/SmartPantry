@@ -62,71 +62,10 @@ public class  ItemController {
         }
     }
 
-
-
-            public void deleteItem(Context context,Item item)
-            {
-                ItemDao itemDao = DAOFactory.getItemDao(context);
-                itemDao.deleteItem(item);
-
-            }
-
-
-
-
-
-    /*
+    public void deleteItem(Context context,Item item)
+    {
+        ItemDao itemDao = DAOFactory.getItemDao(context);
+        itemDao.deleteItem(item);
     }
 
-        deleteItem.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ProductDao productDao = DAOFactory.getProductDao(context);
-                ItemDao itemDao = DAOFactory.getItemDao(context);
-                itemDao.deleteItem(items.get(position));
-                Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
-
-                refreshData();
-            }
-        });
-
-
-
-    ///////////////////////////////////
-
-
-
-
-
-    public void addItem_old(Context context,  String categoryName,String productName, Bitmap bitmap, Date expiryDate, int thresholdQty, double price, int quantity) throws ParseException {
-        ItemDao itemDao= DAOFactory.getItemDao(context);
-        CategoryDao catDao = DAOFactory.getCategoryDao(context);
-        ProductDao prodDao = DAOFactory.getProductDao(context);
-        Product product = prodDao.getProduct(categoryName, productName);
-        Random rand = new Random();
-        if(product == null)
-        {
-            Product newProduct = new Product(categoryName,productName);
-            newProduct.setThreshold(thresholdQty);
-            newProduct.setProdImage(bitmap);
-            prodDao.addProduct(newProduct);
-        }else{
-            if(product.getThreshold()!=thresholdQty) {
-                product.setThreshold(thresholdQty);
-                prodDao.updateProduct(product);
-            }
-        }
-        for(int i=0;i<quantity;i++) {
-            int itemId = itemDao.generateItemIdForProduct(productName);
-            if (itemId != -1) {
-                Item itm = new Item(categoryName, productName, itemId);
-                itm.setPrice(price);
-                if (expiryDate != null)
-                    itm.setExpiryDate(new java.sql.Date(expiryDate.getTime()));
-                itemDao.addItem(itm);
-            } else {
-                Toast.makeText(context, "Error in generating the Item ID!!!!", Toast.LENGTH_SHORT).show();
-            }
-        }
-    }*/
 }
