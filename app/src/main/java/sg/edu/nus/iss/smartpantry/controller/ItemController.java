@@ -11,10 +11,11 @@ import java.util.Random;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
-import sg.edu.nus.iss.smartpantry.application.util.ScanBarcodeActivity;
-import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
-import sg.edu.nus.iss.smartpantry.dao.ItemDao;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.application.util.ScanBarcode;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 
 /**
  * Created by A0134493A on 7/5/2015.
@@ -22,7 +23,7 @@ import sg.edu.nus.iss.smartpantry.dao.ProductDao;
 public class ItemController {
 
     public Intent showAddItem(Context context){
-        Intent intent = new Intent(context,ScanBarcodeActivity.class);
+        Intent intent = new Intent(context,ScanBarcode.class);
         return intent;
     }
 
