@@ -67,7 +67,7 @@ import sg.edu.nus.iss.smartpantry.views.activity.ItemDetails;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-public class ScanBarcodeActivity
+public class ScanBarcode
 		extends Activity
 		implements ScanditSDKOnScanListener,
 		           ScanditSDKSearchBarListener,
@@ -208,9 +208,9 @@ public class ScanBarcodeActivity
         public static final int SHOW_BARCODES = 0;
         public static final int SHOW_SEARCH_BAR_ENTRY = 1;
         private  String title;
-        private WeakReference<ScanBarcodeActivity> mActivity;
-        UIHandler(ScanBarcodeActivity activity) {
-            mActivity = new WeakReference<ScanBarcodeActivity>(activity);
+        private WeakReference<ScanBarcode> mActivity;
+        UIHandler(ScanBarcode activity) {
+            mActivity = new WeakReference<ScanBarcode>(activity);
         }
         @Override
         public void handleMessage(Message msg) {
@@ -277,7 +277,7 @@ public class ScanBarcodeActivity
 
         private void callAddConfirm(String prodTitle,Drawable image) {
             if(prodTitle==null){
-                Toast.makeText(ScanBarcodeActivity.this,"Product Not Found.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ScanBarcode.this,"Product Not Found.", Toast.LENGTH_SHORT).show();
                 onResume();
                 return;
             }

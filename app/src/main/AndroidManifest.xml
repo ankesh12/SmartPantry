@@ -35,7 +35,7 @@
             android:label="@string/title_activity_sphome" >
         </activity>
         <activity
-            android:name=".application.util.ScanBarcodeActivity"
+            android:name=".application.util.ScanBarcode"
             android:label="ScanBarcodeActivity" />
         <activity
             android:name=".views.activity.ItemDetails"
