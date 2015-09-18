@@ -5,6 +5,8 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -36,6 +38,7 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
     private View view;
     private Product product;
     private ItemController itemController;
+    int selectedRow;
 
     public CardDetailAdapter(Activity context, int resource, ArrayList<Item> items, Product product, View view) {
         super(context, resource);
@@ -59,6 +62,7 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
             LayoutInflater itemInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = itemInflater.inflate(R.layout.itemlist, null);
         }
+        final View mView = convertView;
         final CardDetailAdapter currAdapter =this;
         final Item passItem = items.get(position);
         System.out.println("#####################################");
@@ -84,15 +88,34 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
         System.out.println("Date Of Purchase: " + items.get(position).getDop());
         System.out.println("DateOfPurchase: " + items.get(position).getDop());
 
+        final Animation animation = AnimationUtils.loadAnimation(context,
+                R.anim.slide_out);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
 
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                //CardDetailAdapter.this.remove(CardDetailAdapter.this.getItem(selectedRow));
+                //CardDetailAdapter.this.notifyDataSetChanged();
+                refreshData();
+            }
+        });
 
         itemController = ControlFactory.getInstance().getItemController();
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemController.deleteItem(context,items.get(position));
+                mView.startAnimation(animation);
+                selectedRow = position;
                 Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
-                refreshData();
+                //refreshData();
             }
         });
 

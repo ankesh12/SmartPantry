@@ -82,7 +82,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 cardHomeFragment.setArguments(args);
                 FragmentManager fragmentManager = context.getFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.setCustomAnimations(R.animator.slide_in_left, R.animator.slide_out_right);
+                fragmentTransaction.setCustomAnimations(R.anim.slide_in_left, R.anim.slide_out_right);
                 fragmentTransaction.replace(R.id.bluescan, cardHomeFragment, "MatDesignCDetail");
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
