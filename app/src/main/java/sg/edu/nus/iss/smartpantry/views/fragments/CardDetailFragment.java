@@ -22,11 +22,11 @@ import java.util.ArrayList;
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.CardDetailAdapter;
-import sg.edu.nus.iss.smartpantry.application.util.NewAddItemDialog;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
-import sg.edu.nus.iss.smartpantry.dao.ItemDao;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.adapters.CardDetailAdapter;
+import sg.edu.nus.iss.smartpantry.views.Dialog.NewAddItemDialog;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 import sg.edu.nus.iss.smartpantry.views.Dialog.EditProductDialog;
 
 

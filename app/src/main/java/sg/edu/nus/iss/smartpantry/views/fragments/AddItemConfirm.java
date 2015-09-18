@@ -40,10 +40,10 @@ import java.util.Locale;
 import sg.edu.nus.iss.smartpantry.Entity.Category;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.RecyclerAdapter;
+import sg.edu.nus.iss.smartpantry.adapters.RecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
-import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
 
 
 public class AddItemConfirm extends Fragment {
@@ -201,9 +201,9 @@ public class AddItemConfirm extends Fragment {
                         expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
                     }
 
-                    for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
-                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()));
-                    }
+//                    for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
+                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()),Integer.valueOf(quantity.getText().toString()));
+//                    }
                     //recyclerAdapter.refreshData();
                     getActivity().onBackPressed();
                 } catch (ParseException e) {

@@ -28,6 +28,9 @@ public class ShoppingProduct {
         return isPurchased;
     }
 
+    public void setIsPurchased(boolean value){
+        this.isPurchased = value;
+    }
     @Override
     public int hashCode() {
         return getProduct().getProductName().hashCode() + getProduct().getCategoryName().hashCode();

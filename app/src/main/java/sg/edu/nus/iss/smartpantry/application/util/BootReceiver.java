@@ -9,6 +9,8 @@ import android.os.SystemClock;
 
 import java.util.Calendar;
 
+import sg.edu.nus.iss.smartpantry.service.NotificationService;
+
 public class BootReceiver extends BroadcastReceiver {
     public BootReceiver() {
     }
