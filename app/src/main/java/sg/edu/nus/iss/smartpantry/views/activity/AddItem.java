@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.application.util.ScanBarcodeActivity;
+import sg.edu.nus.iss.smartpantry.application.util.ScanBarcode;
 
 public class AddItem extends ActionBarActivity {
 
@@ -31,7 +31,7 @@ public class AddItem extends ActionBarActivity {
         scanButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(AddItem.this, ScanBarcodeActivity.class);
+                Intent intent = new Intent(AddItem.this, ScanBarcode.class);
                 startActivity(intent);
             }
         });

@@ -22,9 +22,9 @@ import sg.edu.nus.iss.smartpantry.Entity.Category;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.adapters.CardDetailAdapter;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
-import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 
 /**
  * Created by A0134493A on 4/9/2015.

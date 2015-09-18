@@ -22,9 +22,9 @@ import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
-import sg.edu.nus.iss.smartpantry.dao.ItemDao;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 
 public class NotificationService extends Service {
     public NotificationService() {

@@ -16,9 +16,9 @@ import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.adapters.RecyclerAdapter;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 import sg.edu.nus.iss.smartpantry.controller.MainController;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 
 /**
  * A simple {@link android.app.Fragment} subclass.

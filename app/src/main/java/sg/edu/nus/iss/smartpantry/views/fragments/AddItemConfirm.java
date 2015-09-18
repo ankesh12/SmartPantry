@@ -42,8 +42,8 @@ import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.adapters.RecyclerAdapter;
 import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
-import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
 
 
 public class AddItemConfirm extends Fragment {

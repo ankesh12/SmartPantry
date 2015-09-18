@@ -23,7 +23,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.R;
 ;
 import sg.edu.nus.iss.smartpantry.adapters.CardDetailAdapter;
-import sg.edu.nus.iss.smartpantry.dao.sqlite.ItemDaoImpl;
+import sg.edu.nus.iss.smartpantry.dao.daoImpl.ItemDaoImpl;
 
 /**
  * Created by sambhav on 9/3/15.
