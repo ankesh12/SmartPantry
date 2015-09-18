@@ -39,6 +39,8 @@ public class CardDetailFragment extends Fragment {
     TextView thresh;
     ImageButton imageButton;
     View view;
+    ProductDao productDao;
+    CardDetailAdapter cardAdapter;
 
 
     // TODO: Rename and change types and number of parameters
@@ -72,8 +74,7 @@ public class CardDetailFragment extends Fragment {
         Bundle b = getArguments();
         ArrayList<String> detail = b.getStringArrayList("Details");
         final String productName = detail.get(0);
-        //System.out.println("ProductName: " + productName);
-        final ProductDao productDao = DAOFactory.getProductDao(getActivity().getApplicationContext());
+        productDao = DAOFactory.getProductDao(getActivity().getApplicationContext());
 
         String category = detail.get(1);
         System.out.println("CategoryName: " + detail.get(1));
@@ -88,56 +89,15 @@ public class CardDetailFragment extends Fragment {
         myFab = (FloatingActionButton) view.findViewById(R.id.fab);
 
         final ItemDao itemDao = DAOFactory.getItemDao(getActivity().getApplicationContext());
-        String[] dataArray = new String[]{detail.get(0),detail.get(1)};
         final ArrayList<Item> items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
-        final ArrayList<Item> itemsToDelete = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(detail.get(1),detail.get(0));
 
-        //System.out.println("Item Ek number: " + items.get(0).getDop().toString());
-        final CardDetailAdapter cardAdapter = new CardDetailAdapter(getActivity(),R.layout.itemlist, items,product,view);
-        final CardDetailFragment frag =this;
+        cardAdapter = new CardDetailAdapter(getActivity(),R.layout.itemlist, items,product,view);
+
         //ImageButton
         imageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(),imageButton);
-                popup.getMenuInflater().inflate(R.menu.popup_menu,popup.getMenu());
-                popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                    @Override
-                    public boolean onMenuItemClick(MenuItem item) {
-                        if(item.getTitle().equals("Edit Product")){
-                            EditProductDialog itemDialog = new EditProductDialog(getActivity(),product,cardAdapter,view);
-                            itemDialog.show();
-                        }
-                        if(item.getTitle().equals("Delete Product")){
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                            builder.setTitle("Confirm Delete");
-                            builder.setMessage("Deleting Product would delete the items for the Product as well. Would you like to Delete?");
-                            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-//                                    for (Item delItem : itemsToDelete) {
-//                                        itemDao.deleteItem(delItem);
-//                                    }
-                                    productDao.deleteProduct(product);
-                                    Toast.makeText(getActivity(), "Deleted Product", Toast.LENGTH_SHORT).show();
-                                    getActivity().onBackPressed();
-
-                                }
-                            });
-                            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-
-                                }
-                            });
-                            builder.show();
-
-                        }
-                        //Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
-                        return false;
-                    }
-                });
-                popup.show();
+                popup(product,cardAdapter);
             }
         });
 
@@ -145,18 +105,7 @@ public class CardDetailFragment extends Fragment {
         myFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                        builder.setTitle("Options");
-//                        builder.setItems(R.array.menu, new DialogInterface.OnClickListener() {
-//
-//                            @Override
-//                            public void onClick(DialogInterface dialog, int which) {
-//
-//                            }
-//                        });
-//                AlertDialog alert = builder.create();
-//                        alert.show();
+
                 NewAddItemDialog itemDialog = new NewAddItemDialog(getActivity(),product,cardAdapter);
                 itemDialog.show();
             }
@@ -167,49 +116,56 @@ public class CardDetailFragment extends Fragment {
         return view;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
-//    public void onButtonPressed(Uri uri) {
-//        if (mListener != null) {
-//            mListener.onFragmentInteraction(uri);
-//        }
-//    }
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        /*try {
-            mListener = (OnFragmentInteractionListener) activity;
-        } catch (ClassCastException e) {
-            throw new ClassCastException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }*/
     }
 
-//    @Override
-//    public void onDetach() {
-//        super.onDetach();
-//        mListener = null;
-//    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        public void onFragmentInteraction(Uri uri);
-//    }
 
     public void refreshData(String prodName, String catName){
         thresh = (TextView) view.findViewById(R.id.threshold_card);
         Product prod = DAOFactory.getProductDao(getActivity()).getProduct(prodName,catName);
         thresh.setText(String.valueOf(prod.getThreshold()));
 
+    }
+
+    public void popup(final Product product, final CardDetailAdapter cardAdapter){
+        PopupMenu popup = new PopupMenu(getActivity().getApplicationContext(),imageButton);
+        popup.getMenuInflater().inflate(R.menu.popup_menu,popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                if(item.getTitle().equals("Edit Product")){
+                    EditProductDialog itemDialog = new EditProductDialog(getActivity(),product,cardAdapter,view);
+                    itemDialog.show();
+                }
+                if(item.getTitle().equals("Delete Product")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Confirm Delete");
+                    builder.setMessage("Deleting Product would delete the items for the Product as well. Would you like to Delete?");
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+//
+                            productDao.deleteProduct(product);
+                            Toast.makeText(getActivity(), "Deleted Product", Toast.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+
+                        }
+                    });
+                    builder.show();
+
+                }
+                //Toast.makeText(getActivity(),"You Clicked : " + item.getTitle(),Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        popup.show();
     }
 }
