@@ -51,7 +51,7 @@ public class SPApp extends Activity{
     private MainController mainController;
     private static final int CAMERA_REQUEST = 1888;
     private CardHomeFragment cardHomeFragment;
-    protected DrawerLayout mDrawer;
+    protected DrawerLayout drawer;
     private ItemDetailDTO itemDetails;
     //implementing the code for drawerList
 
@@ -109,7 +109,7 @@ public class SPApp extends Activity{
             }
         });
 
-        final DrawerLayout drawer = (DrawerLayout)findViewById(R.id.drawerLayout);
+        drawer = (DrawerLayout)findViewById(R.id.drawerLayout);
         ImageButton options_btn = (ImageButton) findViewById(R.id.options_btn);
         options_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,51 +118,9 @@ public class SPApp extends Activity{
             }
         });
 
-
-
-        ////////////////////////////////////////////////////////////
-        CustomDrawerListAdapter drawerListAdapter = new CustomDrawerListAdapter(SPApp.this, drawerTextItems, imageId);
-        list=(ListView)findViewById(R.id.navList);
-        list.setAdapter(drawerListAdapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-               if(position==0){
-                   Intent intent =  new Intent(getApplicationContext(), SPApp.class);
-                   startActivity(intent);
-                   
-               }
-                else if(position==1)
-               {
-                   Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
-                   intent.putExtra("fragment", "WatchList");
-                   drawer.closeDrawer(Gravity.LEFT);
-
-                   startActivity(intent);
-
-               }
-                else if(position==2)
-               {
-                   Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
-                   intent.putExtra("fragment","shopList");
-                   drawer.closeDrawer(Gravity.LEFT);
-                   startActivity(intent);
-
-               }
-            }
-        });
+        initiateDrawer();
 
     }
-
-
-
-
-
-
-
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == CAMERA_REQUEST && resultCode == RESULT_OK) {
@@ -186,7 +144,6 @@ public class SPApp extends Activity{
     @Override
     protected void onResume() {
         super.onResume();
-        //customAdapter.refreshData();
 
         //Notification set up
         Calendar c = Calendar.getInstance();
@@ -196,7 +153,6 @@ public class SPApp extends Activity{
         Intent i = new Intent(this, NotificationService.class);
         PendingIntent pi = PendingIntent.getService(this, 0, i, 0);
         am.cancel(pi);
-
 
         int hrs= Integer.parseInt(new XMLUtil().getElementText("NOTIFICATION_TIME_HRS",SPApp.this.getResources().openRawResource(R.raw.app_settings)));
         // by my own convention, minutes <= 0 means notifications are disabled
@@ -293,7 +249,6 @@ public class SPApp extends Activity{
             bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
             try {
                 itemDetails = new ItemDetailDTO("MISC", prodTitle, bitmap, null, 1, 0, 1);
-                //ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1, 0, 1);
                 ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), itemDetails);
                 MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.beep);
                 player.start();
@@ -305,6 +260,38 @@ public class SPApp extends Activity{
         final EditText barcode = (EditText)dlg.findViewById(R.id.barCodeText);
         barcode.setEnabled(true);
         barcode.setText("");
+    }
+
+    public void initiateDrawer(){
+        CustomDrawerListAdapter drawerListAdapter = new CustomDrawerListAdapter(SPApp.this, drawerTextItems, imageId);
+        list=(ListView)findViewById(R.id.navList);
+        list.setAdapter(drawerListAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if(position==0){
+                    Intent intent =  new Intent(getApplicationContext(), SPApp.class);
+                    startActivity(intent);
+
+                }
+                else if(position==1)
+                {
+                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                    intent.putExtra("fragment", "WatchList");
+                    drawer.closeDrawer(Gravity.LEFT);
+                    startActivity(intent);
+                }
+                else if(position==2)
+                {
+                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                    intent.putExtra("fragment","shopList");
+                    drawer.closeDrawer(Gravity.LEFT);
+                    startActivity(intent);
+                }
+            }
+        });
     }
 
 

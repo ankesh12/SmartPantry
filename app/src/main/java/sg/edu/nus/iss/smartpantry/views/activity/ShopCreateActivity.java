@@ -5,6 +5,8 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.widget.DrawerLayout;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,6 +20,19 @@ import sg.edu.nus.iss.smartpantry.views.fragments.WatchListFragment;
 
 public class ShopCreateActivity extends Activity {
 
+    private DrawerLayout drawer;
+    ListView list;
+    String[] drawerTextItems = {
+            "Home",
+            "Watch List",
+            "Shopping Cart"
+    } ;
+
+    Integer[] imageId = {
+            R.mipmap.home_drawer,
+            R.mipmap.watchlist_drawer,
+            R.mipmap.shop_cart_drawer
+    };
 
     @Override
     public void onBackPressed() {
@@ -32,26 +47,9 @@ public class ShopCreateActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-     setContentView(R.layout.activity_shop_create);
+        setContentView(R.layout.activity_shop_create);
 
-
-
-
-        ListView list;
-        String[] drawerTextItems = {
-                "Home",
-                "Watch List",
-                "Shopping Cart"
-        } ;
-
-        Integer[] imageId = {
-                R.mipmap.home_drawer,
-                R.mipmap.watchlist_drawer,
-                R.mipmap.shop_cart_drawer
-        };
-
-
-
+        drawer = (DrawerLayout)findViewById(R.id.shopDrawerLayout);
 
         Bundle extras = getIntent().getExtras();
         String fragName = extras.getString("fragment");
@@ -78,36 +76,7 @@ public class ShopCreateActivity extends Activity {
 
             }
         }
-
-        CustomDrawerListAdapter drawerListAdapter = new CustomDrawerListAdapter(ShopCreateActivity.this, drawerTextItems, imageId);
-        list=(ListView)findViewById(R.id.shopNavList);
-        list.setAdapter(drawerListAdapter);
-        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
-                if(position==0){
-                    Intent intent =  new Intent(getApplicationContext(), SPApp.class);
-                    startActivity(intent);
-
-                }
-                else if(position==1)
-                {
-                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
-                    intent.putExtra("fragment","WatchList");
-                    startActivity(intent);
-                }
-                else if(position==2)
-                {
-                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
-                    intent.putExtra("fragment","shopList");
-                    startActivity(intent);
-
-                }
-            }
-        });
-
+        initiateDrawer();
     }
 
 
@@ -124,5 +93,38 @@ public class ShopCreateActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void initiateDrawer(){
+        CustomDrawerListAdapter drawerListAdapter = new CustomDrawerListAdapter(ShopCreateActivity.this, drawerTextItems, imageId);
+        list=(ListView)findViewById(R.id.shopNavList);
+        list.setAdapter(drawerListAdapter);
+        list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if(position==0){
+                    Intent intent =  new Intent(getApplicationContext(), SPApp.class);
+                    drawer.closeDrawer(Gravity.LEFT);
+                    startActivity(intent);
+                }
+                else if(position==1)
+                {
+                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                    intent.putExtra("fragment","WatchList");
+                    drawer.closeDrawer(Gravity.LEFT);
+                    startActivity(intent);
+                }
+                else if(position==2)
+                {
+                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
+                    intent.putExtra("fragment","shopList");
+                    drawer.closeDrawer(Gravity.LEFT);
+                    startActivity(intent);
+
+                }
+            }
+        });
     }
 }
