@@ -5,7 +5,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.widget.Toast;
 
+import java.lang.reflect.Array;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
@@ -60,7 +62,43 @@ public class  ItemController {
         }
     }
 
-    /*public void addItem_old(Context context,  String categoryName,String productName, Bitmap bitmap, Date expiryDate, int thresholdQty, double price, int quantity) throws ParseException {
+
+
+            public void deleteItem(Context context,Item item)
+            {
+                ItemDao itemDao = DAOFactory.getItemDao(context);
+                itemDao.deleteItem(item);
+
+            }
+
+
+
+
+
+    /*
+    }
+
+        deleteItem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProductDao productDao = DAOFactory.getProductDao(context);
+                ItemDao itemDao = DAOFactory.getItemDao(context);
+                itemDao.deleteItem(items.get(position));
+                Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
+
+                refreshData();
+            }
+        });
+
+
+
+    ///////////////////////////////////
+
+
+
+
+
+    public void addItem_old(Context context,  String categoryName,String productName, Bitmap bitmap, Date expiryDate, int thresholdQty, double price, int quantity) throws ParseException {
         ItemDao itemDao= DAOFactory.getItemDao(context);
         CategoryDao catDao = DAOFactory.getCategoryDao(context);
         ProductDao prodDao = DAOFactory.getProductDao(context);

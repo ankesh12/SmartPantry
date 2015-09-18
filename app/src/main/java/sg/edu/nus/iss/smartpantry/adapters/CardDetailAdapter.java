@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
+import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
+import sg.edu.nus.iss.smartpantry.controller.ItemController;
 import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
@@ -33,6 +35,7 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
     private Activity actContext;
     private View view;
     private Product product;
+    private ItemController itemController;
 
     public CardDetailAdapter(Activity context, int resource, ArrayList<Item> items, Product product, View view) {
         super(context, resource);
@@ -83,15 +86,12 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
 
 
 
-
+        itemController = ControlFactory.getInstance().getItemController();
         deleteItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ProductDao productDao = DAOFactory.getProductDao(context);
-                ItemDao itemDao = DAOFactory.getItemDao(context);
-                itemDao.deleteItem(items.get(position));
+                itemController.deleteItem(context,items.get(position));
                 Toast.makeText(context, "Item Deleted Successfully", Toast.LENGTH_SHORT).show();
-
                 refreshData();
             }
         });
