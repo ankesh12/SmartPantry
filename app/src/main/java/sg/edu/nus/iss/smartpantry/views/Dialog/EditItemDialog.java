@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.application.util;
+package sg.edu.nus.iss.smartpantry.views.Dialog;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -22,6 +22,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Item;
 
 import sg.edu.nus.iss.smartpantry.R;
 ;
+import sg.edu.nus.iss.smartpantry.adapters.CardDetailAdapter;
 import sg.edu.nus.iss.smartpantry.dao.sqlite.ItemDaoImpl;
 
 /**
