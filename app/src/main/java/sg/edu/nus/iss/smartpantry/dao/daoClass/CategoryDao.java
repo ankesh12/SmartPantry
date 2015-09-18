@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.dao;
+package sg.edu.nus.iss.smartpantry.dao.daoClass;
 
 import java.util.List;
 

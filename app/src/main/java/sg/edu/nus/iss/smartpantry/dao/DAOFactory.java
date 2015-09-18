@@ -1,15 +1,15 @@
-package sg.edu.nus.iss.smartpantry.controller;
+package sg.edu.nus.iss.smartpantry.dao;
 
 import android.content.Context;
 
-import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
-import sg.edu.nus.iss.smartpantry.dao.ItemDao;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
-import sg.edu.nus.iss.smartpantry.dao.ShoppingListDao;
-import sg.edu.nus.iss.smartpantry.dao.sqlite.CategoryDaoImpl;
-import sg.edu.nus.iss.smartpantry.dao.sqlite.ItemDaoImpl;
-import sg.edu.nus.iss.smartpantry.dao.sqlite.ProductDaoImpl;
-import sg.edu.nus.iss.smartpantry.dao.sqlite.ShoppingListDaoImpl;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ShoppingListDao;
+import sg.edu.nus.iss.smartpantry.dao.daoImpl.CategoryDaoImpl;
+import sg.edu.nus.iss.smartpantry.dao.daoImpl.ItemDaoImpl;
+import sg.edu.nus.iss.smartpantry.dao.daoImpl.ProductDaoImpl;
+import sg.edu.nus.iss.smartpantry.dao.daoImpl.ShoppingListDaoImpl;
 
 /**
  * Created by A0134493A on 14/5/2015.

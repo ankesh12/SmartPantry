@@ -1,4 +1,4 @@
-package sg.edu.nus.iss.smartpantry.dao.sqlite;
+package sg.edu.nus.iss.smartpantry.dao.daoImpl;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Category;
-import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
 import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
 
 /**
