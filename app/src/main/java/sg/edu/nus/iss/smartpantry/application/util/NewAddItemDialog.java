@@ -77,7 +77,7 @@ public class NewAddItemDialog extends Dialog{
             @Override
             public void onClick(View view) {
                 int qtyEntered = numPicker.getValue();
-                for(int i=0;i < qtyEntered;i++) {
+//                for(int i=0;i < qtyEntered;i++) {
                     try {
                         Date expiryDate = null;
                         if(!expDate.getText().toString().trim().equals("")) {
@@ -85,11 +85,11 @@ public class NewAddItemDialog extends Dialog{
                         }
                         ControlFactory.getInstance().getItemController().addItem(parentActivity
                                         .getApplicationContext(), selProd.getCategoryName(), selProd.getProductName(),
-                                selProd.getProdImage(),expiryDate,selProd.getThreshold(),0);
+                                selProd.getProdImage(),expiryDate,selProd.getThreshold(),0, qtyEntered);
                     } catch (ParseException e) {
                         e.printStackTrace();
                     }
-                }
+//                }
                 adapt.refreshData();
                 Toast.makeText(parentActivity.getApplicationContext(), qtyEntered + " items added " +
                         "successfully", Toast.LENGTH_SHORT).show();

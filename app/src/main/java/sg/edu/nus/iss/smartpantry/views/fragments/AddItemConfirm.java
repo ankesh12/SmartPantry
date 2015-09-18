@@ -201,9 +201,9 @@ public class AddItemConfirm extends Fragment {
                         expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
                     }
 
-                    for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
-                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()));
-                    }
+//                    for(int i=0;i < Integer.valueOf(quantity.getText().toString());i++) {
+                        ControlFactory.getInstance().getItemController().addItem(getActivity().getApplicationContext(), catList.getSelectedItem().toString(), prodDesc.getText().toString(), bitmap, expiryDate,Integer.valueOf(thresholdQty.getText().toString()), Double.valueOf(price.getText().toString()),Integer.valueOf(quantity.getText().toString()));
+//                    }
                     //recyclerAdapter.refreshData();
                     getActivity().onBackPressed();
                 } catch (ParseException e) {

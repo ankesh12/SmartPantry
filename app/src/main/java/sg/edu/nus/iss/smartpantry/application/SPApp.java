@@ -295,7 +295,7 @@ public class SPApp extends Activity{
             Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
             bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
             try {
-                ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1, 0);
+                ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), "MISC", prodTitle, bitmap, null, 1, 0, 1);
                 MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.beep);
                 player.start();
                 Toast.makeText(SPApp.this, "Product Added", Toast.LENGTH_SHORT).show();
