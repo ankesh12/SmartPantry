@@ -2,6 +2,7 @@ package sg.edu.nus.iss.smartpantry.dao.daoClass;
 
 import java.util.List;
 
+import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 
 /**
@@ -19,4 +20,5 @@ public interface ProductDao {
     public List<Product> getProductBelowThreshold();
     public List<Product> getProductsNearingThreshold();
     public List<Product> getProductsNearingExpiry();
-}
+
+    }

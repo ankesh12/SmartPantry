@@ -11,6 +11,7 @@ import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
 
@@ -51,11 +52,11 @@ public class ItemDaoImpl implements ItemDao {
                     .COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'";
             Cursor cursor = db.rawQuery(selectQuery, null);
             cursor.moveToFirst();
-            String updateQuery = "UPDATE  " + dbHelper.TABLE_PRODUCT + " SET "+dbHelper
-                    .COL_PROD_QTY+"="+String.valueOf(cursor.getCount())+" WHERE "+dbHelper
-                    .COL_PROD_NAME+" = '"+item.getProductName()+"' AND "+dbHelper
-                    .COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'";
-            db.execSQL(updateQuery);
+
+            //Calling ProductDAO for update to Product Table
+            Product product = DAOFactory.getProductDao(mContext).getProduct(item.getCategoryName(),item.getProductName());
+            product.setQuantity(cursor.getCount());
+            DAOFactory.getProductDao(mContext).updateProduct(product);
 
             db.close();
             return true;
@@ -114,11 +115,12 @@ public class ItemDaoImpl implements ItemDao {
                     .COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'";
             Cursor cursor = db.rawQuery(selectQuery, null);
             cursor.moveToFirst();
-            String updateQuery = "UPDATE  " + dbHelper.TABLE_PRODUCT + " SET "+dbHelper
-                    .COL_PROD_QTY+"="+String.valueOf(cursor.getCount())+" WHERE "+dbHelper
-                    .COL_PROD_NAME+" = '"+item.getProductName()+"' AND "+dbHelper
-                    .COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'";
-            db.execSQL(updateQuery);
+
+            //Calling ProductDAO for update to Product Table
+            Product product = DAOFactory.getProductDao(mContext).getProduct(item.getCategoryName(), item.getProductName());
+            product.setQuantity(cursor.getCount());
+            DAOFactory.getProductDao(mContext).updateProduct(product);
+
             db.close();
             return true;
         }

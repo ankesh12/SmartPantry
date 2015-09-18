@@ -11,6 +11,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
@@ -85,7 +86,7 @@ public class ProductDaoImpl implements ProductDao {
                 values.put(dbHelper.COL_PROD_BARCODE, product.getBarCode());
 
             // updating row
-            db.update(dbHelper.TABLE_PRODUCT, values, dbHelper.COL_PROD_NAME + " = '" + product.getProductName() + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+product.getCategoryName()+"'", null);
+            db.update(dbHelper.TABLE_PRODUCT, values, dbHelper.COL_PROD_NAME + " = '" + product.getProductName() + "' AND " + dbHelper.COL_PROD_CATEGORY_NAME + " = '" + product.getCategoryName() + "'", null);
             db.close();
             return true;
         }
@@ -103,7 +104,7 @@ public class ProductDaoImpl implements ProductDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_PRODUCT, dbHelper.COL_PROD_NAME + " = '" + product.getProductName() + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+product.getCategoryName()+"'", null);
+            db.delete(dbHelper.TABLE_PRODUCT, dbHelper.COL_PROD_NAME + " = '" + product.getProductName() + "' AND " + dbHelper.COL_PROD_CATEGORY_NAME + " = '" + product.getCategoryName() + "'", null);
             db.close();
             return true;
         }
@@ -222,7 +223,7 @@ public class ProductDaoImpl implements ProductDao {
     {
         String selectQuery = "SELECT * FROM " + dbHelper.TABLE_PRODUCT + " WHERE " + dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME + " = '"+categoryName +"'";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
-        Cursor cursor = db.rawQuery(selectQuery,null);
+        Cursor cursor = db.rawQuery(selectQuery, null);
         cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
@@ -362,4 +363,5 @@ public class ProductDaoImpl implements ProductDao {
         // return product list
         return productList;
     }
+
 }
