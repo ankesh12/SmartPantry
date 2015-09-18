@@ -48,15 +48,15 @@
             android:name=".views.activity.ExpiringItems"
             android:label="@string/title_activity_expiring_list" />
 
-        <activity
-            android:name=".views.BluetoothScan"
-            android:label="Smart Pantry">
-                <!--<intent-filter>-->
-                    <!--<action android:name="android.intent.action.MAIN" />-->
+        <!--<activity-->
+            <!--android:name=".views.BluetoothScan"-->
+            <!--android:label="Smart Pantry">-->
+                <!--&lt;!&ndash;<intent-filter>&ndash;&gt;-->
+                    <!--&lt;!&ndash;<action android:name="android.intent.action.MAIN" />&ndash;&gt;-->
 
-                    <!--<category android:name="android.intent.category.LAUNCHER" />-->
-                <!--</intent-filter>-->
-        </activity>
+                    <!--&lt;!&ndash;<category android:name="android.intent.category.LAUNCHER" />&ndash;&gt;-->
+                <!--&lt;!&ndash;</intent-filter>&ndash;&gt;-->
+        <!--</activity>-->
 
         <service
             android:name=".service.NotificationService"
