@@ -33,9 +33,7 @@ import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 public class ShopListCreateFragment extends Fragment {
     private ListView mainListView ;
     private Button createShpBtn;
-    //private Planet[] planets ;
     private ProductNameList[] products;
-    //private ArrayAdapter<Planet> listAdapter ;
     private ArrayAdapter<ProductNameList> listAdapter;
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -46,16 +44,6 @@ public class ShopListCreateFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    //private OnFragmentInteractionListener mListener;
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment ShopListCreateFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static ShopListCreateFragment newInstance(String param1, String param2) {
         ShopListCreateFragment fragment = new ShopListCreateFragment();
@@ -99,17 +87,6 @@ public class ShopListCreateFragment extends Fragment {
             }
         });
 
-        // Create and populate planets.
-        //planets = (Planet[])  ;
-        /*if ( planets == null ) {
-            planets = new Planet[] {
-                    new Planet("Mercury"), new Planet("Venus"), new Planet("Earth"),
-                    new Planet("Mars"), new Planet("Jupiter"), new Planet("Saturn"),
-                    new Planet("Uranus"), new Planet("Neptune"), new Planet("Ceres"),
-                    new Planet("Pluto"), new Planet("Haumea"), new Planet("Makemake"),
-                    new Planet("Eris")
-            };
-        }*/
         //final List<Product> yetToBuyProd;
         final List<ShoppingProduct> yetToBuyShopProd;
         yetToBuyShopProd = DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).getYetToBuyProductsInShopLists();
@@ -134,8 +111,6 @@ public class ShopListCreateFragment extends Fragment {
                 }
             }
         }
-        /*ArrayList<ProductNameList> productList = new ArrayList<ProductNameList>();
-        productList.addAll( Arrays.asList(products) );*/
 
         // Set our custom array adapter as the ListView's adapter.
         listAdapter = new ProductArrayAdapter(getActivity(), productList);
@@ -179,12 +154,6 @@ public class ShopListCreateFragment extends Fragment {
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-//        try {
-//            mListener = (OnFragmentInteractionListener) activity;
-//        } catch (ClassCastException e) {
-//            throw new ClassCastException(activity.toString()
-//                    + " must implement OnFragmentInteractionListener");
-//        }
     }
 
     @Override
@@ -199,52 +168,6 @@ public class ShopListCreateFragment extends Fragment {
         mainListView.invalidateViews();
         listAdapter.notifyDataSetChanged();
     }
-/**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p/>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-//    public interface OnFragmentInteractionListener {
-//        // TODO: Update argument type and name
-//        public void onFragmentInteraction(Uri uri);
-//    }
-
-    /** Holds planet data. */
-    /*private static class Planet {
-        private String name = "" ;
-        private boolean checked = false ;
-        public Planet() {}
-        public Planet( String name ) {
-            this.name = name ;
-        }
-        public Planet( String name, boolean checked ) {
-            this.name = name ;
-            this.checked = checked ;
-        }
-        public String getName() {
-            return name;
-        }
-        public void setName(String name) {
-            this.name = name;
-        }
-        public boolean isChecked() {
-            return checked;
-        }
-        public void setChecked(boolean checked) {
-            this.checked = checked;
-        }
-        public String toString() {
-            return name ;
-        }
-        public void toggleChecked() {
-            checked = !checked ;
-        }
-    }*/
 
     private static class ProductNameList {
         private String name = "" ;
@@ -260,10 +183,7 @@ public class ShopListCreateFragment extends Fragment {
             this.quantity = quantity;
             this.flag = flag;
         }
-//        public ProductNameList( String name, boolean checked ) {
-//            this.name = name ;
-//            this.checked = checked ;
-//        }
+//
         public String getName() {
             return name;
         }
@@ -312,28 +232,6 @@ public class ShopListCreateFragment extends Fragment {
         }
     }
 
-    /** Holds child views for one row. */
-    /*private static class PlanetViewHolder {
-        private CheckBox checkBox ;
-        private TextView textView ;
-        public PlanetViewHolder() {}
-        public PlanetViewHolder( TextView textView, CheckBox checkBox ) {
-            this.checkBox = checkBox ;
-            this.textView = textView ;
-        }
-        public CheckBox getCheckBox() {
-            return checkBox;
-        }
-        public void setCheckBox(CheckBox checkBox) {
-            this.checkBox = checkBox;
-        }
-        public TextView getTextView() {
-            return textView;
-        }
-        public void setTextView(TextView textView) {
-            this.textView = textView;
-        }
-    }*/
 
     private static class ProductViewHolder{
         private CheckBox checkBox ;
@@ -382,7 +280,7 @@ public class ShopListCreateFragment extends Fragment {
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // Planet to display
+            // Product to display
             final ProductNameList productNameList = (ProductNameList) this.getItem( position );
 
             // The child views in each row.
@@ -402,7 +300,7 @@ public class ShopListCreateFragment extends Fragment {
                 // call findViewById() later when we reuse the row.
                 convertView.setTag( new ProductViewHolder(textView,checkBox,editText) );
 
-                // If CheckBox is toggled, update the planet it is tagged with.
+                // If CheckBox is toggled, update the product it is tagged with.
                 checkBox.setOnClickListener( new View.OnClickListener() {
                     public void onClick(View v) {
                         CheckBox cb = (CheckBox) v ;
@@ -420,8 +318,8 @@ public class ShopListCreateFragment extends Fragment {
                 editText = viewHolder.getEditText() ;
             }
 
-            // Tag the CheckBox with the Planet it is displaying, so that we can
-            // access the planet in onClick() when the CheckBox is toggled.
+            // Tag the CheckBox with the Product it is displaying, so that we can
+            // access the product in onClick() when the CheckBox is toggled.
             checkBox.setTag( productNameList );
 
             // Display planet data
