@@ -101,8 +101,7 @@ public class SPApp extends Activity{
         camButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(cameraIntent, CAMERA_REQUEST);
+                onCamButtonClicked();
             }
         });
 
@@ -137,14 +136,16 @@ public class SPApp extends Activity{
                if(position==0){
                    Intent intent =  new Intent(getApplicationContext(), SPApp.class);
                    startActivity(intent);
-
+                   
                }
                 else if(position==1)
                {
                    Intent intent =  new Intent(getApplicationContext(), ShopCreateActivity.class);
-                   intent.putExtra("fragment","WatchList");
+                   intent.putExtra("fragment", "WatchList");
                    drawer.closeDrawer(Gravity.LEFT);
+
                    startActivity(intent);
+
                }
                 else if(position==2)
                {
@@ -236,7 +237,7 @@ public class SPApp extends Activity{
     }
 
 
-    public void showBTReaderDialog() {
+    private void showBTReaderDialog() {
         final Dialog d = new Dialog(SPApp.this);
         d.requestWindowFeature(Window.FEATURE_NO_TITLE);
         d.setContentView(R.layout.btrdialog);
@@ -314,5 +315,12 @@ public class SPApp extends Activity{
         final EditText barcode = (EditText)dlg.findViewById(R.id.barCodeText);
         barcode.setEnabled(true);
         barcode.setText("");
+    }
+
+
+    private void onCamButtonClicked()
+    {
+        Intent cameraIntent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(cameraIntent, CAMERA_REQUEST);
     }
 }
