@@ -27,7 +27,7 @@ import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 
 /**
  * Created by A0134493A on 10/9/2015.

@@ -16,10 +16,10 @@ import java.util.List;
 import sg.edu.nus.iss.smartpantry.Entity.Item;
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.R;
-import sg.edu.nus.iss.smartpantry.controller.DAOFactory;
-import sg.edu.nus.iss.smartpantry.dao.CategoryDao;
-import sg.edu.nus.iss.smartpantry.dao.ItemDao;
-import sg.edu.nus.iss.smartpantry.dao.ProductDao;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.CategoryDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
+import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 
 /**
  * Created by A0134435L on 6/4/2015.
