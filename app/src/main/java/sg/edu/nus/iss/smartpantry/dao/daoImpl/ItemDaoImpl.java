@@ -25,7 +25,7 @@ public class ItemDaoImpl implements ItemDao {
 
     public ItemDaoImpl(Context context)
     {
-        dbHelper = new SqliteHelper(context);
+        dbHelper = SqliteHelper.getInstance(context);
         mContext=context;
     }
 
@@ -46,15 +46,12 @@ public class ItemDaoImpl implements ItemDao {
             values.put(dbHelper.COL_ITEM_PRICE, item.getPrice());
 
             db.insert(dbHelper.TABLE_ITEM, null, values);
-            db.close();
             Product product = DAOFactory.getProductDao(mContext).getProductById(item.getProduct().getProductId());
-            SQLiteDatabase newDb = dbHelper.getReadableDatabase();
             String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper.COL_ITEM_PRODUCT_ID+" = "+item.getProduct().getProductId() + " AND " + dbHelper.COL_ITEM_CATEGORY_ID+" = "+item.getProduct().getCategory().getCategoryId();
-            Cursor cursor = newDb.rawQuery(selectQuery, null);
+            Cursor cursor = db.rawQuery(selectQuery, null);
             cursor.moveToFirst();
             //Calling ProductDAO for update to Product Table
             product.setQuantity(cursor.getCount());
-            newDb.close();
             DAOFactory.getProductDao(mContext).updateProduct(product);
             return true;
         }
@@ -83,7 +80,6 @@ public class ItemDaoImpl implements ItemDao {
 
             // updating row
             db.update(dbHelper.TABLE_ITEM, values, dbHelper.COL_ITEM_ID + " = " + item.getItemId()+" AND "+dbHelper.COL_ITEM_PRODUCT_ID + " = " + item.getProduct().getProductId()+" AND "+dbHelper.COL_ITEM_CATEGORY_ID + " = " + item.getProduct().getCategory().getCategoryId(),null);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -113,7 +109,6 @@ public class ItemDaoImpl implements ItemDao {
             product.setQuantity(cursor.getCount());
             DAOFactory.getProductDao(mContext).updateProduct(product);
 
-            db.close();
             return true;
         } catch (Exception e)
         {
@@ -147,7 +142,6 @@ public class ItemDaoImpl implements ItemDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return item list
         return itemList;
     }
@@ -176,7 +170,6 @@ public class ItemDaoImpl implements ItemDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return item list
         return itemList;
     }
@@ -205,7 +198,6 @@ public class ItemDaoImpl implements ItemDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return item list
         return itemList;
     }
@@ -226,14 +218,12 @@ public class ItemDaoImpl implements ItemDao {
             cursor.moveToFirst();
             int ctr=cursor.getCount();
             if (cursor.getCount() == 0) {
-                db.close();
                 return 1;
             }
             else {
                 cursor = db.rawQuery(selectQuery, null);
                 cursor.moveToFirst();
                 int id = cursor.getInt(cursor.getColumnIndex("MaxId")) + 1;
-                db.close();
                 return id;
             }
 
@@ -271,7 +261,6 @@ public class ItemDaoImpl implements ItemDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return item list
         return itemList;
     }

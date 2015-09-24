@@ -26,7 +26,7 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
 
     public ShoppingListDaoImpl(Context context)
     {
-        dbHelper = new SqliteHelper(context);
+        dbHelper = SqliteHelper.getInstance(context);
         mContext=context;
     }
 
@@ -46,7 +46,6 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
             values.put(dbHelper.COL_SHOPPING_LIST_IS_PURCHASED, isPurchased);
 
             db.insert(dbHelper.TABLE_SHOPPING_LIST, null, values);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -74,7 +73,6 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
             values.put(dbHelper.COL_SHOPPING_LIST_IS_PURCHASED, isPurchased);
 
             db.update(dbHelper.TABLE_SHOPPING_LIST, values, dbHelper.COL_SHOPPING_LIST_NAME + " = '" + shopListName + "' AND " + dbHelper.COL_SHOPPING_LIST_PRODUCT_ID + " = " + product.getProductId(), null);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -90,7 +88,6 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.delete(dbHelper.TABLE_SHOPPING_LIST, dbHelper.COL_SHOPPING_LIST_NAME + " = '" + shopListName + "' AND " + dbHelper.COL_SHOPPING_LIST_PRODUCT_ID + " = " + product.getProductId(), null);
-            db.close();
             return true;
         }
         catch (Exception e)

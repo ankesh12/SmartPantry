@@ -10,6 +10,8 @@ import android.util.Log;
  */
 public class SqliteHelper extends SQLiteOpenHelper {
 
+    private static SqliteHelper instance;
+
     private static final String DATABASE_NAME = "SmartPantry.sqlite";
 
     private static final int DATABASE_VERSION = 1;
@@ -64,9 +66,16 @@ public class SqliteHelper extends SQLiteOpenHelper {
 
     public SqliteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
-
+        instance=null;
     }
 
+    public static synchronized SqliteHelper getInstance(Context context)
+    {
+        if (instance == null)
+            instance = new SqliteHelper(context);
+
+        return instance;
+    }
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(CREATE_TABLE_CATEGORY);

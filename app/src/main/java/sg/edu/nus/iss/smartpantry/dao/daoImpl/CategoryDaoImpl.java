@@ -21,7 +21,7 @@ public class CategoryDaoImpl implements CategoryDao {
 
     public CategoryDaoImpl(Context context)
     {
-        dbHelper = new SqliteHelper(context);
+        dbHelper = SqliteHelper.getInstance(context);
     }
 
     @Override
@@ -35,7 +35,6 @@ public class CategoryDaoImpl implements CategoryDao {
             values.put(dbHelper.COL_CAT_NAME, category.getCategoryName());
 
             db.insert(dbHelper.TABLE_CATEGORY, null, values);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -58,7 +57,6 @@ public class CategoryDaoImpl implements CategoryDao {
 
             // updating row
             db.update(dbHelper.TABLE_CATEGORY, values, dbHelper.COL_CAT_ID + " = '" + category.getCategoryId()+"'", null);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -76,7 +74,6 @@ public class CategoryDaoImpl implements CategoryDao {
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.delete(dbHelper.TABLE_CATEGORY, dbHelper.COL_CAT_ID + " = '" + category.getCategoryId()+"'", null);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -107,7 +104,6 @@ public class CategoryDaoImpl implements CategoryDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return category list
         return categoryList;
     }
@@ -127,7 +123,6 @@ public class CategoryDaoImpl implements CategoryDao {
 
         Category category = new Category(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_CAT_ID)));
         category.setCategoryName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_CAT_NAME)));
-        db.close();
         return category;
     }
 
@@ -140,11 +135,9 @@ public class CategoryDaoImpl implements CategoryDao {
         cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
-            db.close();
             return false;
         }
         else {
-            db.close();
             return true;
         }
     }
@@ -161,12 +154,10 @@ public class CategoryDaoImpl implements CategoryDao {
             Cursor cursor = db.rawQuery(selectQuery, null);
             cursor.moveToFirst();
             if (cursor.getCount() == 0) {
-                db.close();
                 return 1;
             }
             else {
                 int id = cursor.getInt(cursor.getColumnIndex("MaxId")) + 1;
-                db.close();
                 return id;
             }
 
@@ -192,7 +183,6 @@ public class CategoryDaoImpl implements CategoryDao {
 
         Category category = new Category(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_CAT_ID)));
         category.setCategoryName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_CAT_NAME)));
-        db.close();
         return category;
     }
 }

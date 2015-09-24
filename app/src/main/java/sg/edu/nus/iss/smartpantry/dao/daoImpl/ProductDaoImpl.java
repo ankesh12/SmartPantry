@@ -27,7 +27,7 @@ public class ProductDaoImpl implements ProductDao {
 
     public ProductDaoImpl(Context context)
     {
-        dbHelper = new SqliteHelper(context);
+        dbHelper = SqliteHelper.getInstance(context);
         this.mContext=context;
     }
 
@@ -56,7 +56,6 @@ public class ProductDaoImpl implements ProductDao {
                 values.put(dbHelper.COL_PROD_BARCODE, product.getBarCode());
 
             db.insert(dbHelper.TABLE_PRODUCT, null, values);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -92,7 +91,6 @@ public class ProductDaoImpl implements ProductDao {
 
             // updating row
             db.update(dbHelper.TABLE_PRODUCT, values, dbHelper.COL_PROD_ID + " = " + product.getProductId(), null);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -110,7 +108,6 @@ public class ProductDaoImpl implements ProductDao {
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.delete(dbHelper.TABLE_PRODUCT, dbHelper.COL_PROD_ID + " = " + product.getProductId(), null);
-            db.close();
             return true;
         }
         catch (Exception e)
@@ -153,7 +150,6 @@ public class ProductDaoImpl implements ProductDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return product list
         return productList;
     }
@@ -189,7 +185,6 @@ public class ProductDaoImpl implements ProductDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return product list
         return productList;
     }
@@ -224,7 +219,6 @@ public class ProductDaoImpl implements ProductDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return product list
         return productList;
     }
@@ -249,11 +243,9 @@ public class ProductDaoImpl implements ProductDao {
 
             if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
                 product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
-            db.close();
             // return product
             return product;
         }
-        db.close();
         return null;
     }
 
@@ -266,11 +258,9 @@ public class ProductDaoImpl implements ProductDao {
         cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
-            db.close();
             return false;
         }
         else {
-            db.close();
             return true;
         }
     }
@@ -303,7 +293,6 @@ public class ProductDaoImpl implements ProductDao {
                 productList.add(product);
             } while (cursor.moveToNext());
         }
-        db.close();
         return productList;
     }
 
@@ -337,7 +326,6 @@ public class ProductDaoImpl implements ProductDao {
                 productList.add(product);
             } while (cursor.moveToNext());
         }
-        db.close();
         return productList;
     }
 
@@ -363,11 +351,9 @@ public class ProductDaoImpl implements ProductDao {
             if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)) != null)
                 product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
-            db.close();
             // return product
             return product;
         }
-        db.close();
         return null;
     }
 
@@ -382,12 +368,10 @@ public class ProductDaoImpl implements ProductDao {
             Cursor cursor = db.rawQuery(selectQuery, null);
             cursor.moveToFirst();
             if (cursor.getCount() == 0) {
-                db.close();
                 return 1;
             }
             else {
                 int id = cursor.getInt(cursor.getColumnIndex("MaxId")) + 1;
-                db.close();
                 return id;
             }
 
@@ -433,7 +417,6 @@ public class ProductDaoImpl implements ProductDao {
             } while (cursor.moveToNext());
         }
 
-        db.close();
         // return product list
         return productList;
     }
