@@ -166,6 +166,7 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
         final NumberPicker np = (NumberPicker) d.findViewById(R.id.numberPicker1);
         np.setMaxValue(50);
         np.setMinValue(1);
+        np.setValue(prod.getShopQty());
         np.setWrapSelectorWheel(false);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
