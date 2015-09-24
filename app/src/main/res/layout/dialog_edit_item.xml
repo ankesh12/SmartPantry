@@ -51,7 +51,8 @@
             android:ems="10"
             android:id="@+id/editItemPurDate"
             android:focusable="false"
-            android:layout_weight="5"/>
+            android:layout_weight="5"
+            android:enabled="false" />
     </LinearLayout>
 
 

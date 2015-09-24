@@ -10,6 +10,6 @@ import sg.edu.nus.iss.smartpantry.Entity.WatchListProduct;
 public class WatchListProductComparator implements Comparator<WatchListProduct> {
     @Override
     public int compare(WatchListProduct lhs, WatchListProduct rhs) {
-        return lhs.getProductName().compareTo(rhs.getProductName());
+        return lhs.getProd().getProductName().compareTo(rhs.getProd().getProductName());
     }
 }
