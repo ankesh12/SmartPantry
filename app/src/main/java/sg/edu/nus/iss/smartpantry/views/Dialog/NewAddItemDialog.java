@@ -86,7 +86,7 @@ public class NewAddItemDialog extends Dialog{
                         if(!expDate.getText().toString().trim().equals("")) {
                             expiryDate = new SimpleDateFormat("dd-MM-yyyy").parse(expDate.getText().toString());
                         }
-                        itemDetailDTO = new ItemDetailDTO(selProd.getCategoryName(), selProd.getProductName(),
+                        itemDetailDTO = new ItemDetailDTO(selProd.getCategory().getCategoryName(), selProd.getProductName(),
                                 selProd.getProdImage(),expiryDate,selProd.getThreshold(),0, qtyEntered);
                         /*ControlFactory.getInstance().getItemController().addItem(parentActivity
                                         .getApplicationContext(), selProd.getCategoryName(), selProd.getProductName(),

@@ -76,7 +76,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 Bundle args = new Bundle();
                 ArrayList<String> detail = new ArrayList<String>();
                 detail.add(product.getProductName());
-                detail.add(product.getCategoryName());
+                detail.add(product.getCategory().getCategoryName());
                 args.putStringArrayList("Details",detail);
 
                 cardHomeFragment.setArguments(args);

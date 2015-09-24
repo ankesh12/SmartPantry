@@ -156,7 +156,7 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
                     public void onClick(View v) {
                         ArrayList<String> argList = new ArrayList<String>();
                         argList.add(prod.getProductName());
-                        argList.add(prod.getCategoryName());
+                        argList.add(prod.getCategory().getCategoryName());
                         Bundle b = new Bundle();
                         b.putStringArrayList("Details", argList);
                         CardDetailFragment cardDetailFragment = new CardDetailFragment();
@@ -171,7 +171,7 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
 
             ItemDao itmDao = DAOFactory.getItemDao(mContext);
             long expiryDays = -1;
-            for (Item itm:itmDao.getItemsByProductAndCategoryName(prod.getCategoryName(),prod.getProductName()))
+            for (Item itm:itmDao.getItemsByProductId(prod.getProductId()))
             {
                 if(itm.getExpiryDate() == null)
                     continue;

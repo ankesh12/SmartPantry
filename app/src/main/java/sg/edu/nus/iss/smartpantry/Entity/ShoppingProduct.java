@@ -33,7 +33,7 @@ public class ShoppingProduct {
     }
     @Override
     public int hashCode() {
-        return getProduct().getProductName().hashCode() + getProduct().getCategoryName().hashCode();
+        return getProduct().getProductName().hashCode() + getProduct().getCategory().getCategoryName().hashCode();
     }
 
     @Override

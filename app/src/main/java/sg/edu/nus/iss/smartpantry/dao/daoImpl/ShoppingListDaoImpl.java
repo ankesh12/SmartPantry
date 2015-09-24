@@ -12,6 +12,7 @@ import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Product;
 import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
+import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ShoppingListDao;
 import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
 
@@ -21,10 +22,12 @@ import sg.edu.nus.iss.smartpantry.dao.SqliteHelper;
 public class ShoppingListDaoImpl implements ShoppingListDao {
 
     private SqliteHelper dbHelper;
+    private Context mContext;
 
     public ShoppingListDaoImpl(Context context)
     {
         dbHelper = new SqliteHelper(context);
+        mContext=context;
     }
 
     @Override
@@ -35,8 +38,8 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
 
             ContentValues values = new ContentValues();
             values.put(dbHelper.COL_SHOPPING_LIST_NAME, shopListName);
-            values.put(dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME, product.getProductName());
-            values.put(dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME, product.getCategoryName());
+            values.put(dbHelper.COL_SHOPPING_LIST_PRODUCT_ID, product.getProductId());
+            values.put(dbHelper.COL_SHOPPING_LIST_CATEGORY_ID, product.getCategory().getCategoryId());
             values.put(dbHelper.COL_SHOPPING_LIST_QTY, quantity);
             if(isPurchased != true)
                 isPurchased=false;
@@ -63,14 +66,14 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
 
             ContentValues values = new ContentValues();
             values.put(dbHelper.COL_SHOPPING_LIST_NAME, shopListName);
-            values.put(dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME, product.getProductName());
-            values.put(dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME, product.getCategoryName());
+            values.put(dbHelper.COL_SHOPPING_LIST_PRODUCT_ID, product.getProductId());
+            values.put(dbHelper.COL_SHOPPING_LIST_CATEGORY_ID, product.getCategory().getCategoryId());
             values.put(dbHelper.COL_SHOPPING_LIST_QTY, quantity);
             /*if(isPurchased != true)
                 isPurchased=false;*/
             values.put(dbHelper.COL_SHOPPING_LIST_IS_PURCHASED, isPurchased);
 
-            db.update(dbHelper.TABLE_SHOPPING_LIST, values, dbHelper.COL_SHOPPING_LIST_NAME + " = '" + shopListName + "' AND " + dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME + " = '" + product.getProductName() + "' AND " + dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME + " = '" + product.getCategoryName() + "'", null);
+            db.update(dbHelper.TABLE_SHOPPING_LIST, values, dbHelper.COL_SHOPPING_LIST_NAME + " = '" + shopListName + "' AND " + dbHelper.COL_SHOPPING_LIST_PRODUCT_ID + " = " + product.getProductId(), null);
             db.close();
             return true;
         }
@@ -86,7 +89,7 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_SHOPPING_LIST, dbHelper.COL_SHOPPING_LIST_NAME + " = '" + shopListName + "' AND " + dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME + " = '" + product.getProductName() + "' AND " + dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME + " = '" + product.getCategoryName() + "'", null);
+            db.delete(dbHelper.TABLE_SHOPPING_LIST, dbHelper.COL_SHOPPING_LIST_NAME + " = '" + shopListName + "' AND " + dbHelper.COL_SHOPPING_LIST_PRODUCT_ID + " = " + product.getProductId(), null);
             db.close();
             return true;
         }
@@ -110,8 +113,8 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
         if (shopCursor.moveToFirst()) {
             do {
                 String shopListNameVal=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_NAME));
-                String prodName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME));
-                String categoryName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME));
+                int prodId=shopCursor.getInt(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_PRODUCT_ID));
+                int catId=shopCursor.getInt(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_CATEGORY_ID));
                 int shopQty =(Integer.parseInt(shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_QTY))));
                 //Boolean isPurchased =(Boolean.parseBoolean(shopCursor.getString(4)));
                 Boolean isPurchased;
@@ -124,11 +127,12 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                     isPurchased = false;
                 }
 
-                String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+categoryName+"'";
+                String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_ID + " = " + prodId + " AND " +dbHelper.COL_PROD_CATEGORY_ID + " = "+catId;
                 Cursor cursor = db.rawQuery(selectProdQuery, null);
                 if (cursor.moveToFirst())
                 {
-                    Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                    Product product = new Product(DAOFactory.getCategoryDao(mContext).getCategoryById(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_ID))),cursor.getInt(cursor.getColumnIndex(dbHelper.COL_PROD_ID)));
+                    product.setProductName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
                     product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_QTY))));
                     product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
                     if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
@@ -164,8 +168,8 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
         if (shopCursor.moveToFirst()) {
             do {
                 String shopListNameVal=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_NAME));
-                String prodName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME));
-                String categoryName=shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME));
+                int prodId=shopCursor.getInt(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_PRODUCT_ID));
+                int catId=shopCursor.getInt(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_CATEGORY_ID));
                 int shopQty =(Integer.parseInt(shopCursor.getString(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_QTY))));
                 Boolean isPurchased;
                 int boolValue = (shopCursor.getInt(shopCursor.getColumnIndex(dbHelper.COL_SHOPPING_LIST_IS_PURCHASED)));
@@ -177,11 +181,12 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                     isPurchased = false;
                 }
 
-                String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_NAME + " = '" + prodName + "' AND "+dbHelper.COL_PROD_CATEGORY_NAME+" = '"+categoryName+"'";
+                String selectProdQuery = "SELECT * FROM "+dbHelper.TABLE_PRODUCT+" WHERE "+dbHelper.COL_PROD_ID + " = " + prodId + " AND " +dbHelper.COL_PROD_CATEGORY_ID + " = "+catId;
                 Cursor cursor = db.rawQuery(selectProdQuery, null);
                 if (cursor.moveToFirst())
                 {
-                    Product product = new Product(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
+                    Product product = new Product(DAOFactory.getCategoryDao(mContext).getCategoryById(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_PROD_CATEGORY_ID))),cursor.getInt(cursor.getColumnIndex(dbHelper.COL_PROD_ID)));
+                    product.setProductName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_NAME)));
                     product.setQuantity(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_QTY))));
                     product.setThreshold(Integer.parseInt(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_THRESHOLD))));
                     if (cursor.getBlob(cursor.getColumnIndex(dbHelper.COL_PROD_IMAGE)) != null)
@@ -195,7 +200,7 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
                         product.setBarCode(cursor.getString(cursor.getColumnIndex(dbHelper.COL_PROD_BARCODE)));
 
                     // Adding product to list
-                    productList.add(new ShoppingProduct(product,shopQty,isPurchased));
+                    productList.add(new ShoppingProduct(product, shopQty, isPurchased));
                 }
             } while (shopCursor.moveToNext());
         }
@@ -207,7 +212,7 @@ public class ShoppingListDaoImpl implements ShoppingListDao {
     @Override
     public boolean isProductInShopList(String shopListName,Product product) {
         // Select All Query
-        String selectShopItemQuery = "SELECT * FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+"='"+shopListName+"' AND "+dbHelper.COL_SHOPPING_LIST_PRODUCT_NAME+" = '"+product.getProductName()+"' AND "+dbHelper.COL_SHOPPING_LIST_CATEGORY_NAME+" = '"+product.getCategoryName()+"'";
+        String selectShopItemQuery = "SELECT * FROM "+dbHelper.TABLE_SHOPPING_LIST+" WHERE "+dbHelper.COL_SHOPPING_LIST_NAME+"='"+shopListName+"' AND "+dbHelper.COL_SHOPPING_LIST_PRODUCT_ID+" = "+product.getProductId()+" AND "+dbHelper.COL_SHOPPING_LIST_CATEGORY_ID+" = "+product.getCategory().getCategoryId() ;
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectShopItemQuery, null);

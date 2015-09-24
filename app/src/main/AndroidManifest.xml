@@ -44,9 +44,6 @@
         <activity
             android:name=".views.activity.ShopCreateActivity"
             android:label="@string/title_activity_shop_create" />
-        <activity
-            android:name=".views.activity.ExpiringItems"
-            android:label="@string/title_activity_expiring_list" />
 
         <!--<activity-->
             <!--android:name=".views.BluetoothScan"-->

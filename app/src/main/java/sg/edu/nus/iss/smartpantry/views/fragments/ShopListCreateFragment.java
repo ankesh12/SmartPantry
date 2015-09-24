@@ -97,17 +97,17 @@ public class ShopListCreateFragment extends Fragment {
         prodList = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductsNearingExpiry();
         for(Product product: prodList){
             if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
-                productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold(),false));
+                productList.add(new ProductNameList(product.getProductName(), product.getCategory().getCategoryName(), product.getThreshold(),false));
             }
         }
         //Get Below Threshold Product Names
         prodList = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductBelowThreshold();
         for(Product product: prodList){
-            ProductNameList checkProd = new ProductNameList(product.getProductName(),product.getCategoryName(),product.getThreshold(),true);
+            ProductNameList checkProd = new ProductNameList(product.getProductName(),product.getCategory().getCategoryName(),product.getThreshold(),true);
             if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
                 if (!productList.contains(checkProd)) {
                     System.out.println("Hai be ");
-                    productList.add(new ProductNameList(product.getProductName(), product.getCategoryName(), product.getThreshold(),true));
+                    productList.add(new ProductNameList(product.getProductName(), product.getCategory().getCategoryName(), product.getThreshold(),true));
                 }
             }
         }
@@ -126,7 +126,7 @@ public class ShopListCreateFragment extends Fragment {
             public void onClick(View view) {
                 for(ProductNameList productNameList : productList){
                     if(productNameList.isChecked()){
-                        Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(productNameList.getCatName(),productNameList.getName());
+                        Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductByCategoryNameAndProdName(productNameList.getCatName(),productNameList.getName());
                         if(!yetToBuyShopProd.contains(new ShoppingProduct(product,0,false))) {
                             System.out.println("This item is checked: " + productNameList.getName() + " " + productNameList.getQuantity());
                             DAOFactory.getShopLitstDao(getActivity().getApplicationContext()).addProductToShopList("ShopList1", product, productNameList.getQuantity(), false);

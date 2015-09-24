@@ -21,7 +21,6 @@ import sg.edu.nus.iss.smartpantry.controller.ControlFactory;
 import sg.edu.nus.iss.smartpantry.controller.ItemController;
 import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
-import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
 import sg.edu.nus.iss.smartpantry.views.Dialog.EditItemDialog;
 
 /**
@@ -136,7 +135,7 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
     public void refreshData(){
 
         ItemDao itemDao = DAOFactory.getItemDao(context.getApplicationContext());
-        items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(product.getCategoryName(),product.getProductName());
+        items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(product.getCategory().getCategoryName(),product.getProductName());
         CardDetailAdapter.this.notifyDataSetChanged();
         TextView qty = (TextView) view.findViewById(R.id.quant_card);
         qty.setText(String.valueOf(items.size()));

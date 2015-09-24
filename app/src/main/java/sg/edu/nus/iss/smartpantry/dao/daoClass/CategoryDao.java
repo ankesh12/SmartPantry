@@ -14,5 +14,7 @@ public interface CategoryDao {
     public boolean deleteCategory(Category category);
     public List<Category> getAllCategories();
     public Category getCategoryByName(String categoryName);
-    public boolean isCategoryExists(String categoryId);
+    public boolean isCategoryExists(int categoryId);
+    public int generateCategoryId();
+    public Category getCategoryById(int categoryId);
 }

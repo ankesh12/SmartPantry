@@ -39,26 +39,23 @@ public class ItemDaoImpl implements ItemDao {
             ContentValues values = new ContentValues();
 
             values.put(dbHelper.COL_ITEM_ID, item.getItemId());
-            values.put(dbHelper.COL_ITEM_PRODUCT_NAME, item.getProductName());
-            values.put(dbHelper.COL_ITEM_CATEGORY_NAME, item.getCategoryName());
+            values.put(dbHelper.COL_ITEM_PRODUCT_ID, item.getProduct().getProductId());
+            values.put(dbHelper.COL_ITEM_CATEGORY_ID, item.getProduct().getCategory().getCategoryId());
             if (item.getExpiryDate() != null)
                 values.put(dbHelper.COL_ITEM_EXPIRY_DATE, item.getExpiryDate().toString());
             values.put(dbHelper.COL_ITEM_PRICE, item.getPrice());
 
             db.insert(dbHelper.TABLE_ITEM, null, values);
-
-            String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper
-                    .COL_ITEM_PRODUCT_NAME+" = '"+item.getProductName()+"' AND "+dbHelper
-                    .COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'";
-            Cursor cursor = db.rawQuery(selectQuery, null);
-            cursor.moveToFirst();
-
-            //Calling ProductDAO for update to Product Table
-            Product product = DAOFactory.getProductDao(mContext).getProduct(item.getCategoryName(),item.getProductName());
-            product.setQuantity(cursor.getCount());
-            DAOFactory.getProductDao(mContext).updateProduct(product);
-
             db.close();
+            Product product = DAOFactory.getProductDao(mContext).getProductById(item.getProduct().getProductId());
+            SQLiteDatabase newDb = dbHelper.getReadableDatabase();
+            String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper.COL_ITEM_PRODUCT_ID+" = "+item.getProduct().getProductId() + " AND " + dbHelper.COL_ITEM_CATEGORY_ID+" = "+item.getProduct().getCategory().getCategoryId();
+            Cursor cursor = newDb.rawQuery(selectQuery, null);
+            cursor.moveToFirst();
+            //Calling ProductDAO for update to Product Table
+            product.setQuantity(cursor.getCount());
+            newDb.close();
+            DAOFactory.getProductDao(mContext).updateProduct(product);
             return true;
         }
         catch (Exception e)
@@ -78,17 +75,14 @@ public class ItemDaoImpl implements ItemDao {
 
             ContentValues values = new ContentValues();
             values.put(dbHelper.COL_ITEM_ID, item.getItemId());
-            values.put(dbHelper.COL_ITEM_PRODUCT_NAME, item.getProductName());
-            values.put(dbHelper.COL_ITEM_CATEGORY_NAME, item.getCategoryName());
+            values.put(dbHelper.COL_ITEM_PRODUCT_ID, item.getProduct().getProductId());
+            values.put(dbHelper.COL_ITEM_CATEGORY_ID, item.getProduct().getCategory().getCategoryId());
             if (item.getExpiryDate() != null)
                 values.put(dbHelper.COL_ITEM_EXPIRY_DATE, item.getExpiryDate().toString());
             values.put(dbHelper.COL_ITEM_PRICE, item.getPrice());
 
             // updating row
-            db.update(dbHelper.TABLE_ITEM, values, dbHelper.COL_ITEM_ID + " = '" + item.getItemId
-                            ()+"' and "+dbHelper.COL_ITEM_PRODUCT_NAME + " = '" + item.getProductName()
-                            +"' AND "+dbHelper.COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'",
-                    null);
+            db.update(dbHelper.TABLE_ITEM, values, dbHelper.COL_ITEM_ID + " = " + item.getItemId()+" AND "+dbHelper.COL_ITEM_PRODUCT_ID + " = " + item.getProduct().getProductId()+" AND "+dbHelper.COL_ITEM_CATEGORY_ID + " = " + item.getProduct().getCategory().getCategoryId(),null);
             db.close();
             return true;
         }
@@ -105,26 +99,23 @@ public class ItemDaoImpl implements ItemDao {
     {
         try
         {
+
+            Product product = DAOFactory.getProductDao(mContext).getProductById(item.getProduct().getProductId());
             SQLiteDatabase db = dbHelper.getWritableDatabase();
             db.delete(dbHelper.TABLE_ITEM, dbHelper.COL_ITEM_ID + " = " + item.getItemId()+" and " +
-                    ""+dbHelper.COL_ITEM_PRODUCT_NAME + " = '" + item.getProductName()+"' AND " +
-                    ""+dbHelper.COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'", null);
+                    ""+dbHelper.COL_ITEM_PRODUCT_ID + " = " + item.getProduct().getProductId(), null);
 
-            String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper
-                    .COL_ITEM_PRODUCT_NAME+" = '"+item.getProductName()+"' AND "+dbHelper
-                    .COL_ITEM_CATEGORY_NAME+" = '"+item.getCategoryName()+"'";
+            String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper.COL_ITEM_PRODUCT_ID+" = "+item.getProduct().getProductId() + " AND " + dbHelper.COL_ITEM_CATEGORY_ID+" = "+item.getProduct().getCategory().getCategoryId();
             Cursor cursor = db.rawQuery(selectQuery, null);
             cursor.moveToFirst();
 
             //Calling ProductDAO for update to Product Table
-            Product product = DAOFactory.getProductDao(mContext).getProduct(item.getCategoryName(), item.getProductName());
             product.setQuantity(cursor.getCount());
             DAOFactory.getProductDao(mContext).updateProduct(product);
 
             db.close();
             return true;
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             System.out.println(e.getMessage());
             return false;
@@ -145,7 +136,7 @@ public class ItemDaoImpl implements ItemDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_NAME)),Integer.parseInt
+                Item item = new Item(DAOFactory.getProductDao(mContext).getProductById(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_ID))),Integer.parseInt
                         (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_ID))));
                 if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE)) != null)
                     item.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE))));
@@ -156,17 +147,17 @@ public class ItemDaoImpl implements ItemDao {
             } while (cursor.moveToNext());
         }
 
+        db.close();
         // return item list
         return itemList;
     }
 
     @Override
-    public List<Item> getItemsByProductAndCategoryName(String categoryName,String  productName) {
+    public List<Item> getItemsByProductId(int productId) {
         List<Item> itemList = new ArrayList<Item>();
 
         String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper
-                .COL_ITEM_PRODUCT_NAME+" = '"+productName+"' AND "+dbHelper
-                .COL_ITEM_CATEGORY_NAME+" = '"+categoryName+"'";
+                .COL_ITEM_PRODUCT_ID+" = "+productId;
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -174,7 +165,7 @@ public class ItemDaoImpl implements ItemDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_NAME)),Integer.parseInt
+                Item item = new Item(DAOFactory.getProductDao(mContext).getProductById(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_ID))),Integer.parseInt
                         (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_ID))));
                 if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE)) != null)
                     item.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE))));
@@ -185,22 +176,51 @@ public class ItemDaoImpl implements ItemDao {
             } while (cursor.moveToNext());
         }
 
+        db.close();
         // return item list
         return itemList;
     }
 
     @Override
-    public int generateItemIdForProduct(String productName)
+    public List<Item> getItemsByProductAndCategoryName(String categoryName, String productName) {
+        List<Item> itemList = new ArrayList<Item>();
+
+        String selectQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+dbHelper
+                .COL_ITEM_PRODUCT_ID+" = "+DAOFactory.getProductDao(mContext).getProductByCategoryNameAndProdName(categoryName,productName).getProductId();
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        // looping through all rows and adding to list
+        if (cursor.moveToFirst()) {
+            do {
+                Item item = new Item(DAOFactory.getProductDao(mContext).getProductById(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_ID))),Integer.parseInt
+                        (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_ID))));
+                if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE)) != null)
+                    item.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE))));
+                item.setPrice(Double.parseDouble(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRICE))));
+                item.setDop(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_DOP))));
+                // Adding item to list
+                itemList.add(item);
+            } while (cursor.moveToNext());
+        }
+
+        db.close();
+        // return item list
+        return itemList;
+    }
+
+    @Override
+    public int generateItemIdForProduct(int productId)
     {
         try
         {
             SQLiteDatabase db = dbHelper.getReadableDatabase();
 
             String testQuery = "SELECT  * FROM " + dbHelper.TABLE_ITEM + " WHERE "+ dbHelper
-                    .COL_ITEM_PRODUCT_NAME + " = '"+ productName +"'";
+                    .COL_ITEM_PRODUCT_ID + " = "+ productId;
             String selectQuery = "SELECT  MAX("+dbHelper.COL_ITEM_ID+") As MaxId FROM " + dbHelper
-                    .TABLE_ITEM + " WHERE "+ dbHelper.COL_ITEM_PRODUCT_NAME + " = '"+ productName
-                    +"'";
+                    .TABLE_ITEM + " WHERE "+ dbHelper.COL_ITEM_PRODUCT_ID + " = "+ productId;
 
             Cursor cursor = db.rawQuery(testQuery, null);
             cursor.moveToFirst();
@@ -232,8 +252,7 @@ public class ItemDaoImpl implements ItemDao {
         String selectQuery = "SELECT * FROM "+dbHelper.TABLE_ITEM+" WHERE ("+dbHelper
                 .COL_ITEM_EXPIRY_DATE+" BETWEEN CURRENT_DATE AND date(CURRENT_DATE,'+7 day') OR " +
                 ""+dbHelper.COL_ITEM_EXPIRY_DATE+" < CURRENT_DATE) AND "+dbHelper
-                .COL_ITEM_PRODUCT_NAME+" = '"+prod.getProductName()+"' AND "+dbHelper
-                .COL_ITEM_CATEGORY_NAME+" = '"+prod.getCategoryName()+"'";
+                .COL_ITEM_PRODUCT_ID+" = "+prod.getProductId();
 
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
@@ -241,7 +260,7 @@ public class ItemDaoImpl implements ItemDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Item item = new Item(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_CATEGORY_NAME)),cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_NAME)),Integer.parseInt
+                Item item = new Item(DAOFactory.getProductDao(mContext).getProductById(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_ITEM_PRODUCT_ID))), Integer.parseInt
                         (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_ID))));
                 if (cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE)) != null)
                     item.setExpiryDate(Date.valueOf(cursor.getString(cursor.getColumnIndex(dbHelper.COL_ITEM_EXPIRY_DATE))));
@@ -252,6 +271,7 @@ public class ItemDaoImpl implements ItemDao {
             } while (cursor.moveToNext());
         }
 
+        db.close();
         // return item list
         return itemList;
     }

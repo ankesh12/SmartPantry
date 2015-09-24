@@ -94,11 +94,11 @@ public class EditProductDialog extends Dialog {
             @Override
             public void onClick(View view) {
                 String prodDName = prod.getProductName();
-                String catName = prod.getCategoryName();
+                String catName = prod.getCategory().getCategoryName();
                 prod.setProductName(prodName.getText().toString());
 
                 Toast.makeText(context,prodName.getText().toString(),Toast.LENGTH_SHORT).show();
-                prod.setCategoryName(catList.getSelectedItem().toString());
+                prod.getCategory().setCategoryName(catList.getSelectedItem().toString());
                 prod.setThreshold(Integer.valueOf(prodThreshQty.getText().toString()));
                 ProductDao productDao = DAOFactory.getProductDao(context);
                 productDao.updateProduct(prod);
@@ -150,26 +150,6 @@ public class EditProductDialog extends Dialog {
 
     public void loadSpinnerData(Spinner catList){
         CategoryDao categoryDao = DAOFactory.getCategoryDao(context.getApplicationContext());
-        List<Category> refCatList = categoryDao.getAllCategories();
-
-        if (refCatList.size() == 0)
-        {
-            Category c = new Category();
-            c.setCategoryName("MISC");
-            categoryDao.addCategory(c);
-            c.setCategoryName("BOOKS");
-            categoryDao.addCategory(c);
-            c.setCategoryName("GROC");
-            categoryDao.addCategory(c);
-            c.setCategoryName("MEDS");
-            categoryDao.addCategory(c);
-            c.setCategoryName("TOOL");
-            categoryDao.addCategory(c);
-            c.setCategoryName("TOIL");
-            categoryDao.addCategory(c);
-            c.setCategoryName("ELEC");
-            categoryDao.addCategory(c);
-        }
 
         for(Category category : categoryDao.getAllCategories()){
             lables.add(category.getCategoryName());

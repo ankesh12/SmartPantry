@@ -8,7 +8,7 @@ import android.widget.NumberPicker;
 import com.robotium.solo.Solo;
 
 import sg.edu.nus.iss.smartpantry.Entity.Product;
-import sg.edu.nus.iss.smartpantry.application.SPApp;
+import sg.edu.nus.iss.smartpantry.views.activity.SPApp;
 
 /**
  * Created by CHARAN on 6/4/2015.

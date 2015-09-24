@@ -124,12 +124,12 @@ public class NotificationService extends Service {
             // handle your data
             int id =1;
             for(Item item: result) {
-                Product product = DAOFactory.getProductDao(getApplicationContext()).getProduct(item.getCategoryName(),item.getProductName());
+                Product product = item.getProduct();
                 Bitmap bitmap = product.getProdImage();
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Expiry Notification")
-                        .setContentText("Item: " + item.getProductName() + " will expire on " +
+                        .setContentText("Item: " + item.getProduct().getProductName() + " will expire on " +
                                 item.getExpiryDate() + ". \n");
                 //Intent intent = new Intent(getApplicationContext(), SPApp.class);
                 NotificationManager mNotificationManager =

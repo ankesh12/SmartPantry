@@ -272,19 +272,25 @@ public class AddItemConfirm extends Fragment {
 
         if (refCatList.size() == 0)
         {
-            Category c = new Category();
+            Category c = new Category(categoryDao.generateCategoryId());
             c.setCategoryName("MISC");
             categoryDao.addCategory(c);
+            c = new Category(categoryDao.generateCategoryId());
             c.setCategoryName("BOOKS");
             categoryDao.addCategory(c);
+            c = new Category(categoryDao.generateCategoryId());
             c.setCategoryName("GROC");
             categoryDao.addCategory(c);
+            c = new Category(categoryDao.generateCategoryId());
             c.setCategoryName("MEDS");
             categoryDao.addCategory(c);
+            c = new Category(categoryDao.generateCategoryId());
             c.setCategoryName("TOOL");
             categoryDao.addCategory(c);
+            c = new Category(categoryDao.generateCategoryId());
             c.setCategoryName("TOIL");
             categoryDao.addCategory(c);
+            c = new Category(categoryDao.generateCategoryId());
             c.setCategoryName("ELEC");
             categoryDao.addCategory(c);
         }
@@ -387,7 +393,7 @@ public class AddItemConfirm extends Fragment {
     }
 
     private void setThreshold(){
-        Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProduct(catList.getSelectedItem().toString(),prodDescText.getText().toString());
+        Product product = DAOFactory.getProductDao(getActivity().getApplicationContext()).getProductByCategoryNameAndProdName(catList.getSelectedItem().toString(),prodDescText.getText().toString());
         if(product!=null)
             thresholdQty.setText(String.valueOf(product.getThreshold()));
         else

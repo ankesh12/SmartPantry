@@ -57,7 +57,7 @@ public class CategoryDaoImpl implements CategoryDao {
             values.put(dbHelper.COL_CAT_NAME, category.getCategoryName());
 
             // updating row
-            db.update(dbHelper.TABLE_CATEGORY, values, dbHelper.COL_CAT_NAME + " = '" + category.getCategoryName()+"'", null);
+            db.update(dbHelper.TABLE_CATEGORY, values, dbHelper.COL_CAT_ID + " = '" + category.getCategoryId()+"'", null);
             db.close();
             return true;
         }
@@ -75,7 +75,7 @@ public class CategoryDaoImpl implements CategoryDao {
         try
         {
             SQLiteDatabase db = dbHelper.getWritableDatabase();
-            db.delete(dbHelper.TABLE_CATEGORY, dbHelper.COL_CAT_NAME + " = '" + category.getCategoryName()+"'", null);
+            db.delete(dbHelper.TABLE_CATEGORY, dbHelper.COL_CAT_ID + " = '" + category.getCategoryId()+"'", null);
             db.close();
             return true;
         }
@@ -100,13 +100,14 @@ public class CategoryDaoImpl implements CategoryDao {
         // looping through all rows and adding to list
         if (cursor.moveToFirst()) {
             do {
-                Category category = new Category();
+                Category category = new Category(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_CAT_ID)));
                 category.setCategoryName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_CAT_NAME)));
                 // Adding category to list
                 categoryList.add(category);
             } while (cursor.moveToNext());
         }
 
+        db.close();
         // return category list
         return categoryList;
     }
@@ -124,23 +125,74 @@ public class CategoryDaoImpl implements CategoryDao {
             return null;
         }
 
-        Category category = new Category();
+        Category category = new Category(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_CAT_ID)));
         category.setCategoryName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_CAT_NAME)));
+        db.close();
         return category;
     }
 
     @Override
-    public boolean isCategoryExists(String categoryName)
+    public boolean isCategoryExists(int categoryId)
     {
-        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_NAME + " = '" + categoryName + "'";
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_ID + " = '" + categoryId + "'";
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         Cursor cursor = db.rawQuery(selectQuery,null);
         cursor.moveToFirst();
 
         if (cursor.getCount() == 0){
+            db.close();
             return false;
         }
-        else
+        else {
+            db.close();
             return true;
+        }
+    }
+
+    @Override
+    public int generateCategoryId() {
+        try
+        {
+            SQLiteDatabase db = dbHelper.getReadableDatabase();
+
+            String selectQuery = "SELECT  MAX("+dbHelper.COL_CAT_ID+") As MaxId FROM " + dbHelper
+                    .TABLE_CATEGORY ;
+
+            Cursor cursor = db.rawQuery(selectQuery, null);
+            cursor.moveToFirst();
+            if (cursor.getCount() == 0) {
+                db.close();
+                return 1;
+            }
+            else {
+                int id = cursor.getInt(cursor.getColumnIndex("MaxId")) + 1;
+                db.close();
+                return id;
+            }
+
+        }
+        catch (Exception e)
+        {
+            System.out.println(e.getMessage());
+            return -1;
+        }
+    }
+
+    @Override
+    public Category getCategoryById(int categoryId) {
+        String selectQuery = "SELECT * FROM " + dbHelper.TABLE_CATEGORY + " WHERE " + dbHelper.COL_CAT_ID+ " = '" + categoryId + "'";
+
+        SQLiteDatabase db = dbHelper.getReadableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery,null);
+        cursor.moveToFirst();
+
+        if (cursor.getCount() == 0){
+            return null;
+        }
+
+        Category category = new Category(cursor.getInt(cursor.getColumnIndex(dbHelper.COL_CAT_ID)));
+        category.setCategoryName(cursor.getString(cursor.getColumnIndex(dbHelper.COL_CAT_NAME)));
+        db.close();
+        return category;
     }
 }

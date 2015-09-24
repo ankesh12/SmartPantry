@@ -8,18 +8,22 @@ import android.graphics.Bitmap;
 public class Product {
     private String productName;
     private int quantity;
-    private String categoryName;
+    private int productId;
+    private Category category;
     private int threshold;
     private Bitmap prodImage;
     private String barCode;
 
-    public Product(String categoryName,String productName){
-        this.categoryName=categoryName;
-        this.productName = productName;
+    public Product(Category category, int productId){
+        this.category = category;
+        this.productId=productId;
     }
 
     public String getProductName() {
         return productName;
+    }
+    public Category getCategory() {
+        return category;
     }
 
     public int getQuantity() {
@@ -42,12 +46,12 @@ public class Product {
         return prodImage;
     }
 
-    public void setProdImage(Bitmap prodImage) {
-        this.prodImage = prodImage;
+    public int getProductId() {
+        return productId;
     }
 
-    public String getCategoryName() {
-        return categoryName;
+    public void setProdImage(Bitmap prodImage) {
+        this.prodImage = prodImage;
     }
 
     public String getBarCode() {
@@ -62,13 +66,9 @@ public class Product {
         this.productName = productName;
     }
 
-    public void setCategoryName(String categoryName) {
-        this.categoryName = categoryName;
-    }
-
     @Override
     public int hashCode() {
-        return getProductName().hashCode() + getCategoryName().hashCode();
+        return getProductName().hashCode() + getCategory().getCategoryName().hashCode();
     }
 
     @Override
@@ -79,7 +79,7 @@ public class Product {
 //        }
 
         Product product = (Product) o;
-        return (this.getProductName().equalsIgnoreCase(product.getProductName()) && this.getCategoryName().equalsIgnoreCase(product.getCategoryName()));
+        return (this.getProductName().equalsIgnoreCase(product.getProductName()) && this.getCategory().getCategoryName().equalsIgnoreCase(product.getCategory().getCategoryName()));
     }
 }
 

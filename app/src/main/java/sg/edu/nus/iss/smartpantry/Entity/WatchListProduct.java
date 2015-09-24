@@ -17,7 +17,7 @@ public class WatchListProduct extends Product{
     }
 
     public WatchListProduct(Product prod){
-        super(prod.getCategoryName(),prod.getProductName());
+        super(prod.getCategory(),prod.getProductId());
         this.prod=prod;
         this.isSelected=false;
         this.isPresentInShoppingList= false;
@@ -38,7 +38,7 @@ public class WatchListProduct extends Product{
 
     @Override
     public int hashCode() {
-        return getProductName().hashCode() + getCategoryName().hashCode();
+        return getProductName().hashCode() + getCategory().getCategoryName().hashCode();
     }
 
     @Override
@@ -49,7 +49,7 @@ public class WatchListProduct extends Product{
 //        }
 
         WatchListProduct product = (WatchListProduct) o;
-        return (this.getProductName().equalsIgnoreCase(product.getProductName()) && this.getCategoryName().equalsIgnoreCase(product.getCategoryName()));
+        return (this.getProductName().equalsIgnoreCase(product.getProductName()) && this.getCategory().getCategoryName().equalsIgnoreCase(product.getCategory().getCategoryName()));
     }
 }
 

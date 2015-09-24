@@ -78,7 +78,7 @@ public class CardDetailFragment extends Fragment {
 
         String category = detail.get(1);
         System.out.println("CategoryName: " + detail.get(1));
-        final Product product = productDao.getProduct(category, productName);
+        final Product product = productDao.getProductByCategoryNameAndProdName(category, productName);
         imageView.setImageBitmap(product.getProdImage());
         prodname.setText(productName);
         categ.setText(category);
@@ -124,7 +124,7 @@ public class CardDetailFragment extends Fragment {
 
     public void refreshData(String prodName, String catName){
         thresh = (TextView) view.findViewById(R.id.threshold_card);
-        Product prod = DAOFactory.getProductDao(getActivity()).getProduct(prodName,catName);
+        Product prod = DAOFactory.getProductDao(getActivity()).getProductByCategoryNameAndProdName(prodName,catName);
         thresh.setText(String.valueOf(prod.getThreshold()));
 
     }
