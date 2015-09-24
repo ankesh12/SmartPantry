@@ -160,5 +160,6 @@ public class EditProductDialog extends Dialog {
         ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(context.getApplicationContext(),android.R.layout.simple_spinner_item, lables);
         dataAdapter.setDropDownViewResource(R.layout.dropdown_layout);
         catList.setAdapter(dataAdapter);
+        catList.setSelection(dataAdapter.getPosition(prod.getCategory().getCategoryName()));
     }
 }
