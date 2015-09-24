@@ -39,6 +39,7 @@
             android:label="ScanBarcodeActivity" />
         <activity
             android:name=".views.activity.ItemDetails"
+            android:screenOrientation="portrait"
             android:label="@string/title_activity_item_details" >
         </activity>
         <activity

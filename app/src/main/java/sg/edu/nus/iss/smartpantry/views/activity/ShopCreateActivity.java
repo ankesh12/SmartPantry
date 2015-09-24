@@ -52,20 +52,17 @@ public class ShopCreateActivity extends Activity {
         drawer = (DrawerLayout)findViewById(R.id.shopDrawerLayout);
 
         Bundle extras = getIntent().getExtras();
-        String fragName = extras.getString("fragment");
+        String fragName = new String();
+        try{
+            fragName= extras.getString("fragment");
+        }
+        catch(NullPointerException e){
+            e.printStackTrace();
+        }
         System.out.println(fragName);
 
         if (savedInstanceState == null) {
-            if(fragName.equals("WatchList"))
-            {
-                WatchListFragment watchListFragment= WatchListFragment.newInstance(false,R.mipmap.cart_icon);
-                FragmentManager fragmentManager = getFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.shop_container, watchListFragment,"WatchListWithoutCheckBox");
-                //fragmentTransaction.addToBackStack("WatchListWithoutCheckBox");
-                fragmentTransaction.commit();
-            }
-            else if (fragName.equals("shopList"))
+            if (fragName.equals("shopList"))
             {
                 ShopListFragment shopListFragment= new ShopListFragment();
                 FragmentManager fragmentManager = getFragmentManager();
@@ -75,6 +72,16 @@ public class ShopCreateActivity extends Activity {
                 fragmentTransaction.commit();
 
             }
+            else
+            {
+                WatchListFragment watchListFragment= WatchListFragment.newInstance(false,R.mipmap.cart_icon);
+                FragmentManager fragmentManager = getFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.shop_container, watchListFragment, "WatchListWithoutCheckBox");
+                //fragmentTransaction.addToBackStack("WatchListWithoutCheckBox");
+                fragmentTransaction.commit();
+            }
+
         }
         initiateDrawer();
     }

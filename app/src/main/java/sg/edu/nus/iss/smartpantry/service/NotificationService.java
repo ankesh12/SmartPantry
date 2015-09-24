@@ -1,6 +1,7 @@
 package sg.edu.nus.iss.smartpantry.service;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
@@ -25,6 +26,8 @@ import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ItemDao;
 import sg.edu.nus.iss.smartpantry.dao.daoClass.ProductDao;
+import sg.edu.nus.iss.smartpantry.views.activity.SPApp;
+import sg.edu.nus.iss.smartpantry.views.activity.ShopCreateActivity;
 
 public class NotificationService extends Service {
     public NotificationService() {
@@ -126,9 +129,14 @@ public class NotificationService extends Service {
             for(Item item: result) {
                 Product product = item.getProduct();
                 Bitmap bitmap = product.getProdImage();
+                Intent intent = new Intent(getBaseContext   (), ShopCreateActivity.class);
+                intent.putExtra("fragment", "WatchList");
+                PendingIntent pIntent = PendingIntent.getActivity(getBaseContext(), 0, intent, 0);
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(getApplicationContext())
                         .setSmallIcon(R.mipmap.ic_launcher)
                         .setContentTitle("Expiry Notification")
+                        .setContentIntent(pIntent)
+                        .setAutoCancel(true)
                         .setContentText("Item: " + item.getProduct().getProductName() + " will expire on " +
                                 item.getExpiryDate() + ". \n");
                 //Intent intent = new Intent(getApplicationContext(), SPApp.class);
