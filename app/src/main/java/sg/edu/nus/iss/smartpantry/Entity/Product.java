@@ -66,6 +66,10 @@ public class Product {
         this.productName = productName;
     }
 
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     @Override
     public int hashCode() {
         return getProductName().hashCode() + getCategory().getCategoryName().hashCode();

@@ -135,7 +135,8 @@ public class CardDetailAdapter extends ArrayAdapter<Item> {
     public void refreshData(){
 
         ItemDao itemDao = DAOFactory.getItemDao(context.getApplicationContext());
-        items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(product.getCategory().getCategoryName(),product.getProductName());
+        //items = (ArrayList<Item>) itemDao.getItemsByProductAndCategoryName(product.getCategory().getCategoryName(),product.getProductName());
+        items = (ArrayList<Item>) itemDao.getItemsByProductId(product.getProductId());
         CardDetailAdapter.this.notifyDataSetChanged();
         TextView qty = (TextView) view.findViewById(R.id.quant_card);
         qty.setText(String.valueOf(items.size()));
