@@ -93,12 +93,12 @@ public class EditProductDialog extends Dialog {
         confirmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String prodDName = prod.getProductName();
-                String catName = prod.getCategory().getCategoryName();
+                String catName = catList.getSelectedItem().toString();
                 prod.setProductName(prodName.getText().toString());
 
-                Toast.makeText(context,prodName.getText().toString(),Toast.LENGTH_SHORT).show();
-                prod.getCategory().setCategoryName(catList.getSelectedItem().toString());
+                Toast.makeText(context, prodName.getText().toString(), Toast.LENGTH_SHORT).show();
+                Category cat = DAOFactory.getCategoryDao(context).getCategoryByName(catName);
+                prod.setCategory(cat);
                 prod.setThreshold(Integer.valueOf(prodThreshQty.getText().toString()));
                 ProductDao productDao = DAOFactory.getProductDao(context);
                 productDao.updateProduct(prod);
@@ -106,8 +106,11 @@ public class EditProductDialog extends Dialog {
                 //frag.refreshData(prodDName,catName);
                 TextView thresh = (TextView) frag.findViewById(R.id.threshold_card);
                 TextView prodname = (TextView) frag.findViewById(R.id.Itemname_card);
+                TextView category = (TextView) frag.findViewById(R.id.category_card);
                 prodname.setText(prodName.getText().toString());
                 thresh.setText(prodThreshQty.getText().toString());
+                category.setText(catList.getSelectedItem().toString());
+
                 dismiss();
             }
         });
