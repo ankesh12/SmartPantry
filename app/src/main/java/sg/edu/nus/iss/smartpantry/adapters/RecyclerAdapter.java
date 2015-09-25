@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sg.edu.nus.iss.smartpantry.Entity.Product;
+import sg.edu.nus.iss.smartpantry.Entity.ShoppingProduct;
 import sg.edu.nus.iss.smartpantry.R;
 import sg.edu.nus.iss.smartpantry.application.util.XMLUtil;
 import sg.edu.nus.iss.smartpantry.dao.DAOFactory;
@@ -94,10 +95,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 String shop_list_name= new XMLUtil().getElementText("SHOP_LIST_NAME", context.getResources().openRawResource(R.raw.app_settings));
-                DAOFactory.getShopLitstDao(context.getApplicationContext()).addProductToShopList(shop_list_name,product,1,false);
-                Toast.makeText(context,product.getProductName() + " added to cart!",Toast.LENGTH_SHORT).show();
-                //Toast.makeText(context.getApplicationContext(), product.getProductName().toString(), Toast.LENGTH_SHORT).show();
-
+                List<ShoppingProduct> shopProdList = DAOFactory.getShopLitstDao(context.getApplicationContext()).getProductsByShopListName(shop_list_name);
+                boolean flag = false;
+                for(ShoppingProduct sProd: shopProdList){
+                    if(sProd.getProduct().equals(product)){
+                        flag = true;
+                    }
+                }
+                if(flag){
+                    Toast.makeText(context,product.getProductName() + " already added to cart!",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    DAOFactory.getShopLitstDao(context.getApplicationContext()).addProductToShopList(shop_list_name, product, 1, false);
+                    Toast.makeText(context, product.getProductName() + " added to cart!", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(context.getApplicationContext(), product.getProductName().toString(), Toast.LENGTH_SHORT).show();
+                }
             }
 //
         });
