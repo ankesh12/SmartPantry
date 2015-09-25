@@ -172,8 +172,9 @@ public class ShopListRecyclerAdapter extends  RecyclerView.Adapter<ShopListRecyc
             @Override
             public void onClick(View v) {
                 editText.setText(String.valueOf(np.getValue()));
+                updateData(prod, np.getValue(), prod.getIsPurchased());
+                prod.setShopQty(np.getValue());
                 d.dismiss();
-                updateData(prod, np.getValue(),prod.getIsPurchased());
 
             }
         });
