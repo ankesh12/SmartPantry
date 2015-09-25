@@ -171,25 +171,30 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
 
             ItemDao itmDao = DAOFactory.getItemDao(mContext);
             long expiryDays = -1;
+            boolean flag=false;
             for (Item itm:itmDao.getItemsByProductId(prod.getProductId()))
             {
                 if(itm.getExpiryDate() == null)
                     continue;
                 long diffDays = (long) Math.ceil ((itm.getExpiryDate().getTime() - new Date().getTime())/(1000.0 * 60 * 60 * 24));
-                if(diffDays > 0 && diffDays <= 7 && (expiryDays == -1 || diffDays < expiryDays))
+//                if(diffDays > 0 && diffDays <= 7 && (expiryDays == -1 || diffDays < expiryDays))
+                if(diffDays <= 7 && (expiryDays == -1 || diffDays < expiryDays))
                 {
                     expiryDays=diffDays;
+                    flag =true;
                 }
             }
-            if(expiryDays == -1)
+            if(flag == false)
             {
                 holder.vExpiryNotify.setVisibility(View.INVISIBLE);
                 holder.vExpiryNotify.setText(null);
             }
             else
             {
-
-                holder.vExpiryNotify.setText(String.valueOf(expiryDays) + " days left");
+                if(expiryDays < 0)
+                    holder.vExpiryNotify.setText("Expired");
+                else
+                    holder.vExpiryNotify.setText(String.valueOf(expiryDays) + " day(s) left");
                 holder.vExpiryNotify.setVisibility(View.VISIBLE);
             }
 
