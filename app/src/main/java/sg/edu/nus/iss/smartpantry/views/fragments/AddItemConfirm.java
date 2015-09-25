@@ -273,25 +273,16 @@ public class AddItemConfirm extends Fragment {
         if (refCatList.size() == 0)
         {
             Category c = new Category(categoryDao.generateCategoryId());
-            c.setCategoryName("MISC");
+            c.setCategoryName("Groceries");
             categoryDao.addCategory(c);
             c = new Category(categoryDao.generateCategoryId());
-            c.setCategoryName("BOOKS");
+            c.setCategoryName("Beverages");
             categoryDao.addCategory(c);
             c = new Category(categoryDao.generateCategoryId());
-            c.setCategoryName("GROC");
+            c.setCategoryName("Fruits");
             categoryDao.addCategory(c);
             c = new Category(categoryDao.generateCategoryId());
-            c.setCategoryName("MEDS");
-            categoryDao.addCategory(c);
-            c = new Category(categoryDao.generateCategoryId());
-            c.setCategoryName("TOOL");
-            categoryDao.addCategory(c);
-            c = new Category(categoryDao.generateCategoryId());
-            c.setCategoryName("TOIL");
-            categoryDao.addCategory(c);
-            c = new Category(categoryDao.generateCategoryId());
-            c.setCategoryName("ELEC");
+            c.setCategoryName("Vegetable");
             categoryDao.addCategory(c);
         }
 

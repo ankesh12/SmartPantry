@@ -248,7 +248,7 @@ public class SPApp extends Activity{
             Bitmap bitmap = ((BitmapDrawable)image).getBitmap();
             bitmap=Bitmap.createScaledBitmap(bitmap, 150,150,false);
             try {
-                itemDetails = new ItemDetailDTO("MISC", prodTitle, bitmap, null, 1, 0, 1);
+                itemDetails = new ItemDetailDTO("Groceries", prodTitle, bitmap, null, 1, 0, 1);
                 ControlFactory.getInstance().getItemController().addItem(getApplicationContext(), itemDetails);
                 MediaPlayer player = MediaPlayer.create(getApplicationContext(),R.raw.beep);
                 player.start();

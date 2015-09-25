@@ -96,22 +96,27 @@ public class EditProductDialog extends Dialog {
                 String catName = catList.getSelectedItem().toString();
                 prod.setProductName(prodName.getText().toString());
 
-                Toast.makeText(context, prodName.getText().toString(), Toast.LENGTH_SHORT).show();
                 Category cat = DAOFactory.getCategoryDao(context).getCategoryByName(catName);
                 prod.setCategory(cat);
                 prod.setThreshold(Integer.valueOf(prodThreshQty.getText().toString()));
                 ProductDao productDao = DAOFactory.getProductDao(context);
-                productDao.updateProduct(prod);
-                adapt.refreshData();
-                //frag.refreshData(prodDName,catName);
-                TextView thresh = (TextView) frag.findViewById(R.id.threshold_card);
-                TextView prodname = (TextView) frag.findViewById(R.id.Itemname_card);
-                TextView category = (TextView) frag.findViewById(R.id.category_card);
-                prodname.setText(prodName.getText().toString());
-                thresh.setText(prodThreshQty.getText().toString());
-                category.setText(catList.getSelectedItem().toString());
+                boolean returnVal = productDao.updateProduct(prod);
+                if(returnVal) {
+                    adapt.refreshData();
+                    //frag.refreshData(prodDName,catName);
+                    Toast.makeText(context, prodName.getText().toString(), Toast.LENGTH_SHORT).show();
+                    TextView thresh = (TextView) frag.findViewById(R.id.threshold_card);
+                    TextView prodname = (TextView) frag.findViewById(R.id.Itemname_card);
+                    TextView category = (TextView) frag.findViewById(R.id.category_card);
+                    prodname.setText(prodName.getText().toString());
+                    thresh.setText(prodThreshQty.getText().toString());
+                    category.setText(catList.getSelectedItem().toString());
 
-                dismiss();
+                    dismiss();
+                }
+                else{
+                    Toast.makeText(context, "Edit not allowed".toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         });
 
