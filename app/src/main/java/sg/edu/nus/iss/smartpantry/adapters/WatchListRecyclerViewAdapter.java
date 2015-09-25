@@ -65,6 +65,7 @@ public class WatchListRecyclerViewAdapter extends RecyclerView.Adapter<WatchList
     @Override
     public void onBindViewHolder(final MainScreenViewHolder holder, final int position) {
 
+        holder.vChkBox.setEnabled(false);
         if(getItemCount() > 0)
         {
             final WatchListProduct WatchListProd = productList.get(position);
