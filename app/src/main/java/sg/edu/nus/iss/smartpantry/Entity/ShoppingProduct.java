@@ -31,6 +31,11 @@ public class ShoppingProduct {
     public void setIsPurchased(boolean value){
         this.isPurchased = value;
     }
+
+    public void setShopQty(int shopQty) {
+        this.shopQty = shopQty;
+    }
+
     @Override
     public int hashCode() {
         return getProduct().getProductName().hashCode() + getProduct().getCategory().getCategoryName().hashCode();
