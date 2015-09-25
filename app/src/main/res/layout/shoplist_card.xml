@@ -8,8 +8,7 @@
     card_view:cardCornerRadius="4dp"
     android:elevation="5dp"
     android:layout_margin="3dp"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:foreground="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -38,7 +37,7 @@
                 android:text="Product"
                 android:id="@+id/shopList_prodname"
                 android:layout_marginTop="10dp"
-                android:textSize="15dp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 android:layout_toLeftOf="@+id/shopped_chck"
                 android:layout_marginRight="2dp"
@@ -49,8 +48,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="35dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginLeft="8dp"
                 android:id="@+id/linearLayout3">
 
                 <!--<TextView-->

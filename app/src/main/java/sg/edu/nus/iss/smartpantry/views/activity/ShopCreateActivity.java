@@ -25,7 +25,7 @@ public class ShopCreateActivity extends Activity {
     String[] drawerTextItems = {
             "Home",
             "Watch List",
-            "Shopping Cart"
+            "Shopping List"
     } ;
 
     Integer[] imageId = {

@@ -59,7 +59,7 @@ public class SPApp extends Activity{
     String[] drawerTextItems = {
            "Home",
             "Watch List",
-            "Shopping Cart"
+            "Shopping List"
     } ;
 
     Integer[] imageId = {
