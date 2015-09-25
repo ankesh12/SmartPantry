@@ -38,6 +38,7 @@ public class WatchListFragment extends Fragment {
     private int addToCartBtnId;
     private String btnLabel;
     private String shop_list_name;
+    private View view;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,7 +63,7 @@ public class WatchListFragment extends Fragment {
 
         shop_list_name=new XMLUtil().getElementText("SHOP_LIST_NAME", getActivity().getResources().openRawResource(R.raw.app_settings));
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_watchlist_container, container, false);
+        view = inflater.inflate(R.layout.fragment_watchlist_container, container, false);
         //View view = inflater.inflate(R.layout.fragment_home_page, container, false);
         //lastExpandedGroupPosition=-1;
         mRecyclerView = (RecyclerView)view.findViewById(R.id.watchlist_recycler_view);
@@ -164,5 +165,13 @@ public class WatchListFragment extends Fragment {
         }
         Collections.sort(watchProdList, new WatchListProductComparator());
         return  watchProdList;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mAdapter = new WatchListRecyclerViewAdapter(getFragmentManager(), getWatchProdList(), R.layout.fragment_watchlist, getActivity().getApplicationContext(),chkBoxVisible,null,view);
+        mRecyclerView.setAdapter(mAdapter);
+
     }
 }
