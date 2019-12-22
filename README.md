@@ -1,5 +1,5 @@
 # SmartPantry
-SmarttPantry app is the grocery/inventory management app for households. Users will be able to add the items through various input techniques like bar code, text, images. They will also be able to feed in the expiry dates so that the app could throw an alert when the item is about to expire. The items will be categorized into various lists which will help the users to manage easily.
+SmartPantry app is the grocery/inventory management app for households. Users will be able to add the items through various input techniques like bar code, text, images. They will also be able to feed in the expiry dates so that the app could throw an alert when the item is about to expire. The items will be categorized into various lists which will help the users to manage easily.
 
 The Android app has used various sdk and has the below features:
 
